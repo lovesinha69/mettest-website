@@ -78,6 +78,35 @@ never silently lost. If the endpoint is ever reset to a placeholder containing
 Spam is filtered by a hidden `_gotcha` honeypot field, which Formspree discards
 automatically. The free plan covers 50 submissions per month.
 
+## Editing the copy in Word
+
+All visitor-facing text can be reviewed and rewritten in a Word document rather
+than in the HTML. The tools in `tools/` handle the round trip:
+
+```bash
+npm install cheerio docx                        # one-off
+node tools/build-docx.js public Website-Copy.docx   # export every string
+node tools/apply-content.js public edits.json       # write edits back
+```
+
+`build-docx.js` writes one row per string, each with a stable ID. `edits.json`
+is `{ "<ID>": "<new text>" }`; `apply-content.js` re-derives the IDs from the
+current HTML, so the export never goes stale — but the HTML must not be
+restructured between exporting and applying.
+
+Two details make the round trip safe:
+
+- **Edits are spliced by byte range, not by re-serialising the DOM.** cheerio
+  does not reproduce these files byte-for-byte, so rewriting the parsed tree
+  would churn every file. Each string carries an anchor plus which occurrence of
+  it to replace, and splices are applied back-to-front.
+- **The nav, footer and enquiry form are shared.** They are byte-identical on all
+  six pages, so they are exported once and written back to all six. The exporter
+  verifies that they really are identical and fails loudly if they have drifted.
+
+Line breaks (`<br>`) appear as `[br]` in the document and are re-emitted as real
+tags. `&` is re-encoded to `&amp;` on write-back.
+
 ## To-do / notes
 
 - **Placeholder content**: process step durations, founding year, leadership
