@@ -221,6 +221,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .form-field textarea{resize:vertical;min-height:70px}
 .form-field select{cursor:pointer}
 .modal-privacy{font-size:10px;color:var(--dim);text-align:center;margin-top:0.875rem}
+.modal-error{font-size:11.5px;line-height:1.6;color:#FFB4A0;background:rgba(232,74,28,0.09);border:1px solid rgba(232,74,28,0.35);border-radius:4px;padding:0.75rem 0.875rem;margin-top:0.875rem}
+.modal-error a{color:var(--accent2);text-decoration:none;font-weight:500}
+.modal-error a:hover{text-decoration:underline}
+.btn-primary[disabled]{opacity:0.6;cursor:not-allowed}
 .modal-success-icon{width:52px;height:52px;border-radius:50%;background:rgba(232,74,28,0.12);border:1px solid rgba(232,74,28,0.3);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem}
 @media(max-width:520px){.form-row{grid-template-columns:1fr}.modal-box{padding:1.75rem}}
 .footer{border-top:1px solid var(--border);background:var(--surface);padding:3.5rem 2.5rem 2rem}
@@ -329,7 +333,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           </div>
         </div>
         <div class="leader-info">
-          <div class="leader-name">Name</div>
+          <div class="leader-name">Laxman Prasad Singh</div>
           <div class="leader-role">Head of Metallurgical Engineering</div>
           <p class="leader-bio">Background on this leader's technical qualifications, years of experience in heat treatment or materials science, and the part of the operation they oversee day to day.</p>
         </div>
@@ -343,9 +347,9 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           </div>
         </div>
         <div class="leader-info">
-          <div class="leader-name">Name</div>
-          <div class="leader-role">Head of Quality &amp; Compliance</div>
-          <p class="leader-bio">Background on this leader's role in maintaining certifications, quality systems, and client-facing documentation — the person who keeps every batch audit-ready.</p>
+          <div class="leader-name">Animesh Kumar</div>
+          <div class="leader-role">NDT Engineer</div>
+          <p class="leader-bio">Background on this engineer's non-destructive testing qualifications and certifications, years of inspection experience, and the methods they run day to day — the person who verifies every component before it leaves the floor.</p>
         </div>
       </div>
 
@@ -357,9 +361,9 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           </div>
         </div>
         <div class="leader-info">
-          <div class="leader-name">Name</div>
-          <div class="leader-role">Head of Operations</div>
-          <p class="leader-bio">Background on this leader's role overseeing daily plant operations, scheduling, and production throughput — the person who keeps every batch moving on time.</p>
+          <div class="leader-name">Love Sinha</div>
+          <div class="leader-role">Tech Lead</div>
+          <p class="leader-bio">Background on this leader's technical background and the systems they own — digital infrastructure, process instrumentation, and the data and reporting tools that keep every batch traceable.</p>
         </div>
       </div>
 
@@ -408,6 +412,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <p class="modal-sub">Share a few details and a metallurgist will get back to you within one business day.</p>
 
       <form id="contactForm" onsubmit="submitContactForm(event)">
+        <!-- Spam honeypot: hidden from people, tempting to bots. Formspree
+             silently discards any submission that fills this in. -->
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <input type="hidden" name="_subject" value="New enquiry from mettestlab.com">
         <div class="form-row">
           <div class="form-field">
             <label for="cf-name">Full name *</label>
@@ -432,16 +440,16 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <label for="cf-service">Service of interest</label>
           <select id="cf-service" name="service">
             <option value="">Select a service</option>
+            <option>Induction Hardening</option>
+            <option>Inductor Manufacturing</option>
+            <option>Hardening &amp; Tempering</option>
             <option>Material Testing</option>
             <option>Heat Treatment</option>
-            <option>Hardening & Tempering</option>
-            <option>Induction Hardening</option>
             <option>Annealing</option>
             <option>Normalising</option>
             <option>Stress Relieving</option>
             <option>Solution Annealing</option>
             <option>Flame Hardening</option>
-            <option>Inductor Manufacturing</option>
             <option>Not sure / general enquiry</option>
           </select>
         </div>
@@ -449,7 +457,13 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <label for="cf-message">Tell us about your requirement</label>
           <textarea id="cf-message" name="message" rows="3" placeholder="Component type, material, quantity, timeline..."></textarea>
         </div>
-        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:12px;margin-top:0.5rem">Submit Enquiry</button>
+        <button type="submit" id="cf-submit" class="btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:12px;margin-top:0.5rem">Submit Enquiry</button>
+        <p class="modal-error" id="cf-error" style="display:none">
+          <span id="cf-error-text"></span>
+          You can also reach us directly on
+          <a href="tel:+919825321695">+91 98253 21695</a> or
+          <a href="mailto:mettestlab@yahoo.com">mettestlab@yahoo.com</a>.
+        </p>
         <p class="modal-privacy">We'll only use these details to respond to your enquiry.</p>
       </form>
     </div>
@@ -616,25 +630,75 @@ function closeContactModal(){
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeContactModal();
 });
-function submitContactForm(e){
+// ---------------------------------------------------------------------------
+// Contact form delivery (Formspree)
+//
+// Enquiries are posted to Formspree, which forwards them to the inbox the form
+// is configured with (mettestlab@yahoo.com). To point this at a form, create
+// one at https://formspree.io and paste its endpoint below. The endpoint is a
+// public URL — it is meant to live in client-side code and is not a secret.
+// ---------------------------------------------------------------------------
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+
+function formspreeConfigured(){
+  return !/YOUR_FORM_ID/.test(FORMSPREE_ENDPOINT);
+}
+
+function showFormError(msg){
+  const box = document.getElementById('cf-error');
+  document.getElementById('cf-error-text').textContent = msg + ' ';
+  box.style.display = 'block';
+}
+
+async function submitContactForm(e){
   e.preventDefault();
-  // Collects the enquiry for the team to review and follow up on manually.
-  // Wire this up to your backend/email service (e.g. Formspree, a serverless
-  // function, or your CRM's API) to actually deliver submissions.
   const form = e.target;
-  const data = {
-    name: form.name.value,
-    company: form.company.value,
-    phone: form.phone.value,
-    email: form.email.value,
-    service: form.service.value,
-    message: form.message.value,
-    submittedAt: new Date().toISOString()
-  };
-  console.log('Contact form submission:', data);
-  document.getElementById('modalFormView').style.display = 'none';
-  document.getElementById('modalSuccessView').style.display = 'block';
-  form.reset();
+  const btn = document.getElementById('cf-submit');
+  const errorBox = document.getElementById('cf-error');
+
+  errorBox.style.display = 'none';
+
+  // Never show a success screen we can't back up — if no endpoint is set the
+  // enquiry would silently vanish, so say so and offer phone/email instead.
+  if (!formspreeConfigured()){
+    showFormError('The enquiry form is not connected yet, so this message was not sent.');
+    return;
+  }
+
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    });
+
+    if (res.ok){
+      document.getElementById('modalFormView').style.display = 'none';
+      document.getElementById('modalSuccessView').style.display = 'block';
+      form.reset();
+      return;
+    }
+
+    // Formspree returns field-level detail on validation failures.
+    let detail = '';
+    try {
+      const body = await res.json();
+      if (Array.isArray(body.errors) && body.errors.length){
+        detail = ' ' + body.errors.map(x => x.message).join(' ');
+      }
+    } catch (_) { /* non-JSON error body — fall through to generic message */ }
+
+    showFormError('Sorry, your enquiry could not be sent.' + detail);
+  } catch (err){
+    showFormError('Sorry, your enquiry could not be sent — please check your connection and try again.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
 }// Service detail + About story video play buttons.
 // Each media block has an empty <source src="">, since real videos haven't
 // been added yet. When a src is present, clicking Play starts playback and

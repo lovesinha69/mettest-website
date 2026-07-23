@@ -3,6 +3,13 @@
   // Deploy with: wrangler deploy
   "name": "broken-voice-4053",
   "compatibility_date": "2026-07-21",
+
+  // Serve only from mettestlab.com. Without these, Cloudflare also exposes
+  // *.workers.dev and preview URLs, which duplicate the whole site on a second
+  // hostname and split its search ranking.
+  "workers_dev": false,
+  "preview_urls": false,
+
   "assets": {
     "directory": "./public"
   }

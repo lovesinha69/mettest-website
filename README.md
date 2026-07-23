@@ -53,12 +53,32 @@ Requires `npm install -g wrangler` and a one-time `wrangler login`.
 Cloudflare keeps previous versions, so a bad deploy can be rolled back from the
 dashboard under **Workers & Pages → broken-voice-4053 → Deployments**.
 
+## Contact form
+
+The enquiry modal appears on all six pages and posts to **Formspree**, which
+forwards submissions to `mettestlab@yahoo.com`. Each page defines the endpoint
+near the bottom of its inline `<script>`:
+
+```js
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+```
+
+To connect it, create a form at [formspree.io](https://formspree.io) with
+`mettestlab@yahoo.com` as the recipient, then replace `YOUR_FORM_ID` in **all
+six** HTML files and redeploy. The endpoint is a public URL, not a secret — it
+is designed to sit in client-side code.
+
+Until a real form ID is set, the form does **not** show a success message. It
+tells the visitor it isn't connected and points them at the phone number and
+email address instead, so no enquiry is ever silently lost.
+
+Spam is filtered by a hidden `_gotcha` honeypot field, which Formspree discards
+automatically. The free plan covers 50 submissions per month.
+
 ## To-do / notes
 
-- **Contact form**: the enquiry form does not send anywhere yet — connect it to a
-  backend (e.g. Formspree) to deliver submissions by email.
 - **Placeholder content**: process step durations, founding year, leadership
-  names/bios, and factory/industry photos/videos are placeholders awaiting real content.
+  bios, and factory/industry photos/videos are placeholders awaiting real content.
 
 ## Contact
 
