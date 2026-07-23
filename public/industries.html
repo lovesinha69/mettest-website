@@ -8,9 +8,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0D0E0F">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0D0E0F;--surface:#131416;--surface2:#1A1C1F;--fg:#F0EDE8;--muted:#8A8D91;--dim:#3A3D42;--accent:#E84A1C;--accent2:#FF8C4B;--border:rgba(240,237,232,0.07)}
@@ -398,7 +396,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div><div class="footer-col-title">Get in touch</div><div class="footer-links"><a href="contact.html">Contact Us</a><a href="tel:+919825321695">Call the plant</a><a href="mailto:mettestlab@yahoo.com">Email us</a></div></div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2026 Met-Test Laboratories All Types of Material Heat Treatment. All rights reserved.</div><div class="footer-legal"><a href="privacy.html" style="color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:0.04em">Privacy Policy</a></div>
+    <div class="footer-copy">© 2026 Met-Test Laboratories All Types of Material Heat Treatment. All rights reserved.</div><div class="footer-legal" style="display:flex;gap:1rem"><a href="privacy.html" style="color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:0.04em">Privacy Policy</a><a href="terms.html" style="color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:0.04em">Terms of Use</a></div>
   </div>
 </div></footer>
 
@@ -460,6 +458,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <label for="cf-message">Tell us about your requirement</label>
           <textarea id="cf-message" name="message" rows="3" placeholder="Component type, material, quantity, timeline..."></textarea>
         </div>
+        <label style="display:flex;gap:8px;align-items:flex-start;margin-top:0.75rem;font-size:11px;color:var(--muted);line-height:1.5;cursor:pointer"><input type="checkbox" id="cf-consent" name="consent" value="yes" required style="margin-top:2px;flex-shrink:0;accent-color:var(--accent)"><span>I agree that Met-Test Laboratories may use these details to respond to my enquiry, as described in the <a href="privacy.html" target="_blank" rel="noopener" style="color:var(--accent2);text-decoration:none">Privacy Policy</a>.</span></label>
         <button type="submit" id="cf-submit" class="btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:12px;margin-top:0.5rem">Submit Enquiry</button>
         <p class="modal-error" id="cf-error" style="display:none">
           <span id="cf-error-text"></span>
@@ -660,6 +659,12 @@ async function submitContactForm(e){
   const errorBox = document.getElementById('cf-error');
 
   errorBox.style.display = 'none';
+
+  const consent = document.getElementById('cf-consent');
+  if (consent && !consent.checked){
+    showFormError('Please tick the consent box so we can respond to your enquiry.');
+    return;
+  }
 
   // Never show a success screen we can't back up — if no endpoint is set the
   // enquiry would silently vanish, so say so and offer phone/email instead.

@@ -18,12 +18,15 @@ Google Fonts (Bebas Neue + Inter).
 │   ├── favicon.svg       # browser-tab icon (modern browsers)
 │   ├── favicon.ico       # 16/32/48px fallback
 │   ├── apple-touch-icon.png  # 180px, iOS home screen
+│   ├── fonts/            # self-hosted Bebas Neue + Inter (no Google request)
 │   ├── index.html        # Home (hero + client marquee)
 │   ├── services.html     # 10 heat-treatment services
 │   ├── process.html      # 5-stage workflow + capabilities
 │   ├── industries.html   # Industries served
 │   ├── about.html        # Company story + leadership
-│   └── contact.html      # Enquiry form + contact details
+│   ├── contact.html      # Enquiry form + contact details
+│   ├── privacy.html      # Privacy policy (DPDP / IT Act)
+│   └── terms.html        # Terms of use + liability disclaimer
 ├── wrangler.jsonc        # Cloudflare deploy config
 └── README.md
 ```
