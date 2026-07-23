@@ -24,7 +24,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .footer-logo-row .footer-brand-name{margin-bottom:0}
 .nav-wordmark{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.08em;color:var(--fg)}
 .nav-sub{font-size:9px;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin-top:-2px}
-.nav-links{display:flex;gap:1.75rem}
+.nav-links{display:flex;gap:1.75rem}.nav-toggle{display:none;background:none;border:none;color:var(--fg);cursor:pointer;padding:8px;width:40px;height:40px;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}.nav-toggle svg{width:24px;height:24px}
 .nav-links a{font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;cursor:pointer;transition:color .2s}
 .nav-links a.active{color:var(--accent)}
 .nav-links a:hover{color:var(--fg)}
@@ -245,7 +245,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .footer-copy{font-size:10px;color:var(--dim)}
 
 @media(max-width:860px){
-  .nav-links{display:none}
+  .nav-toggle{display:flex}.nav-links{position:fixed;top:72px;left:0;right:0;flex-direction:column;gap:0;background:rgba(13,14,15,0.98);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0.5rem 0;display:none;z-index:49}.nav-links.open{display:flex}.nav-links a{padding:0.95rem 2.5rem;font-size:13px;border-bottom:1px solid var(--border)}
   .hero h1{font-size:4rem}
   .process-grid{grid-template-columns:1fr 1fr;gap:2rem}
   .process-connector{display:none}
@@ -282,7 +282,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div><div class="nav-wordmark">Met-Test Laboratories</div><div class="nav-sub">All Types of Material Heat Treatment</div></div>
   </div>
   </a>
-  <div class="nav-links"><a href="index.html">Home</a><a href="services.html">Services</a><a href="process.html">Process</a><a href="industries.html">Industries</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+  <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks" onclick="toggleNav()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><div class="nav-links" id="navLinks"><a href="index.html">Home</a><a href="services.html">Services</a><a href="process.html">Process</a><a href="industries.html">Industries</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
 </nav>
 
 <main class="legal">
@@ -379,5 +379,6 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="footer-copy">© 2026 Met-Test Laboratories All Types of Material Heat Treatment. All rights reserved.</div><div class="footer-legal" style="display:flex;gap:1rem"><a href="privacy.html" style="color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:0.04em">Privacy Policy</a><a href="terms.html" style="color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:0.04em">Terms of Use</a></div>
   </div>
 </div></footer>
+<script>function toggleNav(){var l=document.getElementById('navLinks'),b=document.querySelector('.nav-toggle');if(!l)return;var o=l.classList.toggle('open');if(b)b.setAttribute('aria-expanded',o?'true':'false');}</script>
 </body>
 </html>
