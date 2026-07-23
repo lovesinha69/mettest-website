@@ -1,0 +1,11 @@
+# Keep LF in the working tree on every platform.
+#
+# The copy round-trip in tools/ locates edits by exact byte anchors that contain
+# newlines, so a checkout that rewrites LF to CRLF silently breaks every anchor.
+* text=auto eol=lf
+
+# Binary assets git must never touch.
+*.png binary
+*.ico binary
+*.jpg binary
+*.pdf binary
