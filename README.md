@@ -15,6 +15,9 @@ Google Fonts (Bebas Neue + Inter).
 ```
 .
 ├── public/               # everything here is what gets served
+│   ├── favicon.svg       # browser-tab icon (modern browsers)
+│   ├── favicon.ico       # 16/32/48px fallback
+│   ├── apple-touch-icon.png  # 180px, iOS home screen
 │   ├── index.html        # Home (hero + client marquee)
 │   ├── services.html     # 10 heat-treatment services
 │   ├── process.html      # 5-stage workflow + capabilities
@@ -60,17 +63,17 @@ forwards submissions to `mettestlab@yahoo.com`. Each page defines the endpoint
 near the bottom of its inline `<script>`:
 
 ```js
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvzewobg';
 ```
 
-To connect it, create a form at [formspree.io](https://formspree.io) with
-`mettestlab@yahoo.com` as the recipient, then replace `YOUR_FORM_ID` in **all
-six** HTML files and redeploy. The endpoint is a public URL, not a secret — it
-is designed to sit in client-side code.
+To point it at a different form, replace that URL in **all six** HTML files and
+redeploy. The endpoint is a public URL, not a secret — it is designed to sit in
+client-side code.
 
-Until a real form ID is set, the form does **not** show a success message. It
-tells the visitor it isn't connected and points them at the phone number and
-email address instead, so no enquiry is ever silently lost.
+The success screen only appears on a real HTTP 200 from Formspree. Any failure
+shows an error with the phone number and email as a fallback, so an enquiry is
+never silently lost. If the endpoint is ever reset to a placeholder containing
+`YOUR_FORM_ID`, the form refuses to claim success at all.
 
 Spam is filtered by a hidden `_gotcha` honeypot field, which Formspree discards
 automatically. The free plan covers 50 submissions per month.
