@@ -14,12 +14,14 @@ Google Fonts (Bebas Neue + Inter).
 
 ```
 .
-├── index.html        # Home (hero + client marquee)
-├── services.html     # 10 heat-treatment services
-├── process.html      # 5-stage workflow + capabilities
-├── industries.html   # Industries served
-├── about.html        # Company story + leadership
-├── contact.html      # Enquiry form + contact details
+├── public/               # everything here is what gets served
+│   ├── index.html        # Home (hero + client marquee)
+│   ├── services.html     # 10 heat-treatment services
+│   ├── process.html      # 5-stage workflow + capabilities
+│   ├── industries.html   # Industries served
+│   ├── about.html        # Company story + leadership
+│   └── contact.html      # Enquiry form + contact details
+├── wrangler.jsonc        # Cloudflare deploy config
 └── README.md
 ```
 
@@ -28,18 +30,28 @@ The home page carries the embedded hero video (~3 MB); the other pages are small
 
 ## Running it locally
 
-Open `index.html` in a browser, or serve the folder:
+Open `public/index.html` in a browser, or serve the folder:
 
 ```bash
-python3 -m http.server 8000
+cd public && python3 -m http.server 8000
 # then visit http://localhost:8000
 ```
 
 ## Deploying
 
-Static site — host it anywhere. Recommended: **Cloudflare Pages** (free). Connect
-this repo or drag-and-drop the folder, and it goes live in under a minute. Because
-these are real separate `.html` files, all links work automatically.
+Live at **https://mettestlab.com**, served by a Cloudflare Worker with static
+assets (worker name: `broken-voice-4053`). To publish changes:
+
+```bash
+wrangler deploy
+```
+
+That uploads everything in `public/` and goes live in a few seconds. The custom
+domain and SSL certificate stay attached across deploys — no DNS changes needed.
+Requires `npm install -g wrangler` and a one-time `wrangler login`.
+
+Cloudflare keeps previous versions, so a bad deploy can be rolled back from the
+dashboard under **Workers & Pages → broken-voice-4053 → Deployments**.
 
 ## To-do / notes
 

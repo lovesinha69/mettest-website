@@ -1,0 +1,9 @@
+{
+  // Static-asset Worker for the Met-Test Laboratories site.
+  // Deploy with: wrangler deploy
+  "name": "broken-voice-4053",
+  "compatibility_date": "2026-07-21",
+  "assets": {
+    "directory": "./public"
+  }
+}
