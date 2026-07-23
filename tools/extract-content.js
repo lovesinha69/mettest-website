@@ -49,24 +49,43 @@ function inShared($, el) {
   return SHARED_SELECTORS.some(({ sel }) => $(el).closest(sel).length > 0);
 }
 
-/** Human-readable label for where a string lives. */
-function describe($, el) {
-  const parts = [];
+const decodeEnts = s => s
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+  .replace(/&quot;/g, '"').replace(/&#3[49];/g, "'")
+  .replace(/&amp;/g, '&');
+
+/** Text of an element with <br> read as a space, so labels don't run words together. */
+function labelText($sel) {
+  if (!$sel.length) return '';
+  const html = $sel.first().html() || '';
+  return norm(decodeEnts(html.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '')));
+}
+
+/**
+ * Structured description of where a string lives.
+ *
+ * `section` is passed in rather than derived from ancestors: pages wrap their
+ * sections inconsistently (.sec, .sec-alt, .sec-alt-inner, or nothing), and
+ * several logical sections share one wrapper. The small eyebrow label above
+ * each block is the reliable marker, so the walker tracks the most recent one.
+ */
+function describe($, el, section) {
   const $el = $(el);
 
-  const sec = $el.closest('.sec, .hero');
-  const secTitle = norm(sec.find('.sec-title, h1, h2').first().text());
-  if (secTitle) parts.push(secTitle.slice(0, 44));
-
-  const card = $el.closest('.svc-detail, .leader-card, .ind-card, .process-step, .stat, .contact-card, .cert-card, .value-card');
-  if (card.length) {
-    const t = norm(card.find('.svc-detail-title, .leader-name, .ind-title, .process-name, h3, h4').first().text());
-    if (t) parts.push(t.slice(0, 36));
-  }
+  const cardEl = $el.closest('.svc-detail, .leader-card, .ind-card, .process-step, .stat, .contact-card, .cert-card, .value-card');
+  const card = cardEl.length
+    ? labelText(cardEl.find('.svc-detail-title, .leader-name, .ind-title, .process-name, h3, h4')).slice(0, 36) || null
+    : null;
 
   const cls = ((el.attribs && el.attribs.class) || '').split(/\s+/)[0];
-  parts.push(cls ? `${el.name}.${cls}` : el.name);
-  return parts.join(' › ');
+  const element = cls ? `${el.name}.${cls}` : el.name;
+
+  return {
+    section,
+    card,
+    element,
+    where: [section, card, element].filter(Boolean).join(' › '),
+  };
 }
 
 /**
@@ -75,6 +94,8 @@ function describe($, el) {
  */
 function collect($, root, { skipShared = false } = {}) {
   const items = [];
+  // Most recent section label seen in document order (see describe()).
+  let section = null;
 
   const emitRun = (run, parent) => {
     const rawParts = run.map(n => (n.type === 'text' ? n.data : $.html(n)));
@@ -93,14 +114,24 @@ function collect($, root, { skipShared = false } = {}) {
       raw,
       text: display,
       search: `>${raw}<`,
-      where: describe($, parent),
+      ...describe($, parent, section),
     });
   };
 
   const walk = el => {
+    // Guard on the tag name, not el.type: domhandler types <script> as 'script'
+    // and <style> as 'style' rather than 'tag', so a type-gated check would let
+    // their contents through as ordinary text.
+    if (el.name && SKIP_TAGS.has(el.name)) return;
+
     if (el.type === 'tag') {
-      if (SKIP_TAGS.has(el.name)) return;
       if (skipShared && inShared($, el)) return;
+
+      const classes = ((el.attribs && el.attribs.class) || '').split(/\s+/);
+      if (classes.includes('sec-eyebrow-text') || classes.includes('hero-eyebrow-text')) {
+        section = labelText($(el)) || section;
+      }
+
       for (const a of ATTRS) {
         const v = el.attribs && el.attribs[a];
         if (v && /[A-Za-z0-9]/.test(v)) {
@@ -110,7 +141,7 @@ function collect($, root, { skipShared = false } = {}) {
             raw: v,
             text: norm(v),
             search: `${a}="${v}"`,
-            where: describe($, el),
+            ...describe($, el, section),
           });
         }
       }
@@ -248,7 +279,9 @@ function extract(dir) {
     const items = [
       {
         kind: 'title', attr: null, raw: titleRaw, text: norm(titleRaw),
-        search: `<title>${titleRaw}</title>`, where: 'Browser tab title', group: p.name,
+        search: `<title>${titleRaw}</title>`,
+        section: null, card: null, element: 'title', where: 'Browser tab title',
+        group: p.name,
       },
       ...collect($, $('body'), { skipShared: true }).map(i => ({ ...i, group: p.name })),
     ];

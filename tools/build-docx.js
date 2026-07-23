@@ -53,13 +53,13 @@ function headerRow() {
 }
 
 function itemRow(item) {
-  const kindNote =
-    item.kind === 'attr' ? `${item.attr} (tooltip / accessibility label)` :
-    item.kind === 'title' ? 'browser tab title' : null;
+  // Show only the part of the location the section divider doesn't already say.
+  const detail = [item.card, item.element].filter(Boolean).join(' › ');
+  const kindNote = item.kind === 'attr' ? `${item.attr} — tooltip / screen-reader label` : null;
 
   const left = [
     p([t(item.id, { bold: true, size: 16, color: ACCENT, font: 'Consolas' })], { spacing: { after: 20 } }),
-    p([t(item.where, { size: 14, color: MUTED, italics: true })]),
+    p([t(detail || item.where, { size: 14, color: MUTED, italics: true })]),
   ];
   if (kindNote) left.push(p([t(kindNote, { size: 14, color: MUTED })], { spacing: { before: 20 } }));
 
@@ -71,11 +71,38 @@ function itemRow(item) {
   });
 }
 
-function sectionTable(items) {
+/** Full-width divider naming the on-page section the following rows belong to. */
+function dividerRow(label) {
+  return new TableRow({
+    children: [
+      new TableCell({
+        columnSpan: 2,
+        width: { size: CONTENT_W, type: WidthType.DXA },
+        borders: cellBorders,
+        margins: { top: 110, bottom: 90, left: 130, right: 130 },
+        shading: { type: ShadingType.CLEAR, fill: 'FAF7F7', color: 'auto' },
+        children: [p([t(label, { bold: true, size: 17, color: ACCENT })])],
+      }),
+    ],
+  });
+}
+
+/** One table for the whole page: a single header, sections marked by dividers. */
+function contentTable(items, { dividers = true } = {}) {
+  const rows = [headerRow()];
+  let current = Symbol('none');
+  for (const item of items) {
+    const sec = item.section || null;
+    if (dividers && sec !== current) {
+      current = sec;
+      if (sec) rows.push(dividerRow(sec));
+    }
+    rows.push(itemRow(item));
+  }
   return new Table({
     columnWidths: COL,
     width: { size: CONTENT_W, type: WidthType.DXA },
-    rows: [headerRow(), ...items.map(itemRow)],
+    rows,
   });
 }
 
@@ -118,7 +145,7 @@ function build(groups) {
   );
   for (const g of shared) {
     kids.push(p([t(g.label, { bold: true, size: 24, color: ACCENT })], { heading: HeadingLevel.HEADING_2, spacing: { before: 220, after: 100 } }));
-    kids.push(sectionTable(g.items));
+    kids.push(contentTable(g.items, { dividers: false }));
   }
 
   // ---- Part 2: pages ----
@@ -136,20 +163,7 @@ function build(groups) {
       t(`   ${g.files[0]} · ${g.items.length} strings`, { size: 17, color: MUTED }),
     ], { heading: HeadingLevel.HEADING_2, spacing: { before: 120, after: 120 } }));
 
-    // Break long pages into runs under the section each string belongs to.
-    let current = null;
-    let buffer = [];
-    const flush = () => { if (buffer.length) { kids.push(sectionTable(buffer)); buffer = []; } };
-    for (const item of g.items) {
-      const sec = item.where.split(' › ')[0];
-      if (sec !== current) {
-        flush();
-        current = sec;
-        kids.push(p([t(sec, { size: 18, color: MUTED, bold: true, allCaps: true })], { spacing: { before: 160, after: 70 } }));
-      }
-      buffer.push(item);
-    }
-    flush();
+    kids.push(contentTable(g.items));
   });
 
   return new Document({
