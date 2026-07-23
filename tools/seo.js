@@ -114,6 +114,7 @@ function jsonLd() {
     logo: SITE + 'apple-touch-icon.png',
     telephone: '+91-98253-21695',
     email: 'mettestlab@yahoo.com',
+    foundingDate: '1998',
     description: 'Heat treatment and material testing facility in Vitthal Udyognagar, Anand, Gujarat — hardening, tempering, induction hardening, annealing, material testing and custom inductor manufacturing.',
     address: {
       '@type': 'PostalAddress',
