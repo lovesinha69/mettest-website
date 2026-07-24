@@ -125,6 +125,9 @@ function jsonLd() {
       addressCountry: 'IN',
     },
     areaServed: { '@type': 'Country', name: 'India' },
+    geo: { '@type': 'GeoCoordinates', latitude: 22.5265988, longitude: 72.9226727 },
+    hasMap: 'https://www.google.com/maps?cid=7198700308091604046',
+    sameAs: ['https://www.google.com/maps?cid=7198700308091604046'],
     priceRange: '₹₹',
     makesOffer: SERVICES.map(s => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s } })),
   };
