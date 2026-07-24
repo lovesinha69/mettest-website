@@ -127,7 +127,11 @@ function jsonLd() {
     areaServed: { '@type': 'Country', name: 'India' },
     geo: { '@type': 'GeoCoordinates', latitude: 22.5265988, longitude: 72.9226727 },
     hasMap: 'https://www.google.com/maps?cid=7198700308091604046',
-    sameAs: ['https://www.google.com/maps?cid=7198700308091604046'],
+    sameAs: [
+      'https://www.google.com/maps?cid=7198700308091604046',
+      'https://www.justdial.com/Anand/MET-Test-Laboratories-Vithal-Udyognagar/9999P2692-2692-140305131226-L4C4_BZDET',
+      'https://www.indiamart.com/company/6224053/aboutus.html',
+    ],
     priceRange: '₹₹',
     makesOffer: SERVICES.map(s => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s } })),
   };
