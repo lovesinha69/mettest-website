@@ -1,0 +1,39 @@
+# Cloudflare applies (concatenates) every matching rule, so a catch-all /* would
+# also pollute asset headers. Instead, name the HTML routes explicitly and leave
+# static assets (fonts, images, css) on Cloudflare's default caching.
+#
+# HTML must revalidate so a new deploy is seen immediately, not served stale from
+# an edge or browser cache.
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+/services
+  Cache-Control: public, max-age=0, must-revalidate
+/services.html
+  Cache-Control: public, max-age=0, must-revalidate
+/process
+  Cache-Control: public, max-age=0, must-revalidate
+/process.html
+  Cache-Control: public, max-age=0, must-revalidate
+/industries
+  Cache-Control: public, max-age=0, must-revalidate
+/industries.html
+  Cache-Control: public, max-age=0, must-revalidate
+/about
+  Cache-Control: public, max-age=0, must-revalidate
+/about.html
+  Cache-Control: public, max-age=0, must-revalidate
+/contact
+  Cache-Control: public, max-age=0, must-revalidate
+/contact.html
+  Cache-Control: public, max-age=0, must-revalidate
+/privacy
+  Cache-Control: public, max-age=0, must-revalidate
+/privacy.html
+  Cache-Control: public, max-age=0, must-revalidate
+/terms
+  Cache-Control: public, max-age=0, must-revalidate
+/terms.html
+  Cache-Control: public, max-age=0, must-revalidate
