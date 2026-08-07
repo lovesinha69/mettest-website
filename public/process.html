@@ -280,6 +280,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
   .footer-links{gap:0}
   .footer-links a{padding:12px 0;display:block}
 }
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .marquee-track{animation:none!important}
+  .hero-dot{animation:none!important}
+}
 </style>
 </head>
 <body>

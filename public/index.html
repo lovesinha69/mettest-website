@@ -280,6 +280,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
   .footer-links{gap:0}
   .footer-links a{padding:12px 0;display:block}
 }
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .marquee-track{animation:none!important}
+  .hero-dot{animation:none!important}
+}
 </style>
 <script type="application/ld+json">
 {
@@ -685,6 +691,14 @@ if (heroVideo) {
   // button over a stalled frame (e.g. in Low Power Mode).
   heroVideo.addEventListener('playing', reveal);
   if (!heroVideo.paused) reveal();
+  // Respect the OS "Reduce Motion" setting: show a still frame rather than
+  // looping video, but keep the hero looking intentional (not blank).
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    heroVideo.removeAttribute('autoplay');
+    heroVideo.addEventListener('loadeddata', reveal, { once: true });
+    if (heroVideo.readyState >= 2) reveal();
+    heroVideo.pause();
+  } else {
   tryPlay();
   document.addEventListener('visibilitychange', tryPlay);
   window.addEventListener('pageshow', tryPlay);
@@ -693,6 +707,7 @@ if (heroVideo) {
   const onGesture = () => tryPlay();
   window.addEventListener('touchstart', onGesture, { once: true, passive: true });
   window.addEventListener('scroll', onGesture, { once: true, passive: true });
+  }
 
   // Parallax: video scrolls slightly slower than the page for a depth effect.
   let ticking = false;
