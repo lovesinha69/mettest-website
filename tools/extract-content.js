@@ -30,14 +30,31 @@ const PAGES = [
   { file: 'industries.html', name: 'Industries', code: 'IND' },
   { file: 'about.html', name: 'About', code: 'ABOUT' },
   { file: 'contact.html', name: 'Contact', code: 'CONTACT' },
+  { file: 'faq.html', name: 'FAQ', code: 'FAQ' },
 ];
+
+// Shared regions are scoped to the files that actually contain them, which is
+// NOT the same as the list of pages whose body copy is editable above.
+//
+// The nav and footer also appear on privacy, terms and 404. Those pages carry
+// no editable marketing copy, but a nav or footer edit must still reach them or
+// the site would drift out of sync. The enquiry modal, by contrast, only exists
+// on the six pages that embed it — the FAQ page links to /contact instead.
+const ALL_HTML = [
+  'index.html', 'services.html', 'process.html', 'industries.html', 'about.html',
+  'contact.html', 'faq.html', 'privacy.html', 'terms.html', '404.html',
+];
+const FORM_PAGES = ['index.html', 'services.html', 'process.html', 'industries.html', 'about.html', 'contact.html'];
 
 // Regions duplicated verbatim on every page.
 const SHARED_SELECTORS = [
-  { sel: 'nav.nav', label: 'Navigation bar' },
-  { sel: 'footer.footer', label: 'Footer' },
-  { sel: '#contactModal', label: 'Enquiry form (pop-up)' },
+  { sel: 'nav.nav', label: 'Navigation bar', pages: ALL_HTML },
+  { sel: 'footer.footer', label: 'Footer', pages: ALL_HTML },
+  { sel: '#contactModal', label: 'Enquiry form (pop-up)', pages: FORM_PAGES },
 ];
+
+/** Files a shared region appears on. */
+const filesFor = s => s.pages;
 
 const SKIP_TAGS = new Set(['script', 'style', 'svg', 'noscript']);
 const ATTRS = ['placeholder', 'alt', 'aria-label'];
@@ -226,47 +243,52 @@ function extract(dir) {
   // between the nav and the footer can repeat the same string, shifting it. So
   // resolve anchors separately against every file rather than reusing the
   // first page's indices, and confirm the regions really are identical.
-  const sharedByFile = new Map();
-  for (const p of PAGES) {
-    const html = fs.readFileSync(path.join(dir, p.file), 'utf8');
-    const $p = load(html);
-    const items = [];
-    for (const { sel, label } of SHARED_SELECTORS) {
-      const root = $p(sel);
-      if (!root.length) throw new Error(`${p.file}: shared selector not found: ${sel}`);
-      collect($p, root).forEach(i => { i.group = label; items.push(i); });
+  // Extract each shared region separately, across only the files that carry it.
+  const referenceBySel = new Map();   // sel -> reference items (from its first file)
+  for (const s of SHARED_SELECTORS) {
+    const files = filesFor(s);
+    const perFile = new Map();
+    for (const file of files) {
+      const html = fs.readFileSync(path.join(dir, file), 'utf8');
+      const $p = load(html);
+      const root = $p(s.sel);
+      if (!root.length) throw new Error(`${file}: shared selector not found: ${s.sel}`);
+      const items = collect($p, root);
+      items.forEach(i => { i.group = s.label; });
+      indexOccurrences(items, html, file);
+      perFile.set(file, items);
     }
-    indexOccurrences(items, html, p.file);
-    sharedByFile.set(p.file, items);
-  }
 
-  const reference = sharedByFile.get(firstFile);
-  for (const p of PAGES.slice(1)) {
-    const other = sharedByFile.get(p.file);
-    if (other.length !== reference.length) {
-      throw new Error(`${p.file}: shared regions have ${other.length} strings, ${firstFile} has ${reference.length}`);
+    const ref = perFile.get(files[0]);
+    for (const file of files.slice(1)) {
+      const other = perFile.get(file);
+      if (other.length !== ref.length) {
+        throw new Error(`${file}: "${s.label}" has ${other.length} strings, ${files[0]} has ${ref.length}`);
+      }
+      other.forEach((it, i) => {
+        if (it.text !== ref[i].text) {
+          throw new Error(`${file}: "${s.label}" string ${i} differs — ${JSON.stringify(it.text)} vs ${JSON.stringify(ref[i].text)}`);
+        }
+      });
     }
-    other.forEach((it, i) => {
-      if (it.text !== reference[i].text) {
-        throw new Error(`${p.file}: shared string ${i} differs — ${JSON.stringify(it.text)} vs ${JSON.stringify(reference[i].text)}`);
+
+    // Carry each file's anchor on the reference item, for write-back.
+    ref.forEach((it, i) => {
+      it.anchors = {};
+      for (const file of files) {
+        const o = perFile.get(file)[i];
+        it.anchors[file] = { search: o.search, occurrence: o.occurrence };
       }
     });
+    referenceBySel.set(s.sel, ref);
   }
+  const reference = SHARED_SELECTORS.flatMap(s => referenceBySel.get(s.sel));
 
-  // Carry every file's anchor on the reference item, for write-back.
-  reference.forEach((it, i) => {
-    it.anchors = {};
-    for (const p of PAGES) {
-      const o = sharedByFile.get(p.file)[i];
-      it.anchors[p.file] = { search: o.search, occurrence: o.occurrence };
-    }
-  });
-
-  for (const { label } of SHARED_SELECTORS) {
+  for (const s of SHARED_SELECTORS) {
     groups.push({
-      id: 'SHARED', scope: 'shared', label,
-      files: PAGES.map(p => p.file),
-      items: reference.filter(i => i.group === label),
+      id: 'SHARED', scope: 'shared', label: s.label,
+      files: filesFor(s),
+      items: reference.filter(i => i.group === s.label),
     });
   }
 
@@ -278,7 +300,10 @@ function extract(dir) {
     const titleRaw = $('title').first().html();
     const items = [
       {
-        kind: 'title', attr: null, raw: titleRaw, text: norm(titleRaw),
+        // Show the title decoded ("&"), not as raw source ("&amp;"). cheerio
+        // decodes text nodes but .html() does not, and write-back re-encodes —
+        // so displaying the raw form would double-encode any edited title.
+        kind: 'title', attr: null, raw: titleRaw, text: norm(decodeEnts(titleRaw)),
         search: `<title>${titleRaw}</title>`,
         section: null, card: null, element: 'title', where: 'Browser tab title',
         group: p.name,
