@@ -209,7 +209,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .cta-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(232,74,28,0.18) 0%,transparent 65%);pointer-events:none}
 .cta-grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(232,74,28,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(232,74,28,0.04) 1px,transparent 1px);background-size:50px 50px;pointer-events:none}
 .cta-inner{position:relative;z-index:2}
-.cta-inner h2{font-family:'Bebas Neue',sans-serif;font-size:4rem;letter-spacing:0.05em;line-height:0.95;color:var(--fg);max-width:520px;margin:0 auto}
+.cta-inner h1,.cta-inner h2{font-family:'Bebas Neue',sans-serif;font-size:4rem;letter-spacing:0.05em;line-height:0.95;color:var(--fg);max-width:520px;margin:0 auto}
 .cta-inner h2 em{color:var(--accent);font-style:normal}
 .cta-inner p{font-size:14px;color:var(--muted);max-width:400px;margin:1rem auto 0;line-height:1.7;font-weight:300}
 .cta-btns{display:flex;gap:10px;justify-content:center;margin-top:2rem;flex-wrap:wrap}
@@ -267,7 +267,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
   .process-grid{grid-template-columns:1fr 1fr;gap:2rem}
   .process-connector{display:none}
   .stats-row,.ind-grid,.leader-grid,.footer-top{grid-template-columns:1fr 1fr}
-  .cta-inner h2,.sec-title{font-size:2.75rem}
+  .cta-inner h1,.cta-inner h2,.sec-title{font-size:2.75rem}
 }
 @media(max-width:520px){
   .stats-row,.ind-grid,.leader-grid,.footer-top,.process-grid{grid-template-columns:1fr}
@@ -286,7 +286,86 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
   .marquee-track{animation:none!important}
   .hero-dot{animation:none!important}
 }
+
+.faq-sec{border-top:1px solid var(--border)}
+.faq-list{display:flex;flex-direction:column;gap:0;max-width:860px}
+.faq-item{border-bottom:1px solid var(--border);padding:1.375rem 0}
+.faq-item:first-child{padding-top:0}
+.faq-q{font-size:15px;font-weight:500;color:var(--fg);line-height:1.5;margin-bottom:0.5rem}
+.faq-a{font-size:13.5px;color:var(--muted);line-height:1.75;font-weight:300}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What heat treatment services do you provide?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Met-Test Laboratories provides induction hardening, custom inductor manufacturing, hardening and tempering, controlled-atmosphere heat treatment, annealing, normalising, stress relieving, solution annealing, flame hardening and full material testing. All work is carried out at our facility in V.U. Nagar, Anand, Gujarat."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer material and metal testing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Our in-house metallurgical laboratory carries out hardness testing (Rockwell, Vickers, Brinell and digital), tensile and impact testing, metallography for grain structure and case-depth verification, and chemical composition analysis by optical emission spectrometry. Results are logged against the applicable standard."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where are you located and which areas do you serve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We are located at Plot No. C-1-10, Road No. B-10, G.I.D.C. Estate, V.U. Nagar (Vitthal Udyognagar), Anand, Gujarat 388121. We serve manufacturers across India, and the plant is close to the Anand, Vadodara and Ahmedabad industrial belts. Visits are by appointment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is induction hardening and when should it be used?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Induction hardening hardens only the surface that needs it — a bearing journal, a gear tooth, a shaft — while leaving the core tough and ductile. Because we design and build our own inductors in-house, the coil geometry is matched to your part, so case depth can be held to tight tolerances even on complex or asymmetric profiles."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you accept small quantities or prototype batches?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. We handle everything from a single prototype to scheduled production runs, with no minimum order. The thermal cycle is built around your material and geometry rather than a fixed recipe."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you provide test certificates and traceability?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Our documented five-stage workflow runs from receipt and inspection through to certified dispatch, and every component leaves with full traceability. Test results are recorded against the applicable standard and provided with your job."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How quickly can you turn work around?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Turnaround depends on the component, the treatment and the batch size — standard components on a single furnace cycle are quickest, while larger batches or multi-cycle treatments take longer. Send us your part details and we will confirm a timeline; we respond to enquiries within one business day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which industries do you work with?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We process components for automotive, aerospace, oil and gas, power and energy, medical device and general engineering manufacturers — applications where consistency and documentation matter."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <nav class="nav">
@@ -298,14 +377,13 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       </svg>
     </div>
     <div><div class="nav-wordmark">Met-Test Laboratories</div><div class="nav-sub">All Types of Material Heat Treatment</div></div>
-  </div>
   </a>
   <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks" onclick="toggleNav()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><div class="nav-links" id="navLinks"><a href="/">Home</a><a href="services" class="active">Services</a><a href="process">Process</a><a href="industries">Industries</a><a href="about">About</a><a href="contact">Contact</a></div>
 </nav>
 <div style="padding-top:2rem"><div class="sec" id="services">
   <div class="sec-header">
     <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><span class="sec-eyebrow-text">Services</span></div>
-    <div class="sec-title">Everything your<br>component demands.</div>
+    <h1 class="sec-title">Everything your<br>component demands.</h1>
     <div class="sec-body">From a single hardness test to a full batch production run. Our capabilities span the complete metallurgical process. Explore each service below to see the process in detail.</div>
   </div>
 
@@ -327,7 +405,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <div class="svc-detail-body">
         <div class="svc-detail-num">01</div>
         <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8v8h11V8zM15 10h2a2 2 0 0 1 0 4h-2M20 10v4"/></svg></div>
-        <h3 class="svc-detail-title">Inductor Manufacturing</h3>
+        <h2 class="svc-detail-title">Inductor Manufacturing</h2>
         <p class="svc-detail-desc">Every induction hardening job is only as good as the coil that shapes it. Our in-house design and fabrication team builds custom inductors; including flux concentrators for complex geometries matched precisely to your part profile. This is what lets us hold tight case-depth tolerances on shapes that off-the-shelf coils simply can't handle.</p>
         <ul class="svc-detail-specs">
           <li><span>Materials</span>Material of your choice, brazed to your specification</li>
@@ -353,7 +431,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <div class="svc-detail-body">
         <div class="svc-detail-num">02</div>
         <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3v7h6l-8 11v-7H5l8-11z"/></svg></div>
-        <h3 class="svc-detail-title">Induction Hardening</h3>
+        <h2 class="svc-detail-title">Induction Hardening</h2>
         <p class="svc-detail-desc">Induction hardening lets us harden exactly the surface that needs it; a bearing journal, a gear tooth, a shaft. While leaving the core tough and ductile. Because we design and build our own inductors in-house, we can match the coil geometry precisely to your part, controlling case depth to tight tolerances even on complex or asymmetric profiles. Cycle times are short, distortion is minimal, and every part is scanned to confirm case depth before it ships.</p>
         <ul class="svc-detail-specs">
           <li><span>Case depth control</span>Verified by cross-section or scan on every batch</li>
@@ -380,7 +458,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <div class="svc-detail-body">
         <div class="svc-detail-num">03</div>
         <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c2-2.96 0-7-1-8 0 3.04-1.5 4.5-3 6s-2 4-2 5a6 6 0 1 0 12 0c0-1.53-.62-3.11-1.5-4C15.53 12 14 13 12 12z"/></svg></div>
-        <h3 class="svc-detail-title">Hardening &amp; Tempering</h3>
+        <h2 class="svc-detail-title">Hardening &amp; Tempering</h2>
         <p class="svc-detail-desc">Hardening transforms the microstructure to martensite for maximum wear resistance, and tempering brings back the toughness needed so the part doesn't become brittle in service. We tune both stages together; the austenitising temperature, quench severity, and temper cycle to hit the exact HRC range and mechanical properties your drawing calls for, on components ranging from small precision pins to heavy gear blanks.</p>
         <ul class="svc-detail-specs">
           <li><span>Hardness range</span>Can operate on any HRC value depending on material and specifications</li>
@@ -407,7 +485,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <div class="svc-detail-body">
         <div class="svc-detail-num">04</div>
         <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13.5a4 4 0 1 0 4 0V5a2 2 0 0 0-4 0zM10 9h4"/></svg></div>
-        <h3 class="svc-detail-title">Heat Treatment</h3>
+        <h2 class="svc-detail-title">Heat Treatment</h2>
         <p class="svc-detail-desc">Our furnace floor runs controlled-atmosphere processing across multiple furnace types, each fitted with real-time temperature and atmosphere monitoring so every cycle is repeatable and fully documented. Whether you need a single prototype run or a scheduled production batch, the thermal profile is built around your material and geometry; not a one-size-fits-all recipe.</p>
         <ul class="svc-detail-specs">
           <li><span>Furnace types</span>Box, pit, continuous, and vacuum furnaces</li>
@@ -435,7 +513,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <div class="svc-detail-body">
         <div class="svc-detail-num">05</div>
         <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h8a2 2 0 1 0-2-2M3 12h13a2.5 2.5 0 1 1-2 4M4 16h6a2 2 0 1 1-2 2"/></svg></div>
-        <h3 class="svc-detail-title">Annealing</h3>
+        <h2 class="svc-detail-title">Annealing</h2>
         <p class="svc-detail-desc">Annealing softens material, relieves internal stress, and restores ductility that's been lost through cold working or a prior heat treatment. It's often the step that makes the next stage of manufacturing possible; easier machining, cleaner forming, or simply a more stable structure before final hardening. We control heating rate, soak time, and cooling rate closely, since all three shape the final grain structure.</p>
         <ul class="svc-detail-specs">
           <li><span>Full annealing</span>Maximum softness and machinability</li>
@@ -461,7 +539,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <div class="svc-detail-body">
         <div class="svc-detail-num">06</div>
         <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10M12 3v17M9 5l6-1M6 9l-3 6a3 3 0 0 0 6 0zM18 9l-3 6a3 3 0 0 0 6 0z"/></svg></div>
-        <h3 class="svc-detail-title">Normalising</h3>
+        <h2 class="svc-detail-title">Normalising</h2>
         <p class="svc-detail-desc">Normalising refines and homogenises grain structure by heating above the critical temperature and cooling in still air, refining coarse or uneven grain left behind by casting, forging, or welding. It's a common preparatory step before final hardening, since a uniform starting structure gives more predictable, consistent results downstream.</p>
         <ul class="svc-detail-specs">
           <li><span>Cooling method</span>Controlled still-air cooling for uniform grain refinement</li>
@@ -487,7 +565,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <div class="svc-detail-body">
         <div class="svc-detail-num">07</div>
         <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4-3 7-7 9-4-2-7-5-7-9V6zM9 12l2 2 4-4"/></svg></div>
-        <h3 class="svc-detail-title">Stress Relieving</h3>
+        <h2 class="svc-detail-title">Stress Relieving</h2>
         <p class="svc-detail-desc">Welding, machining, and casting all leave residual stress locked inside a component. Stress that can cause distortion or cracking later if it's never released. Stress relieving heats the part below the transformation temperature, holds it, then cools it slowly and evenly, letting internal stresses dissipate without changing the underlying hardness or microstructure.</p>
         <ul class="svc-detail-specs">
           <li><span>Typical use</span>Post-weld and post-machining distortion control</li>
@@ -513,7 +591,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <div class="svc-detail-body">
         <div class="svc-detail-num">08</div>
         <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l5 7a5 5 0 1 1-10 0z"/></svg></div>
-        <h3 class="svc-detail-title">Solution Annealing</h3>
+        <h2 class="svc-detail-title">Solution Annealing</h2>
         <p class="svc-detail-desc">Used primarily on stainless steels and superalloys, solution annealing dissolves precipitates back into the matrix at high temperature, then rapidly quenches the part to keep them in solution. This restores corrosion resistance that can otherwise be compromised by welding or prior thermal cycles, critical for components going into corrosive or high-purity service environments.</p>
         <ul class="svc-detail-specs">
           <li><span>Materials</span>Austenitic stainless steels, nickel-based superalloys</li>
@@ -539,7 +617,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <div class="svc-detail-body">
         <div class="svc-detail-num">09</div>
         <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 5L19 9.5 13.5 11 12 16l-1.5-5L5 9.5 10.5 8zM19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7z"/></svg></div>
-        <h3 class="svc-detail-title">Flame Hardening</h3>
+        <h2 class="svc-detail-title">Flame Hardening</h2>
         <p class="svc-detail-desc">For components too large or awkwardly shaped for a furnace or induction coil, flame hardening uses a precisely controlled oxy-gas flame to harden targeted surfaces: gear teeth, guide rails, large shafts; followed immediately by a quench spray. It's a flexible, portable process well suited to heavy engineering parts and low-to-medium volume work.</p>
         <ul class="svc-detail-specs">
           <li><span>Best for</span>Large, heavy, or irregularly shaped components</li>
@@ -565,7 +643,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <div class="svc-detail-body">
         <div class="svc-detail-num">10</div>
         <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21h14M6 18h6M9 9a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM11 7l4.5-4.5 2 2L13 9M15 18a6 6 0 0 0 0-12"/></svg></div>
-        <h3 class="svc-detail-title">Material Testing</h3>
+        <h2 class="svc-detail-title">Material Testing</h2>
         <p class="svc-detail-desc">Before any component is treated, we verify exactly what we're working with. Our lab runs full mechanical and chemical characterisation: tensile and impact testing, creep and fatigue analysis, optical emission spectrometry, and detailed microstructural examination under metallurgical microscopes. Every result is logged against the applicable standard, so you know precisely how your material will behave before it goes into service.</p>
         <ul class="svc-detail-specs">
           <li><span>Hardness testing</span>Rockwell, Vickers, Brinell and Digital Hardness Testing across all common scales</li>
@@ -576,6 +654,48 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
         <div class="svc-tags"><span class="svc-tag">Hardness</span><span class="svc-tag">Tensile</span><span class="svc-tag">NDT</span><span class="svc-tag">Metallography</span><span class="svc-tag">SEM</span></div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="sec faq-sec" id="faq">
+  <div class="sec-header">
+    <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><span class="sec-eyebrow-text">Questions</span></div>
+    <h2 class="sec-title">Frequently asked<br>questions.</h2>
+    <div class="sec-body">Common questions about our heat-treatment and material-testing services. If yours isn't answered here, call +91 98253 21695 or send an enquiry.</div>
+  </div>
+  <div class="faq-list">
+      <div class="faq-item">
+        <h3 class="faq-q">What heat treatment services do you provide?</h3>
+        <p class="faq-a">Met-Test Laboratories provides induction hardening, custom inductor manufacturing, hardening and tempering, controlled-atmosphere heat treatment, annealing, normalising, stress relieving, solution annealing, flame hardening and full material testing. All work is carried out at our facility in V.U. Nagar, Anand, Gujarat.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-q">Do you offer material and metal testing?</h3>
+        <p class="faq-a">Yes. Our in-house metallurgical laboratory carries out hardness testing (Rockwell, Vickers, Brinell and digital), tensile and impact testing, metallography for grain structure and case-depth verification, and chemical composition analysis by optical emission spectrometry. Results are logged against the applicable standard.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-q">Where are you located and which areas do you serve?</h3>
+        <p class="faq-a">We are located at Plot No. C-1-10, Road No. B-10, G.I.D.C. Estate, V.U. Nagar (Vitthal Udyognagar), Anand, Gujarat 388121. We serve manufacturers across India, and the plant is close to the Anand, Vadodara and Ahmedabad industrial belts. Visits are by appointment.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-q">What is induction hardening and when should it be used?</h3>
+        <p class="faq-a">Induction hardening hardens only the surface that needs it — a bearing journal, a gear tooth, a shaft — while leaving the core tough and ductile. Because we design and build our own inductors in-house, the coil geometry is matched to your part, so case depth can be held to tight tolerances even on complex or asymmetric profiles.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-q">Do you accept small quantities or prototype batches?</h3>
+        <p class="faq-a">Yes. We handle everything from a single prototype to scheduled production runs, with no minimum order. The thermal cycle is built around your material and geometry rather than a fixed recipe.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-q">Do you provide test certificates and traceability?</h3>
+        <p class="faq-a">Yes. Our documented five-stage workflow runs from receipt and inspection through to certified dispatch, and every component leaves with full traceability. Test results are recorded against the applicable standard and provided with your job.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-q">How quickly can you turn work around?</h3>
+        <p class="faq-a">Turnaround depends on the component, the treatment and the batch size — standard components on a single furnace cycle are quickest, while larger batches or multi-cycle treatments take longer. Send us your part details and we will confirm a timeline; we respond to enquiries within one business day.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-q">Which industries do you work with?</h3>
+        <p class="faq-a">We process components for automotive, aerospace, oil and gas, power and energy, medical device and general engineering manufacturers — applications where consistency and documentation matter.</p>
+      </div>
   </div>
 </div>
 
