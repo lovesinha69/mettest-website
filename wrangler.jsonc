@@ -11,6 +11,10 @@
   "preview_urls": false,
 
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+
+    // Serve the styled 404.html for unknown paths. Without this a mistyped URL
+    // returns an empty white page with no way back into the site.
+    "not_found_handling": "404-page"
   }
 }

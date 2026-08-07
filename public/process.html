@@ -31,7 +31,7 @@
 :root{--bg:#0D0E0F;--surface:#131416;--surface2:#1A1C1F;--fg:#F0EDE8;--muted:#8A8D91;--dim:#3A3D42;--accent:#E84A1C;--accent2:#FF8C4B;--border:rgba(240,237,232,0.07)}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:72px;border-bottom:1px solid var(--border);background:rgba(13,14,15,0.95);position:sticky;top:0;z-index:50;backdrop-filter:blur(12px)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:72px;border-bottom:1px solid var(--border);background:rgba(13,14,15,0.95);position:sticky;top:0;z-index:50;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .nav-brand{display:flex;align-items:center;gap:12px}
 .nav-mark{width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--accent)}
 .nav-mark svg{width:100%;height:100%}
@@ -224,7 +224,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .cta-contact-value{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:0.02em;color:var(--fg);margin-bottom:0.375rem;word-break:break-word}
 .cta-contact-note{font-size:11px;color:var(--dim);line-height:1.5;font-weight:300}
 @media(max-width:768px){.cta-contact-grid{grid-template-columns:1fr}}
-.modal-overlay{position:fixed;inset:0;background:rgba(8,9,10,0.82);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:1.5rem}
+.modal-overlay{position:fixed;inset:0;background:rgba(8,9,10,0.82);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:1.5rem}
 .modal-overlay.open{display:flex}
 .modal-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;padding:2.25rem;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
 .modal-close{position:absolute;top:1.25rem;right:1.25rem;width:32px;height:32px;border-radius:4px;border:1px solid var(--dim);background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
@@ -262,7 +262,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .footer-copy{font-size:10px;color:var(--dim)}
 
 @media(max-width:860px){
-  .nav-toggle{display:flex}.nav-links{position:fixed;top:72px;left:0;right:0;flex-direction:column;gap:0;background:rgba(13,14,15,0.98);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0.5rem 0;display:none;z-index:49}.nav-links.open{display:flex}.nav-links a{padding:0.95rem 2.5rem;font-size:13px;border-bottom:1px solid var(--border)}
+  .nav-toggle{display:flex}.nav-links{position:fixed;top:72px;left:0;right:0;flex-direction:column;gap:0;background:rgba(13,14,15,0.98);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0.5rem 0;display:none;z-index:49}.nav-links.open{display:flex}.nav-links a{padding:0.95rem 2.5rem;font-size:13px;border-bottom:1px solid var(--border)}
   .hero h1{font-size:4rem}
   .process-grid{grid-template-columns:1fr 1fr;gap:2rem}
   .process-connector{display:none}
@@ -271,6 +271,14 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 }
 @media(max-width:520px){
   .stats-row,.ind-grid,.leader-grid,.footer-top,.process-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:860px){
+  /* iOS Safari zooms the page when a focused field is under 16px. */
+  .form-field input,.form-field select,.form-field textarea{font-size:16px}
+  /* Footer links were ~14px tall — too small to tap reliably. */
+  .footer-links{gap:0}
+  .footer-links a{padding:12px 0;display:block}
 }
 </style>
 </head>
@@ -354,7 +362,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 </div></footer>
 
 
-<div class="modal-overlay" id="contactModal" onclick="if(event.target===this)closeContactModal()">
+<div class="modal-overlay" id="contactModal" role="dialog" aria-modal="true" aria-label="Enquiry form" onclick="if(event.target===this)closeContactModal()">
   <div class="modal-box">
     <button class="modal-close" onclick="closeContactModal()" aria-label="Close">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
