@@ -274,6 +274,8 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 }
 
 @media(max-width:860px){
+  /* No parallax on touch, so the layer hint is pure overhead here. */
+  .hero-video{will-change:auto}
   /* iOS Safari zooms the page when a focused field is under 16px. */
   .form-field input,.form-field select,.form-field textarea{font-size:16px}
   /* Footer links were ~14px tall — too small to tap reliably. */
@@ -629,28 +631,44 @@ if (heroVideo) {
   setTimeout(tryPlay, 500);
 
   // Parallax: video scrolls slightly slower than the page for a depth effect.
-  let ticking = false;
-  function updateParallax(){
+  //
+  // Desktop only. Touch devices scroll on the compositor thread and hand scroll
+  // events to JS late and in batches, so a main-thread transform lags the page
+  // and the video judders. Phones get a static hero instead, which is smooth.
+  const mq = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 861px)');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function startParallax(){
     const heroEl = heroVideo.closest('.hero');
-    const rect = heroEl.getBoundingClientRect();
-    // Only bother while the hero is anywhere near the viewport
-    if (rect.bottom > -200 && rect.top < window.innerHeight + 200) {
-      // The video is 120% of the hero's height, so it only has 20% of slack.
-      // Without this cap the offset grew with scroll distance and pushed the
-      // composited layer far below the hero, which iOS added to the page height.
-      const MAX_PARALLAX = heroEl.offsetHeight * 0.2;
-      const offset = Math.min(window.scrollY * 0.35, MAX_PARALLAX);
-      heroVideo.style.transform = `translateY(${offset}px)`;
-    }
-    ticking = false;
+    // Cache the height. Measuring inside the scroll callback forced a layout
+    // recalculation on every frame.
+    let maxOffset = heroEl.offsetHeight * 0.2;  // the video's 20% of slack
+    let lastOffset = -1;
+    let ticking = false;
+
+    const apply = () => {
+      const offset = Math.min(window.scrollY * 0.35, maxOffset);
+      if (offset !== lastOffset) {
+        heroVideo.style.transform = `translateY(${offset}px)`;
+        lastOffset = offset;
+      }
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) { requestAnimationFrame(apply); ticking = true; }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => {
+      maxOffset = heroEl.offsetHeight * 0.2;
+      lastOffset = -1;
+      apply();
+    }, { passive: true });
+    apply();
   }
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(updateParallax);
-      ticking = true;
-    }
-  }, { passive: true });
-  updateParallax();
+
+  if (mq.matches && !reduced.matches) startParallax();
+  else heroVideo.style.transform = '';
 }
 
 // Contact modal

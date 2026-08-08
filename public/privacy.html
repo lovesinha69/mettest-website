@@ -274,6 +274,8 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 }
 
 @media(max-width:860px){
+  /* No parallax on touch, so the layer hint is pure overhead here. */
+  .hero-video{will-change:auto}
   /* iOS Safari zooms the page when a focused field is under 16px. */
   .form-field input,.form-field select,.form-field textarea{font-size:16px}
   /* Footer links were ~14px tall — too small to tap reliably. */
