@@ -27,10 +27,10 @@ fs.mkdirSync(outDir, { recursive: true });
 // source filename -> output slug (matches the card order on industries.html)
 const MAP = {
   'Automotive.jpg': 'automotive',
-  'Aerospace.jpg': 'aerospace',
+  'Railway.jpg': 'railway',
   'Oil&Gas.jpg': 'oil-gas',
   'Power&Energy.jpg': 'power-energy',
-  'Medical Devices.jpg': 'medical-devices',
+  'Sprocket.jpg': 'sprocket',
   'General Engineering.jpg': 'general-engineering',
 };
 
