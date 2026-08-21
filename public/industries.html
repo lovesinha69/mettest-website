@@ -751,34 +751,46 @@ async function submitContactForm(e){
     btn.textContent = originalLabel;
   }
 }// Service detail + About story video play buttons.
-// Each media block has an empty <source src="">, since real videos haven't
-// been added yet. When a src is present, clicking Play starts playback and
-// hides the placeholder/button. Until then the button stays hidden.
+// A block plays from one of two sources: a self-hosted file in <source src>,
+// or a Cloudflare Stream video named by data-stream-uid on the block itself.
+// Neither is fetched until Play is pressed. With neither present the slot has
+// no video yet, so the button stays hidden and the placeholder shows.
 document.querySelectorAll('.svc-detail-media, .about-story-media').forEach(media => {
   const video = media.querySelector('video');
   const playBtn = media.querySelector('.svc-detail-play, .about-story-play');
   const placeholder = media.querySelector('.svc-detail-media-placeholder, .about-story-placeholder');
-  const source = video.querySelector('source');
+  const source = video ? video.querySelector('source') : null;
+  const streamUid = media.getAttribute('data-stream-uid');
+  const streamCode = document.documentElement.getAttribute('data-stream-code');
+  if (!playBtn) return;
 
-  function hasRealSource(){
-    return source && source.getAttribute('src') && source.getAttribute('src').trim() !== '';
-  }
+  const hasFile = !!(source && source.getAttribute('src') && source.getAttribute('src').trim());
+  const hasStream = !!(streamUid && streamCode);
 
-  if (!hasRealSource()) {
-    // No video yet — keep placeholder visible, disable play button visually.
+  if (!hasFile && !hasStream) {
     playBtn.classList.add('hidden');
     return;
   }
 
   playBtn.addEventListener('click', () => {
-    placeholder.style.display = 'none';
+    if (placeholder) placeholder.style.display = 'none';
     playBtn.classList.add('hidden');
+
+    if (hasStream) {
+      // Built here rather than in the markup so the player is never loaded
+      // for a video nobody chose to watch.
+      const frame = document.createElement('iframe');
+      frame.className = 'stream-frame';
+      frame.src = 'https://customer-' + streamCode + '.cloudflarestream.com/' + streamUid + '/iframe?autoplay=true';
+      frame.title = media.getAttribute('data-stream-title') || 'Met-Test Laboratories video';
+      frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      frame.allowFullscreen = true;
+      media.appendChild(frame);
+      return;
+    }
+
     video.style.zIndex = '2';
     video.play().catch(()=>{});
-  });
-
-  video.addEventListener('pause', () => {
-    if (!video.ended) return;
   });
 });
 </script>

@@ -1,0 +1,17 @@
+{
+  "_comment": "Cloudflare Stream wiring. customerCode is the code in your Stream embed URLs (customer-<CODE>.cloudflarestream.com), shown on any video's page in the Stream dashboard. Each uid is that video's ID. Leave a uid empty and its slot keeps the placeholder - the play button stays hidden, so an unfilled slot never looks broken. Run: node tools/apply-stream.js public",
+  "customerCode": "",
+  "videos": {
+    "svc-inductor-manufacturing": { "uid": "", "title": "Inductor manufacturing at Met-Test Laboratories" },
+    "svc-induction-hardening":    { "uid": "", "title": "Induction hardening at Met-Test Laboratories" },
+    "svc-hardening-tempering":    { "uid": "", "title": "Hardening and tempering at Met-Test Laboratories" },
+    "svc-heat-treatment":         { "uid": "", "title": "Heat treatment at Met-Test Laboratories" },
+    "svc-annealing":              { "uid": "", "title": "Annealing at Met-Test Laboratories" },
+    "svc-normalising":            { "uid": "", "title": "Normalising at Met-Test Laboratories" },
+    "svc-stress-relieving":       { "uid": "", "title": "Stress relieving at Met-Test Laboratories" },
+    "svc-solution-annealing":     { "uid": "", "title": "Solution annealing at Met-Test Laboratories" },
+    "svc-flame-hardening":        { "uid": "", "title": "Flame hardening at Met-Test Laboratories" },
+    "svc-material-testing":       { "uid": "", "title": "Material testing at Met-Test Laboratories" },
+    "about-story":                { "uid": "", "title": "Inside Met-Test Laboratories" }
+  }
+}

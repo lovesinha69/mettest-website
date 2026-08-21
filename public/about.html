@@ -177,6 +177,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .about-story{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;margin-top:1rem;padding-bottom:4.5rem;border-bottom:1px solid var(--border)}
 .about-story-media{position:relative;aspect-ratio:4/3;border-radius:6px;overflow:hidden;background:var(--surface2);border:1px solid var(--border)}
 .about-story-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.stream-frame{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:3}
 .about-story-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;color:var(--dim);text-align:center;padding:2rem;background:linear-gradient(135deg,var(--surface2) 0%,#1c1e21 100%)}
 .about-story-placeholder span{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;max-width:200px}
 .about-story-year{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.15em;color:var(--accent);margin-bottom:0.75rem}
@@ -771,34 +772,46 @@ async function submitContactForm(e){
     btn.textContent = originalLabel;
   }
 }// Service detail + About story video play buttons.
-// Each media block has an empty <source src="">, since real videos haven't
-// been added yet. When a src is present, clicking Play starts playback and
-// hides the placeholder/button. Until then the button stays hidden.
+// A block plays from one of two sources: a self-hosted file in <source src>,
+// or a Cloudflare Stream video named by data-stream-uid on the block itself.
+// Neither is fetched until Play is pressed. With neither present the slot has
+// no video yet, so the button stays hidden and the placeholder shows.
 document.querySelectorAll('.svc-detail-media, .about-story-media').forEach(media => {
   const video = media.querySelector('video');
   const playBtn = media.querySelector('.svc-detail-play, .about-story-play');
   const placeholder = media.querySelector('.svc-detail-media-placeholder, .about-story-placeholder');
-  const source = video.querySelector('source');
+  const source = video ? video.querySelector('source') : null;
+  const streamUid = media.getAttribute('data-stream-uid');
+  const streamCode = document.documentElement.getAttribute('data-stream-code');
+  if (!playBtn) return;
 
-  function hasRealSource(){
-    return source && source.getAttribute('src') && source.getAttribute('src').trim() !== '';
-  }
+  const hasFile = !!(source && source.getAttribute('src') && source.getAttribute('src').trim());
+  const hasStream = !!(streamUid && streamCode);
 
-  if (!hasRealSource()) {
-    // No video yet — keep placeholder visible, disable play button visually.
+  if (!hasFile && !hasStream) {
     playBtn.classList.add('hidden');
     return;
   }
 
   playBtn.addEventListener('click', () => {
-    placeholder.style.display = 'none';
+    if (placeholder) placeholder.style.display = 'none';
     playBtn.classList.add('hidden');
+
+    if (hasStream) {
+      // Built here rather than in the markup so the player is never loaded
+      // for a video nobody chose to watch.
+      const frame = document.createElement('iframe');
+      frame.className = 'stream-frame';
+      frame.src = 'https://customer-' + streamCode + '.cloudflarestream.com/' + streamUid + '/iframe?autoplay=true';
+      frame.title = media.getAttribute('data-stream-title') || 'Met-Test Laboratories video';
+      frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      frame.allowFullscreen = true;
+      media.appendChild(frame);
+      return;
+    }
+
     video.style.zIndex = '2';
     video.play().catch(()=>{});
-  });
-
-  video.addEventListener('pause', () => {
-    if (!video.ended) return;
   });
 });
 </script>
