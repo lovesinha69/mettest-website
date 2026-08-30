@@ -36,7 +36,7 @@ const PEOPLE = [
   {
     slug: 'laxman-prasad-singh', file: 'DSC05554.JPG',
     side: 3364 / 4672, left: 187 / 4672, top: 855 / 7008,
-    alt: 'Laxman Prasad Singh, Head of Metallurgical Engineering at Met-Test Laboratories',
+    alt: 'Laxman Prasad Singh, Metallurgical Engineer at Met-Test Laboratories',
   },
   {
     slug: 'animesh-kumar', file: 'DSC05530.JPG',
