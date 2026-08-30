@@ -45,9 +45,12 @@ const PEOPLE = [
   },
   {
     slug: 'love-sinha', file: 'thumbnail.jpeg thumbnail (1).jpeg',
-    // Only 546px wide, so the crop takes the full width - this is as much
-    // resolution as the source has.
-    side: 1, left: 0, top: 248 / 1181,
+    // Cropped to put his head at ~54% of the square, matching the other three
+    // (54-63%). Taking the full 546px width kept more pixels but left him
+    // visibly smaller than everyone else, which read as a mistake on the page.
+    // There is no camera original of him, so this trades resolution the source
+    // never really had for a card that matches its neighbours.
+    side: 405 / 546, left: 71 / 546, top: 410 / 1181,
     alt: 'Love Sinha, IT Administrator at Met-Test Laboratories',
   },
 ];
