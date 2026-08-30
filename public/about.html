@@ -187,6 +187,45 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .about-photo-thumb{aspect-ratio:1;border-radius:4px;overflow:hidden;background:var(--surface2);border:1px solid var(--border)}
 .about-photo-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--dim);background:linear-gradient(135deg,var(--surface2) 0%,#1c1e21 100%)}
 .about-photo-caption{font-size:10px;color:var(--dim);margin-top:0.75rem;letter-spacing:0.02em}
+/* Revolving photo strip. The track holds two copies of the photos and slides
+   by exactly one copy, so the loop has no seam. Only transform animates, which
+   keeps it on the compositor and off the main thread. */
+.about-photo-strip.is-carousel{display:block;position:relative;overflow:hidden;container-type:inline-size;-webkit-mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent);mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent)}
+.about-photo-strip.is-carousel .about-photo-track{display:flex;gap:0.5rem;width:max-content;animation:aboutRevolve var(--revolve,48s) linear infinite;will-change:transform}
+.about-photo-strip.is-carousel .about-photo-thumb{flex:0 0 auto;width:calc((100cqw - 1.5rem) / 4);padding:0;cursor:pointer;position:relative;transition:border-color .2s}
+.about-photo-strip.is-carousel .about-photo-thumb:hover{border-color:var(--accent)}
+.about-photo-strip.is-carousel .about-photo-thumb:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.about-photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.about-photo-strip:not(.is-carousel) .about-photo-track{display:contents}
+/* Paused while pointed at, while a thumb has keyboard focus, while the viewer
+   is open, and while the strip is off screen. */
+.about-photo-strip.is-carousel:hover .about-photo-track,
+.about-photo-strip.is-carousel:focus-within .about-photo-track,
+.about-photo-strip.is-paused .about-photo-track{animation-play-state:paused}
+@keyframes aboutRevolve{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 0.25rem))}}
+
+/* Enlarged photo viewer. */
+.lightbox{position:fixed;inset:0;background:rgba(8,9,10,0.94);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);z-index:110;display:none;align-items:center;justify-content:center;padding:3.5rem 1.5rem}
+.lightbox.open{display:flex}
+.lightbox-figure{margin:0;max-width:min(1100px,100%);max-height:100%;display:flex;flex-direction:column;align-items:center;gap:0.875rem}
+.lightbox-figure img{max-width:100%;max-height:calc(100vh - 9rem);object-fit:contain;border-radius:4px;display:block}
+.lightbox-caption{font-size:11px;color:var(--muted);letter-spacing:0.04em;text-align:center}
+.lightbox-count{font-variant-numeric:tabular-nums;color:var(--dim);margin-left:0.5rem}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid var(--dim);background:rgba(13,14,15,0.8);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.lightbox-nav:hover{color:var(--fg);border-color:var(--accent)}
+.lightbox-prev{left:1rem}
+.lightbox-next{right:1rem}
+@media(max-width:520px){
+  .lightbox{padding:3.5rem 0.75rem}
+  .lightbox-nav{width:38px;height:38px}
+  .lightbox-prev{left:0.35rem}
+  .lightbox-next{right:0.35rem}
+}
+@media(prefers-reduced-motion:reduce){
+  /* No revolving: a plain strip the reader scrolls themselves. */
+  .about-photo-strip.is-carousel{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
+  .about-photo-strip.is-carousel .about-photo-track{animation:none;will-change:auto}
+}
 .about-leadership{margin-top:4.5rem}
 .about-leadership-header{margin-bottom:2.75rem}
 .about-leadership-title{font-family:'Bebas Neue',sans-serif;font-size:2.25rem;letter-spacing:0.03em;color:var(--fg);line-height:1.1}
@@ -335,11 +374,13 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <h3 class="about-story-title">From a two-furnace workshop<br>to a full metallurgical facility.</h3>
       <p class="about-story-text">Met-Test Laboratories was founded on a simple conviction: that heat treatment is a craft as much as a process, and that the industries relying on it deserve a partner who treats every batch, whether one piece or ten thousand, with the same discipline. What began with two furnaces and a handful of skilled hands has grown, year over year, into a facility spanning multiple furnace lines, an in-house metallurgical lab, and a dedicated inductor manufacturing plant.</p>
       <p class="about-story-text">The equipment has changed. The standards we hold ourselves to haven't. Every standard we work to is applied the same way the business was built; one correctly treated batch at a time.</p>
-      <div class="about-photo-strip">
+      <div class="about-photo-strip" id="aboutGallery">
+        <div class="about-photo-track">
         <div class="about-photo-thumb"><div class="about-photo-placeholder"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></div></div>
         <div class="about-photo-thumb"><div class="about-photo-placeholder"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></div></div>
         <div class="about-photo-thumb"><div class="about-photo-placeholder"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></div></div>
         <div class="about-photo-thumb"><div class="about-photo-placeholder"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></div></div>
+      </div>
       </div>
       <div class="about-photo-caption">Factory floor, metallurgical lab, and inductor workshop</div>
     </div>
@@ -463,6 +504,15 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 </div></footer>
 
 
+<div class="lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" onclick="if(event.target===this)closeLightbox()">
+  <button class="modal-close" type="button" aria-label="Close photo viewer" onclick="closeLightbox()"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous photo" onclick="stepLightbox(-1)"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <figure class="lightbox-figure">
+    <img id="lightboxImg" src="" alt="">
+    <figcaption class="lightbox-caption"><span id="lightboxCaption"></span><span class="lightbox-count" id="lightboxCount"></span></figcaption>
+  </figure>
+  <button class="lightbox-nav lightbox-next" type="button" aria-label="Next photo" onclick="stepLightbox(1)"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+</div>
 <div class="modal-overlay" id="contactModal" role="dialog" aria-modal="true" aria-label="Enquiry form" onclick="if(event.target===this)closeContactModal()">
   <div class="modal-box">
     <button class="modal-close" onclick="closeContactModal()" aria-label="Close">
@@ -832,6 +882,86 @@ document.querySelectorAll('.svc-detail-media, .about-story-media').forEach(media
     video.play().catch(()=>{});
   });
 });
+</script>
+
+<script>
+// About photo strip: revolving carousel + enlarged viewer.
+// The strip only revolves once there are more photos than fit across it;
+// below that it stays the static grid and this does nothing but wire up clicks.
+var lightboxPhotos = [], lightboxIndex = 0, lightboxReturnFocus = null;
+
+function openLightbox(i){
+  if (!lightboxPhotos.length) return;
+  lightboxIndex = (i + lightboxPhotos.length) % lightboxPhotos.length;
+  var box = document.getElementById('photoLightbox');
+  var strip = document.getElementById('aboutGallery');
+  lightboxReturnFocus = document.activeElement;
+  renderLightbox();
+  box.classList.add('open');
+  if (strip) strip.classList.add('is-paused');
+  document.body.style.overflow = 'hidden';
+  box.querySelector('.modal-close').focus();
+}
+
+function closeLightbox(){
+  var box = document.getElementById('photoLightbox');
+  if (!box.classList.contains('open')) return;
+  var strip = document.getElementById('aboutGallery');
+  box.classList.remove('open');
+  if (strip) strip.classList.remove('is-paused');
+  document.body.style.overflow = '';
+  if (lightboxReturnFocus && lightboxReturnFocus.focus) lightboxReturnFocus.focus();
+}
+
+function stepLightbox(d){
+  if (!lightboxPhotos.length) return;
+  lightboxIndex = (lightboxIndex + d + lightboxPhotos.length) % lightboxPhotos.length;
+  renderLightbox();
+}
+
+function renderLightbox(){
+  var p = lightboxPhotos[lightboxIndex];
+  if (!p) return;
+  var img = document.getElementById('lightboxImg');
+  img.src = p.full;
+  img.alt = p.alt || '';
+  document.getElementById('lightboxCaption').textContent = p.alt || '';
+  document.getElementById('lightboxCount').textContent = (lightboxIndex + 1) + ' / ' + lightboxPhotos.length;
+  var only = lightboxPhotos.length < 2 ? 'none' : '';
+  document.querySelector('.lightbox-prev').style.display = only;
+  document.querySelector('.lightbox-next').style.display = only;
+}
+
+(function(){
+  var strip = document.getElementById('aboutGallery');
+  if (!strip) return;
+
+  // Thumbs are duplicated to make the loop seamless, so the photo list is
+  // built from distinct indexes rather than from every element on screen.
+  var thumbs = strip.querySelectorAll('.about-photo-thumb[data-full]');
+  var seen = {};
+  for (var i = 0; i < thumbs.length; i++) {
+    var t = thumbs[i], n = +t.getAttribute('data-index');
+    if (!seen[n]) { seen[n] = 1; lightboxPhotos[n] = { full: t.getAttribute('data-full'), alt: t.getAttribute('data-alt') || '' }; }
+    (function(el, idx){ el.addEventListener('click', function(){ openLightbox(idx); }); })(t, n);
+  }
+  lightboxPhotos = lightboxPhotos.filter(Boolean);
+
+  // Stop animating while the strip is out of view - it is below the fold for
+  // most of the page and there is no reason to keep compositing it.
+  if (strip.classList.contains('is-carousel') && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ strip.classList.toggle('is-offscreen-pause', !e.isIntersecting); strip.classList.toggle('is-paused', !e.isIntersecting && !document.getElementById('photoLightbox').classList.contains('open')); });
+    }, { rootMargin: '200px' }).observe(strip);
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (!document.getElementById('photoLightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') { e.stopPropagation(); closeLightbox(); }
+    else if (e.key === 'ArrowLeft') stepLightbox(-1);
+    else if (e.key === 'ArrowRight') stepLightbox(1);
+  });
+})();
 </script>
 
 <script>function toggleNav(){var l=document.getElementById('navLinks'),b=document.querySelector('.nav-toggle');if(!l)return;var o=l.classList.toggle('open');if(b)b.setAttribute('aria-expanded',o?'true':'false');}</script>
