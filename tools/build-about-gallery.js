@@ -131,9 +131,12 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&
   const startRe = /<div class="about-photo-strip[^>]*id="aboutGallery"[^>]*>/;
   if (!startRe.test(h)) throw new Error('about.html: gallery strip not found - run the carousel install first');
   const start = h.search(startRe);
-  const endMark = '\n      <div class="about-photo-caption">';
-  const end = h.indexOf(endMark, start);
-  if (end === -1) throw new Error('about.html: gallery caption not found');
+  // The strip's own closing tag, at six spaces of indent. The track inside it
+  // closes at eight and the thumbnails at ten, so this matches only the strip.
+  const endMark = '\n      </div>';
+  const closeAt = h.indexOf(endMark, start);
+  if (closeAt === -1) throw new Error('about.html: gallery strip never closes');
+  const end = closeAt + endMark.length;
 
   h = h.slice(0, start)
     + stripOpen + '\n        <div class="about-photo-track">\n          ' + track + '\n        </div>\n      </div>'
