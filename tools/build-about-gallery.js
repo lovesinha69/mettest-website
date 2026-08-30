@@ -104,8 +104,8 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&
 
   // --- markup
   const carousel = photos.length > 4;
-  // Measured: a thumb is 137px on desktop and a quarter of the strip below that.
-  const SIZES = '(max-width:860px) calc(25vw - 26px), 137px';
+  // Fixed tile widths: fractional ones land off-pixel and shimmer in motion.
+  const SIZES = '(max-width:520px) 68px, 137px';
   const srcset = (p, ext) => THUMBS.map(w => `img/gallery/${p.slug}-${w}.${ext} ${w}w`).join(', ');
   // Clones are hidden from assistive tech, so they must also be unreachable by
   // keyboard - a focusable element inside aria-hidden is an ARIA violation, and
