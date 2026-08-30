@@ -195,6 +195,8 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .leader-card:hover{border-color:rgba(232,74,28,0.25)}
 .leader-photo{aspect-ratio:1/1;position:relative;background:linear-gradient(135deg,var(--surface) 0%,#191b1e 100%);border-bottom:1px solid var(--border)}
 .leader-photo-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.625rem;color:var(--dim)}
+.leader-portrait{position:absolute;inset:0;display:block;z-index:1}
+.leader-portrait img{width:100%;height:100%;object-fit:cover;display:block}
 .leader-photo-placeholder span{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;font-weight:600}
 .leader-info{padding:1.5rem;display:flex;flex-direction:column;flex:1}
 .leader-name{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.04em;color:var(--fg);margin-bottom:2px}
@@ -352,6 +354,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 
       <div class="leader-card">
         <div class="leader-photo">
+          <picture class="leader-portrait">
+            <source type="image/webp" srcset="img/ranjit-sinha-320.webp 320w, img/ranjit-sinha-640.webp 640w, img/ranjit-sinha-960.webp 960w" sizes="(max-width:520px) calc(100vw - 80px), (max-width:860px) calc(50vw - 58px), 280px">
+            <img src="img/ranjit-sinha-960.jpg" srcset="img/ranjit-sinha-320.jpg 320w, img/ranjit-sinha-640.jpg 640w, img/ranjit-sinha-960.jpg 960w" sizes="(max-width:520px) calc(100vw - 80px), (max-width:860px) calc(50vw - 58px), 280px" width="960" height="960" alt="Ranjit Sinha, Founder and CEO of Met-Test Laboratories" loading="lazy" decoding="async">
+          </picture>
           <div class="leader-photo-placeholder">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <span>Add photo</span>
@@ -367,6 +373,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 
       <div class="leader-card">
         <div class="leader-photo">
+          <picture class="leader-portrait">
+            <source type="image/webp" srcset="img/laxman-prasad-singh-320.webp 320w, img/laxman-prasad-singh-640.webp 640w, img/laxman-prasad-singh-960.webp 960w" sizes="(max-width:520px) calc(100vw - 80px), (max-width:860px) calc(50vw - 58px), 280px">
+            <img src="img/laxman-prasad-singh-960.jpg" srcset="img/laxman-prasad-singh-320.jpg 320w, img/laxman-prasad-singh-640.jpg 640w, img/laxman-prasad-singh-960.jpg 960w" sizes="(max-width:520px) calc(100vw - 80px), (max-width:860px) calc(50vw - 58px), 280px" width="960" height="960" alt="Laxman Prasad Singh, Head of Metallurgical Engineering at Met-Test Laboratories" loading="lazy" decoding="async">
+          </picture>
           <div class="leader-photo-placeholder">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <span>Add photo</span>
@@ -382,6 +392,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 
       <div class="leader-card">
         <div class="leader-photo">
+          <picture class="leader-portrait">
+            <source type="image/webp" srcset="img/animesh-kumar-320.webp 320w, img/animesh-kumar-640.webp 640w, img/animesh-kumar-960.webp 960w" sizes="(max-width:520px) calc(100vw - 80px), (max-width:860px) calc(50vw - 58px), 280px">
+            <img src="img/animesh-kumar-960.jpg" srcset="img/animesh-kumar-320.jpg 320w, img/animesh-kumar-640.jpg 640w, img/animesh-kumar-960.jpg 960w" sizes="(max-width:520px) calc(100vw - 80px), (max-width:860px) calc(50vw - 58px), 280px" width="960" height="960" alt="Animesh Kumar, NDT Engineer at Met-Test Laboratories" loading="lazy" decoding="async">
+          </picture>
           <div class="leader-photo-placeholder">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <span>Add photo</span>
@@ -397,6 +411,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 
       <div class="leader-card">
         <div class="leader-photo">
+          <picture class="leader-portrait">
+            <source type="image/webp" srcset="img/love-sinha-320.webp 320w, img/love-sinha-546.webp 546w" sizes="(max-width:520px) calc(100vw - 80px), (max-width:860px) calc(50vw - 58px), 280px">
+            <img src="img/love-sinha-546.jpg" srcset="img/love-sinha-320.jpg 320w, img/love-sinha-546.jpg 546w" sizes="(max-width:520px) calc(100vw - 80px), (max-width:860px) calc(50vw - 58px), 280px" width="546" height="546" alt="Love Sinha, Tech Lead at Met-Test Laboratories" loading="lazy" decoding="async">
+          </picture>
           <div class="leader-photo-placeholder">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <span>Add photo</span>
