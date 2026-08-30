@@ -26,31 +26,37 @@ fs.mkdirSync(outDir, { recursive: true });
 
 // side/left/top are fractions of the upright image; side is a fraction of its height,
 // except where the image is portrait, where it is a fraction of the width.
+// Love Sinha's source is a 546px web-sized image, not a camera original, so his
+// crop is fixed at the full width - anything tighter throws away resolution he
+// cannot get back. The other three are cropped out to match HIS scale instead
+// of the reverse: their sources are 7008px, so a wider crop uses more of the
+// frame and costs them nothing.
+//
+// The two studio portraits bottom out around 45% because their subjects already
+// fill a 4672px-wide frame; that is as loose as they go without padding.
 const PEOPLE = [
   {
     slug: 'ranjit-sinha', file: 'DSC05498.JPG',
-    // Wide office shot: he sits right of centre and small in frame.
-    side: 1500 / 4672, left: 3665 / 7008, top: 863 / 4672,
+    // Wide office shot, so there is room to open right out to 40%.
+    side: 1841 / 4672, left: 3495 / 7008, top: 635 / 4672,
     alt: 'Ranjit Sinha, Founder and CEO of Met-Test Laboratories',
   },
   {
     slug: 'laxman-prasad-singh', file: 'DSC05554.JPG',
-    side: 3364 / 4672, left: 187 / 4672, top: 855 / 7008,
+    // Full frame width: the loosest square this portrait allows.
+    side: 1, left: 0, top: 0,
     alt: 'Laxman Prasad Singh, Metallurgical Engineer at Met-Test Laboratories',
   },
   {
     slug: 'animesh-kumar', file: 'DSC05530.JPG',
-    side: 3364 / 4672, left: 93 / 4672, top: 715 / 7008,
+    side: 1, left: 0, top: 0,
     alt: 'Animesh Kumar, NDT Engineer at Met-Test Laboratories',
   },
   {
     slug: 'love-sinha', file: 'thumbnail.jpeg thumbnail (1).jpeg',
-    // Cropped to put his head at ~54% of the square, matching the other three
-    // (54-63%). Taking the full 546px width kept more pixels but left him
-    // visibly smaller than everyone else, which read as a mistake on the page.
-    // There is no camera original of him, so this trades resolution the source
-    // never really had for a card that matches its neighbours.
-    side: 405 / 546, left: 71 / 546, top: 410 / 1181,
+    // Full 546px width - every pixel the source has. Shifted down slightly so
+    // his headroom sits with the others rather than well above them.
+    side: 1, left: 0, top: 303 / 1181,
     alt: 'Love Sinha, IT Administrator at Met-Test Laboratories',
   },
 ];
