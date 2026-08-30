@@ -141,6 +141,52 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .process-capabilities{margin-top:4.5rem;padding-top:3.5rem;border-top:1px solid var(--border)}
 .process-capabilities-header{margin-bottom:2rem}
 .process-capabilities-title{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:0.04em;color:var(--fg);line-height:1.1}
+/* --- Process page detail sections --- */
+.pc-sec{margin-top:4.5rem;padding-top:3.5rem;border-top:1px solid var(--border)}
+.pc-head{margin-bottom:2rem;max-width:640px}
+.pc-title{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:0.04em;color:var(--fg);line-height:1.1;margin-top:0.75rem}
+.pc-body{font-size:13px;color:var(--muted);line-height:1.75;font-weight:300;margin-top:0.75rem}
+.pc-note{font-size:11px;color:var(--dim);line-height:1.6;font-weight:300;margin-top:1rem}
+
+/* Thermal cycle diagram. The curve is drawn by animating stroke-dashoffset,
+   which only touches the paint, so it stays off the layout path. */
+.cycle-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:1.5rem 1.25rem 1rem;overflow-x:auto}
+.cycle-svg{display:block;width:100%;min-width:560px;height:auto}
+.cycle-grid{stroke:var(--border);stroke-width:1}
+.cycle-axis{stroke:var(--dim);stroke-width:1}
+.cycle-tick{fill:var(--dim);font-size:11px;font-family:'JetBrains Mono',ui-monospace,monospace}
+.cycle-curve{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.cycle-phase{fill:var(--muted);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600}
+.cycle-phase-line{stroke:var(--border);stroke-width:1;stroke-dasharray:3 4}
+.cycle-anno{fill:var(--fg);font-size:11.5px}
+.cycle-anno-sub{fill:var(--dim);font-size:10.5px}
+.cycle-dot{fill:var(--accent)}
+.cycle-leader{fill:none;stroke:var(--dim);stroke-width:1}
+.cycle-legend{font-size:10.5px;color:var(--dim);margin-top:0.75rem;letter-spacing:0.02em}
+.cycle-fade{opacity:0;transition:opacity .5s ease}
+.cycle-wrap.is-drawn .cycle-fade{opacity:1}
+
+/* Furnace table */
+.cap-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:6px;background:var(--surface2)}
+.cap-table{border-collapse:collapse;width:100%;min-width:620px;font-size:13px}
+.cap-table th,.cap-table td{text-align:left;padding:0.85rem 1.1rem;border-bottom:1px solid var(--border)}
+.cap-table thead th{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:12px;letter-spacing:0.14em;color:var(--muted);white-space:nowrap}
+.cap-table tbody tr:last-child td{border-bottom:none}
+.cap-table td{color:var(--muted);font-weight:300}
+.cap-table td:first-child{color:var(--fg);font-weight:500}
+.cap-dim{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cap-units{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600}
+
+/* Supporting plant, instruments, and what ships out */
+.pc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0.75rem;margin-top:1rem}
+.pc-card{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:1.1rem 1.25rem}
+.pc-card-name{font-size:12.5px;color:var(--fg);font-weight:500;margin-bottom:3px}
+.pc-card-detail{font-size:11.5px;color:var(--muted);font-weight:300;line-height:1.6}
+.pc-card-spec{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11.5px;color:var(--accent2);margin-top:5px;font-variant-numeric:tabular-nums}
+@media(max-width:520px){
+  .pc-sec{margin-top:3.5rem;padding-top:2.5rem}
+  .cycle-wrap{padding:1rem 0.75rem 0.75rem}
+}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:4px;overflow:hidden}
 .stat-cell{padding:2.25rem 1.75rem;border-right:1px solid var(--border);position:relative;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.16,.8,.3,1),background .3s}
 .stat-cell.in-view{opacity:1;transform:translateY(0)}
@@ -311,11 +357,11 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
   </div>
   <div class="process-grid" id="processGrid">
     <div class="process-connector"><div class="process-connector-fill" id="processConnectorFill"></div></div>
-    <div class="process-step" data-hours="1"><div class="process-circle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5M16 5.2L8 9.7"/></svg></div><div class="process-num-label">01</div><h2 class="process-name">Receive & Inspect</h2><div class="process-desc">Parts logged, photographed, and dimensionally verified on arrival.</div><div class="process-duration">~1 hr</div></div>
-    <div class="process-step" data-hours="3"><div class="process-circle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2M9 14l2 2 4-4"/></svg></div><div class="process-num-label">02</div><h2 class="process-name">Engineering Review</h2><div class="process-desc">Metallurgists define the thermal recipe and QA checkpoints.</div><div class="process-duration">2–3 hrs</div></div>
-    <div class="process-step" data-hours="10"><div class="process-circle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em"><path d="M12 12c2-2.96 0-7-1-8 0 3.04-1.5 4.5-3 6s-2 4-2 5a6 6 0 1 0 12 0c0-1.53-.62-3.11-1.5-4C15.53 12 14 13 12 12z"/></svg></div><div class="process-num-label">03</div><h2 class="process-name">Heat Treatment</h2><div class="process-desc">Real-time temperature and atmosphere monitoring throughout.</div><div class="process-duration">6–10 hrs</div></div>
-    <div class="process-step" data-hours="4"><div class="process-circle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em"><path d="M5 21h14M6 18h6M9 9a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM11 7l4.5-4.5 2 2L13 9M15 18a6 6 0 0 0 0-12"/></svg></div><div class="process-num-label">04</div><h2 class="process-name">Test & Validate</h2><div class="process-desc">Hardness, NDT, and mechanical confirmation to spec.</div><div class="process-duration">3–4 hrs</div></div>
-    <div class="process-step" data-hours="2"><div class="process-circle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em"><path d="M14 3v4a1 1 0 0 0 1 1h4M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 15l2 2 4-4"/></svg></div><div class="process-num-label">05</div><h2 class="process-name">Certify & Dispatch</h2><div class="process-desc">QA report, CoC, and full traceability package issued.</div><div class="process-duration">1–2 hrs</div></div>
+    <div class="process-step" data-hours="1"><div class="process-circle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5M16 5.2L8 9.7"/></svg></div><div class="process-num-label">01</div><h2 class="process-name">Receive & Inspect</h2><div class="process-desc">Every consignment is logged against its job card, photographed, and checked for dimensions, surface condition and transit damage before it is accepted. Material grade is confirmed against your documentation.</div><div class="process-duration">~1 hr</div></div>
+    <div class="process-step" data-hours="3"><div class="process-circle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2M9 14l2 2 4-4"/></svg></div><div class="process-num-label">02</div><h2 class="process-name">Engineering Review</h2><div class="process-desc">A metallurgist sets the cycle for your grade and section thickness: austenitising temperature, soak time, quench medium and tempering schedule. Fixturing and load orientation are planned to control distortion, and the QA checkpoints are agreed before the furnace is loaded.</div><div class="process-duration">2–3 hrs</div></div>
+    <div class="process-step" data-hours="10"><div class="process-circle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em"><path d="M12 12c2-2.96 0-7-1-8 0 3.04-1.5 4.5-3 6s-2 4-2 5a6 6 0 1 0 12 0c0-1.53-.62-3.11-1.5-4C15.53 12 14 13 12 12z"/></svg></div><div class="process-num-label">03</div><h2 class="process-name">Heat Treatment</h2><div class="process-desc">The load is charged to whichever furnace suits its size, then held, quenched and tempered to the cycle set at review. Temperature is monitored throughout, and furnace, cycle and operator are recorded against the job card.</div><div class="process-duration">6–10 hrs</div></div>
+    <div class="process-step" data-hours="4"><div class="process-circle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em"><path d="M5 21h14M6 18h6M9 9a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM11 7l4.5-4.5 2 2L13 9M15 18a6 6 0 0 0 0-12"/></svg></div><div class="process-num-label">04</div><h2 class="process-name">Test & Validate</h2><div class="process-desc">Hardness is verified on the treated part. Ultrasonic, magnetic particle or dye penetrant inspection is applied where the specification calls for it, and mechanical properties are confirmed on the 40 tonne universal testing machine.</div><div class="process-duration">3–4 hrs</div></div>
+    <div class="process-step" data-hours="2"><div class="process-circle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em"><path d="M14 3v4a1 1 0 0 0 1 1h4M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 15l2 2 4-4"/></svg></div><div class="process-num-label">05</div><h2 class="process-name">Certify & Dispatch</h2><div class="process-desc">Results are compiled into a QA report and certificate of conformity, tied to the job card so the batch stays traceable after it leaves. Parts are then packed and released for collection or delivery.</div><div class="process-duration">1–2 hrs</div></div>
   </div>
 
   <div class="process-total">
@@ -324,13 +370,122 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="process-total-note">Standard components, single furnace cycle; start to certified dispatch. Larger batches or multi-cycle treatments run longer; express lanes available on request.</div>
   </div>
 
+
+  <div class="pc-sec" id="thermal-cycle">
+    <div class="pc-head">
+      <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><span class="sec-eyebrow-text">Inside the furnace</span></div>
+      <div class="pc-title">A treatment is a sequence, not a heat.</div>
+      <div class="pc-body">Hardening and tempering is a controlled path through temperature and time. Temperatures and hold times change with the grade and the section thickness; the stages do not. This is the shape of a typical cycle.</div>
+    </div>
+    <div class="cycle-wrap" id="cycleWrap">
+      <svg class="cycle-svg" viewBox="0 0 1000 400" role="img" aria-label="Temperature against time for a typical hardening and tempering cycle: a ramp to around 850 degrees Celsius, a soak at temperature, an oil quench to near ambient, a ramp to around 560 degrees for tempering, a temper soak, then cooling in air.">
+        <line class="cycle-grid" x1="76" y1="264.8" x2="968" y2="264.8"/>
+        <line class="cycle-grid" x1="76" y1="209.6" x2="968" y2="209.6"/>
+        <line class="cycle-grid" x1="76" y1="154.4" x2="968" y2="154.4"/>
+        <line class="cycle-grid" x1="76" y1="99.2" x2="968" y2="99.2"/>
+        <line class="cycle-grid" x1="76" y1="44" x2="968" y2="44"/>
+        <text class="cycle-tick" x="66" y="268.8" text-anchor="end">200</text>
+        <text class="cycle-tick" x="66" y="213.6" text-anchor="end">400</text>
+        <text class="cycle-tick" x="66" y="158.4" text-anchor="end">600</text>
+        <text class="cycle-tick" x="66" y="103.2" text-anchor="end">800</text>
+        <text class="cycle-tick" x="66" y="48" text-anchor="end">1000</text>
+        <text class="cycle-tick" x="66" y="324" text-anchor="end">0</text>
+        <line class="cycle-axis" x1="76" y1="36" x2="76" y2="320"/>
+        <line class="cycle-axis" x1="76" y1="320" x2="968" y2="320"/>
+        <text class="cycle-tick" x="66" y="28" text-anchor="end">°C</text>
+        <line class="cycle-phase-line cycle-fade" x1="300" y1="36" x2="300" y2="320"/>
+        <line class="cycle-phase-line cycle-fade" x1="470" y1="36" x2="470" y2="320"/>
+        <line class="cycle-phase-line cycle-fade" x1="565" y1="36" x2="565" y2="320"/>
+        <line class="cycle-phase-line cycle-fade" x1="855" y1="36" x2="855" y2="320"/>
+        <path class="cycle-curve" id="cycleCurve" d="M76,311.7 L300,85.4 L470,85.4 L520,303.4 L565,303.4 L700,165.4 L855,165.4 L968,295.2"/>
+        <g class="cycle-fade">
+          <circle class="cycle-dot" cx="385" cy="85.4" r="3.5"/>
+          <text class="cycle-anno" x="385" y="59.400000000000006" text-anchor="middle">Austenitising</text>
+          <text class="cycle-anno-sub" x="385" y="73.4" text-anchor="middle">hold at temperature</text>
+          <circle class="cycle-dot" cx="520" cy="303.4" r="3.5"/>
+          <path class="cycle-leader" d="M446,258 L470,258 L512,297"/>
+          <text class="cycle-anno" x="440" y="249" text-anchor="end">Oil quench</text>
+          <text class="cycle-anno-sub" x="440" y="263" text-anchor="end">30,000 litre tank</text>
+          <circle class="cycle-dot" cx="777" cy="165.4" r="3.5"/>
+          <text class="cycle-anno" x="777" y="139.4" text-anchor="middle">Tempering</text>
+          <text class="cycle-anno-sub" x="777" y="153.4" text-anchor="middle">hardness brought to spec</text>
+        </g>
+        <text class="cycle-phase cycle-fade" x="188" y="350" text-anchor="middle">Ramp</text>
+        <text class="cycle-phase cycle-fade" x="385" y="350" text-anchor="middle">Soak</text>
+        <text class="cycle-phase cycle-fade" x="517" y="350" text-anchor="middle">Quench</text>
+        <text class="cycle-phase cycle-fade" x="710" y="350" text-anchor="middle">Temper</text>
+        <text class="cycle-phase cycle-fade" x="911" y="350" text-anchor="middle">Cool</text>
+        <text class="cycle-tick cycle-fade" x="968" y="376" text-anchor="end">time →</text>
+      </svg>
+      <div class="cycle-legend">Illustrative. Your cycle is set at engineering review against the grade, section thickness and the specification you supply.</div>
+    </div>
+  </div>
+
+  <div class="pc-sec" id="capacity">
+    <div class="pc-head">
+      <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><span class="sec-eyebrow-text">Plant and capacity</span></div>
+      <div class="pc-title">Will your part fit?</div>
+      <div class="pc-body">Fifteen furnaces across five configurations. The largest box furnace takes components up to six metres long; the deepest pit furnace takes a metre and a half of vertical section.</div>
+    </div>
+    <div class="cap-scroll">
+      <table class="cap-table">
+        <thead><tr><th>Furnace</th><th>Working dimensions</th><th>Max temperature</th><th>Heating</th><th>Units</th></tr></thead>
+        <tbody>
+          <tr><td>Pit furnace</td><td class="cap-dim">Ø1300 × 1500 mm deep</td><td class="cap-dim">1200 °C</td><td>Electric</td><td class="cap-units">3</td></tr>
+          <tr><td>Pit furnace</td><td class="cap-dim">Ø900 × 1200 mm deep</td><td class="cap-dim">1200 °C</td><td>Electric</td><td class="cap-units">1</td></tr>
+          <tr><td>Pit furnace</td><td class="cap-dim">Ø800 × 1000 mm deep</td><td class="cap-dim">1200 °C</td><td>Electric</td><td class="cap-units">4</td></tr>
+          <tr><td>Box furnace</td><td class="cap-dim">6000 × 2500 × 2000 mm</td><td class="cap-dim">1200 °C</td><td>Gas fired</td><td class="cap-units">2</td></tr>
+          <tr><td>Box furnace</td><td class="cap-dim">1200 × 1200 × 2000 mm</td><td class="cap-dim">1200 °C</td><td>Gas fired</td><td class="cap-units">5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pc-grid">
+      <div class="pc-card"><div class="pc-card-name">Quench tank</div><div class="pc-card-detail">Oil, for hardening and case work</div><div class="pc-card-spec">30,000 litres</div></div>
+      <div class="pc-card"><div class="pc-card-name">Overhead cranes</div><div class="pc-card-detail">Electric travelling, two units</div><div class="pc-card-spec">5 tonne each</div></div>
+      <div class="pc-card"><div class="pc-card-name">Induction hardening machine</div><div class="pc-card-detail">For shafts, journals and wear faces</div><div class="pc-card-spec">Ø700 × 1500 mm</div></div>
+    </div>
+    <div class="pc-note">Working dimensions are the usable envelope inside the furnace. If your component is close to a limit, send the drawing and we will confirm before you ship.</div>
+  </div>
+
+  <div class="pc-sec" id="instruments">
+    <div class="pc-head">
+      <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><span class="sec-eyebrow-text">Test and validate</span></div>
+      <div class="pc-title">Every figure on a certificate traces back to an instrument.</div>
+      <div class="pc-body">Hardness is checked on every batch. Non-destructive inspection is applied where your specification calls for it, in-house, on the equipment below.</div>
+    </div>
+    <div class="pc-grid">
+      <div class="pc-card"><div class="pc-card-name">Universal testing machine</div><div class="pc-card-detail">Tensile and mechanical property confirmation</div><div class="pc-card-spec">40 tonne</div></div>
+      <div class="pc-card"><div class="pc-card-name">Brinell hardness tester</div><div class="pc-card-detail">Bulk hardness on castings and forgings</div><div class="pc-card-spec">to 3 tonne</div></div>
+      <div class="pc-card"><div class="pc-card-name">Rockwell hardness tester</div><div class="pc-card-detail">Hardness on finished and case-hardened work</div><div class="pc-card-spec">to 500 kg</div></div>
+      <div class="pc-card"><div class="pc-card-name">Dynamic hardness testers</div><div class="pc-card-detail">Portable verification on the floor, two units</div><div class="pc-card-spec">DHT-6</div></div>
+      <div class="pc-card"><div class="pc-card-name">Poldi hardness tester</div><div class="pc-card-detail">Portable comparison testing on large sections</div></div>
+      <div class="pc-card"><div class="pc-card-name">Ultrasonic flaw detector</div><div class="pc-card-detail">Sub-surface defects and internal soundness</div><div class="pc-card-spec">Einstein-II DGS</div></div>
+      <div class="pc-card"><div class="pc-card-name">Magnetic particle inspection</div><div class="pc-card-detail">Surface and near-surface cracks in ferrous work</div><div class="pc-card-spec">Magnaflux Y2</div></div>
+      <div class="pc-card"><div class="pc-card-name">Dye penetrant inspection</div><div class="pc-card-detail">Surface-breaking defects on finished components</div></div>
+    </div>
+  </div>
+
+  <div class="pc-sec" id="deliverables">
+    <div class="pc-head">
+      <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><span class="sec-eyebrow-text">Certify and dispatch</span></div>
+      <div class="pc-title">What leaves with your parts.</div>
+      <div class="pc-body">Treated components are only half of it. Every batch is released with the paperwork that lets you put it into production, and that record stays on file afterwards.</div>
+    </div>
+    <div class="pc-grid">
+      <div class="pc-card"><div class="pc-card-name">QA and test report</div><div class="pc-card-detail">Measured hardness and the results of every test performed on the batch.</div></div>
+      <div class="pc-card"><div class="pc-card-name">Certificate of conformity</div><div class="pc-card-detail">The treatment carried out, stated against the specification you supplied.</div></div>
+      <div class="pc-card"><div class="pc-card-name">Traceability record</div><div class="pc-card-detail">The job card tying the batch to its furnace, cycle and operator.</div></div>
+    </div>
+    <div class="pc-note">Need a specific certificate format, a witnessed test, or third-party inspection? Ask at enquiry and it is built into the job card.</div>
+  </div>
+
   <div class="process-capabilities">
     <div class="process-capabilities-header">
       <div class="sec-eyebrow"><div class="sec-eyebrow-line"></div><span class="sec-eyebrow-text">Capabilities behind the process</span></div>
       <div class="process-capabilities-title">The scale that makes it possible.</div>
     </div>
     <div class="stats-row">
-      <div class="stat-cell"><div class="stat-num" data-target="12" data-suffix="+">0<sup>+</sup></div><div class="stat-label">Heat Treatment Furnaces</div><div class="stat-desc">Atmosphere, vacuum, distilled water bath &amp; induction</div></div>
+      <div class="stat-cell"><div class="stat-num" data-target="15" data-suffix="+">0<sup>+</sup></div><div class="stat-label">Heat Treatment Furnaces</div><div class="stat-desc">Atmosphere, vacuum, distilled water bath &amp; induction</div></div>
       <div class="stat-cell"><div class="stat-num" data-target="50000" data-suffix="+">0<sup>+</sup></div><div class="stat-label">Components Annually</div><div class="stat-desc">From prototypes to high-volume runs</div></div>
       <div class="stat-cell"><div class="stat-num" data-target="25" data-suffix="+">0<sup>+</sup></div><div class="stat-label">Years of Expertise</div><div class="stat-desc">Deep metallurgical domain knowledge</div></div>
       <div class="stat-cell"><div class="stat-num" data-target="24" data-suffix="h">0<sup>h</sup></div><div class="stat-label">Express Turnaround</div><div class="stat-desc">For urgent production requirements</div></div>
@@ -738,6 +893,43 @@ document.querySelectorAll('.svc-detail-media, .about-story-media').forEach(media
     video.play().catch(()=>{});
   });
 });
+</script>
+
+<script>
+// Thermal cycle: draw the curve once it scrolls into view.
+// stroke-dashoffset only affects painting, so the draw stays off the main
+// thread's layout work. Reduced motion gets the finished curve immediately.
+(function(){
+  var wrap = document.getElementById('cycleWrap');
+  var curve = document.getElementById('cycleCurve');
+  if (!wrap || !curve || !curve.getTotalLength) return;
+
+  var len = curve.getTotalLength();
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (still) { wrap.classList.add('is-drawn'); return; }
+
+  curve.style.strokeDasharray = len;
+  curve.style.strokeDashoffset = len;
+
+  function draw(){
+    curve.style.transition = 'stroke-dashoffset 2.2s cubic-bezier(.22,.7,.3,1)';
+    curve.style.strokeDashoffset = '0';
+    // Labels and callouts arrive as the line reaches them rather than all at once.
+    setTimeout(function(){ wrap.classList.add('is-drawn'); }, 700);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var seen = false;
+    new IntersectionObserver(function(entries, o){
+      entries.forEach(function(e){
+        if (e.isIntersecting && !seen) { seen = true; draw(); o.disconnect(); }
+      });
+    }, { threshold: 0.25 }).observe(wrap);
+  } else {
+    draw();
+  }
+})();
 </script>
 
 <script>function toggleNav(){var l=document.getElementById('navLinks'),b=document.querySelector('.nav-toggle');if(!l)return;var o=l.classList.toggle('open');if(b)b.setAttribute('aria-expanded',o?'true':'false');}</script>
