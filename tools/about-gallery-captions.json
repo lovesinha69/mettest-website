@@ -1,0 +1,26 @@
+{
+  "_comment": "Alt text and viewer captions for the About page photo strip, keyed by source filename. A plain string is just the caption; an object can also carry an explicit square crop for the thumbnail, given as fractions of the upright image (side is a fraction of the shorter edge). Without a crop the thumbnail is framed automatically, which works for most photos but chases brightness. These captions were written from the photographs - correct any that name the wrong process.",
+
+  "01-shop-floor-fixtures.jpg": "Component fixtures racked on the shop floor",
+
+  "02-founder-office.jpg": {
+    "alt": "Ranjit Sinha at the Vitthal Udyognagar office",
+    "_why": "the lit flowers on the wall pulled the automatic crop off him",
+    "crop": { "side": 1, "left": 0.219, "top": 0 }
+  },
+
+  "03-facility-exterior.jpg": "The Met-Test Laboratories works at Vitthal Udyognagar",
+
+  "04-charge-from-furnace.jpg": {
+    "alt": "A glowing charge lifted from the furnace above the quench tank",
+    "_why": "the glowing basket is the subject and was landing half out of frame",
+    "crop": { "side": 1, "left": 0, "top": 0.195 }
+  },
+
+  "05-furnace-interior.jpg": "A component at temperature inside a refractory-lined furnace",
+  "06-coil-brazing.jpg": "Torch brazing a coil assembly in the inductor workshop",
+  "07-flame-work.jpg": "Flame treatment of a large ring component",
+  "08-component-handling.jpg": "Handling treated components in the yard",
+  "09-documentation-office.jpg": "The documentation and accounts office",
+  "10-workshop-floor.jpg": "The main workshop floor"
+}

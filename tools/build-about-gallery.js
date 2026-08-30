@@ -34,8 +34,15 @@ const CAPTIONS = (() => {
   return fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {};
 })();
 
-const THUMB = 480;   // rendered at 137px, so good past 3x
-const FULL = 1600;   // the enlarged view
+// The strip renders a thumb at 137px on desktop but only 68px on a phone, so
+// two widths are produced and the browser takes the one that fits. One size
+// would mean phones downloading four times the pixels they can show.
+const THUMBS = [240, 480];
+const THUMB = 480;
+// The viewer shows a photo up to ~1100px wide, so 1600 would be under-resolved
+// on a 2x display. 2400 covers it with headroom; it is only ever fetched when
+// somebody actually clicks a thumbnail.
+const FULL = 2400;
 const SPEED = 35;    // pixels per second the strip travels
 
 const slugify = s => s.toLowerCase().replace(/\.[^.]+$/, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -56,33 +63,56 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&
 
   for (const file of files) {
     const slug = slugify(file);
-    const alt = CAPTIONS[file] || CAPTIONS[slug] || titleise(file);
+    const entry = CAPTIONS[file] || CAPTIONS[slug];
+    const alt = (typeof entry === 'string' ? entry : entry && entry.alt) || titleise(file);
+    // `attention` frames most photos well, but it chases brightness - a lit
+    // background can pull the crop off the subject - so a crop can be given.
+    const crop = entry && entry.crop;
     const src = path.join(srcDir, file);
 
     // Square thumbnail. `attention` picks the busiest region rather than the
     // middle, which frames machinery and faces far better than a centre crop.
-    const t = sharp(src).rotate().resize(THUMB, THUMB, { fit: 'cover', position: sharp.strategy.attention, kernel: sharp.kernel.lanczos3 });
-    await t.clone().webp({ quality: 92, effort: 5 }).toFile(path.join(outDir, `${slug}-${THUMB}.webp`));
-    await t.clone().jpeg({ quality: 90, chromaSubsampling: '4:4:4', mozjpeg: true, progressive: true }).toFile(path.join(outDir, `${slug}-${THUMB}.jpg`));
+    // Explicit crops are fractions of the upright image.
+    let region = null;
+    if (crop) {
+      const m0 = await sharp(src).rotate().resize(20000, null, { withoutEnlargement: true }).toBuffer({ resolveWithObject: true }).then(r => r.info);
+      const W = m0.width, H = m0.height;
+      const side = Math.min(Math.round(crop.side * Math.min(W, H)), W, H);
+      region = { width: side, height: side,
+                 left: Math.max(0, Math.min(Math.round(crop.left * W), W - side)),
+                 top:  Math.max(0, Math.min(Math.round(crop.top  * H), H - side)) };
+    }
+
+    for (const w of THUMBS) {
+      const t = region
+        ? sharp(src).rotate().extract(region).resize(w, w, { kernel: sharp.kernel.lanczos3 })
+        : sharp(src).rotate().resize(w, w, { fit: 'cover', position: sharp.strategy.attention, kernel: sharp.kernel.lanczos3 });
+      await t.clone().webp({ quality: 92, effort: 5 }).toFile(path.join(outDir, `${slug}-${w}.webp`));
+      await t.clone().jpeg({ quality: 90, chromaSubsampling: '4:4:4', mozjpeg: true, progressive: true }).toFile(path.join(outDir, `${slug}-${w}.jpg`));
+    }
 
     // Full view, uncropped, never upscaled.
     const f = sharp(src).rotate().resize({ width: FULL, height: FULL, fit: 'inside', withoutEnlargement: true, kernel: sharp.kernel.lanczos3 });
     await f.clone().jpeg({ quality: 90, chromaSubsampling: '4:4:4', mozjpeg: true, progressive: true }).toFile(path.join(outDir, `${slug}-${FULL}.jpg`));
+    await f.clone().webp({ quality: 92, effort: 5 }).toFile(path.join(outDir, `${slug}-${FULL}.webp`));
 
     const kb = n => fs.statSync(path.join(outDir, n)).size / 1024;
-    bytes += kb(`${slug}-${THUMB}.webp`) + kb(`${slug}-${THUMB}.jpg`) + kb(`${slug}-${FULL}.jpg`);
+    bytes += THUMBS.reduce((a,w)=>a+kb(`${slug}-${w}.webp`)+kb(`${slug}-${w}.jpg`),0) + kb(`${slug}-${FULL}.jpg`) + kb(`${slug}-${FULL}.webp`);
     photos.push({ slug, alt });
-    console.log(`  ${file.padEnd(34)} -> ${slug}  thumb ${kb(`${slug}-${THUMB}.webp`).toFixed(0)}KB  full ${kb(`${slug}-${FULL}.jpg`).toFixed(0)}KB`);
+    console.log(`  ${file.padEnd(34)} -> ${slug}  thumb ${kb(`${slug}-240.webp`).toFixed(0)}/${kb(`${slug}-480.webp`).toFixed(0)}KB  full ${kb(`${slug}-${FULL}.webp`).toFixed(0)}KB webp / ${kb(`${slug}-${FULL}.jpg`).toFixed(0)}KB jpg`);
   }
 
   // --- markup
   const carousel = photos.length > 4;
+  // Measured: a thumb is 137px on desktop and a quarter of the strip below that.
+  const SIZES = '(max-width:860px) calc(25vw - 26px), 137px';
+  const srcset = (p, ext) => THUMBS.map(w => `img/gallery/${p.slug}-${w}.${ext} ${w}w`).join(', ');
   // Clones are hidden from assistive tech, so they must also be unreachable by
   // keyboard - a focusable element inside aria-hidden is an ARIA violation, and
   // it would make a keyboard user tab through every photo twice.
   const thumb = (p, i, clone) =>
-`<button class="about-photo-thumb" type="button"${clone ? ' tabindex="-1"' : ''} data-index="${i}" data-full="img/gallery/${p.slug}-${FULL}.jpg" data-alt="${esc(p.alt)}" aria-label="Enlarge photo: ${esc(p.alt)}">
-            <picture><source type="image/webp" srcset="img/gallery/${p.slug}-${THUMB}.webp"><img src="img/gallery/${p.slug}-${THUMB}.jpg" width="${THUMB}" height="${THUMB}" alt="${clone ? '' : esc(p.alt)}" loading="lazy" decoding="async"></picture>
+`<button class="about-photo-thumb" type="button"${clone ? ' tabindex="-1"' : ''} data-index="${i}" data-full="img/gallery/${p.slug}-${FULL}.webp" data-full-jpg="img/gallery/${p.slug}-${FULL}.jpg" data-alt="${esc(p.alt)}" aria-label="Enlarge photo: ${esc(p.alt)}">
+            <picture><source type="image/webp" srcset="${srcset(p,'webp')}" sizes="${SIZES}"><img src="img/gallery/${p.slug}-${THUMB}.jpg" srcset="${srcset(p,'jpg')}" sizes="${SIZES}" width="${THUMB}" height="${THUMB}" alt="${clone ? '' : esc(p.alt)}" loading="lazy" decoding="async"></picture>
           </button>`;
 
   const once = photos.map((p, i) => thumb(p, i, false)).join('\n          ');
@@ -114,6 +144,6 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&
   console.log(carousel
     ? `strip revolves: one full cycle every ${seconds}s`
     : `strip stays a static grid (a carousel needs more than four photos)`);
-  const perView = photos.length * (fs.statSync(path.join(outDir, `${photos[0].slug}-${THUMB}.webp`)).size / 1024);
-  console.log(`thumbnails the About page loads: ~${perView.toFixed(0)} KB${carousel ? ' (each photo is fetched once, the loop reuses it)' : ''}`);
+  const sum = (w) => photos.reduce((a, p) => a + fs.statSync(path.join(outDir, `${p.slug}-${w}.webp`)).size / 1024, 0);
+  console.log(`thumbnails per view: ~${sum(240).toFixed(0)} KB on a phone, ~${sum(480).toFixed(0)} KB on a 2x desktop`);
 })().catch(e => { console.error(e.message); process.exit(1); });
