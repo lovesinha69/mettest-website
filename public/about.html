@@ -189,8 +189,14 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 /* Revolving photo strip. The track holds two copies of the photos and slides
    by exactly one copy, so the loop has no seam. Only transform animates, which
    keeps it on the compositor and off the main thread. */
-.about-photo-strip.is-carousel{display:block;position:relative;overflow:hidden;container-type:inline-size;-webkit-mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent);mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 20px),transparent)}
-.about-photo-strip.is-carousel .about-photo-track{display:flex;gap:0.5rem;width:max-content;animation:aboutRevolve var(--revolve,48s) linear infinite;will-change:transform}
+.about-photo-strip.is-carousel{display:block;position:relative;overflow:hidden;container-type:inline-size}
+/* Edge fades as static overlays rather than a mask on the moving layer: a
+   mask makes the compositor redraw the strip every frame, which is what made
+   the photos shimmer as they crossed. */
+.about-photo-strip.is-carousel::before,.about-photo-strip.is-carousel::after{content:"";position:absolute;top:0;bottom:0;width:22px;z-index:2;pointer-events:none}
+.about-photo-strip.is-carousel::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.about-photo-strip.is-carousel::after{right:0;background:linear-gradient(270deg,var(--bg),transparent)}
+.about-photo-strip.is-carousel .about-photo-track{display:flex;gap:0.5rem;width:max-content;animation:aboutRevolve var(--revolve,48s) linear infinite;will-change:transform;transform:translate3d(0,0,0);backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .about-photo-strip.is-carousel .about-photo-thumb{flex:0 0 auto;width:calc((100cqw - 1.5rem) / 4);padding:0;cursor:pointer;position:relative;transition:border-color .2s}
 .about-photo-strip.is-carousel .about-photo-thumb:hover{border-color:var(--accent)}
 .about-photo-strip.is-carousel .about-photo-thumb:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -201,7 +207,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .about-photo-strip.is-carousel:hover .about-photo-track,
 .about-photo-strip.is-carousel:focus-within .about-photo-track,
 .about-photo-strip.is-paused .about-photo-track{animation-play-state:paused}
-@keyframes aboutRevolve{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 0.25rem))}}
+@keyframes aboutRevolve{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-50% - 0.25rem),0,0)}}
 
 /* Enlarged photo viewer. */
 .lightbox{position:fixed;inset:0;background:rgba(8,9,10,0.94);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);z-index:110;display:none;align-items:center;justify-content:center;padding:3.5rem 1.5rem}
@@ -222,7 +228,8 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 }
 @media(prefers-reduced-motion:reduce){
   /* No revolving: a plain strip the reader scrolls themselves. */
-  .about-photo-strip.is-carousel{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
+  .about-photo-strip.is-carousel{overflow-x:auto}
+  .about-photo-strip.is-carousel::before,.about-photo-strip.is-carousel::after{display:none}
   .about-photo-strip.is-carousel .about-photo-track{animation:none;will-change:auto}
 }
 .about-leadership{margin-top:4.5rem}
@@ -1003,12 +1010,27 @@ function renderLightbox(){
   }
   lightboxPhotos = lightboxPhotos.filter(Boolean);
 
+  // Every tile is lazy and they all sit clipped inside the strip, so nothing
+  // fetches until a photo has already crossed the edge - which reads as tiles
+  // popping in mid-rotation. Once the strip is near the viewport, load the
+  // whole loop at once: switching loading from lazy to eager starts the fetch.
+  function loadWholeLoop(){
+    var pending = strip.querySelectorAll('.about-photo-thumb img[loading="lazy"]');
+    for (var i = 0; i < pending.length; i++) pending[i].loading = 'eager';
+  }
+
   // Stop animating while the strip is out of view - it is below the fold for
   // most of the page and there is no reason to keep compositing it.
   if (strip.classList.contains('is-carousel') && 'IntersectionObserver' in window) {
     new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ strip.classList.toggle('is-offscreen-pause', !e.isIntersecting); strip.classList.toggle('is-paused', !e.isIntersecting && !document.getElementById('photoLightbox').classList.contains('open')); });
-    }, { rootMargin: '200px' }).observe(strip);
+      entries.forEach(function(e){
+        if (e.isIntersecting) loadWholeLoop();
+        strip.classList.toggle('is-offscreen-pause', !e.isIntersecting);
+        strip.classList.toggle('is-paused', !e.isIntersecting && !document.getElementById('photoLightbox').classList.contains('open'));
+      });
+    }, { rootMargin: '400px' }).observe(strip);
+  } else {
+    loadWholeLoop();
   }
 
   document.addEventListener('keydown', function(e){
