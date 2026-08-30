@@ -48,7 +48,7 @@ const PEOPLE = [
     // Only 546px wide, so the crop takes the full width - this is as much
     // resolution as the source has.
     side: 1, left: 0, top: 248 / 1181,
-    alt: 'Love Sinha, Tech Lead at Met-Test Laboratories',
+    alt: 'Love Sinha, IT Administrator at Met-Test Laboratories',
   },
 ];
 
