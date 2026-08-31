@@ -57,10 +57,10 @@ extensionless links will not resolve.
 │       └── video/             # YouTube poster frames
 ├── tools/                     # generators, the copy round-trip, the audit
 ├── docs/                      # how everything works, and why
-│   └── reports/               # standalone SEO / GBP / video write-ups
 ├── .github/workflows/         # CI: runs the audit on every push
 ├── wrangler.jsonc             # Cloudflare deploy config
 ├── package.json
+├── README.md
 └── LICENSE
 ```
 
@@ -151,7 +151,6 @@ Carried deliberately, not forgotten — full context in
   pages are missing from both.
 - `public/privacy.html` has a placeholder comment for the registered legal entity
   name and grievance officer.
-- Certification badges are worded "capabilities aligned to" rather than held.
 - Ranjit Sinha's card still shows `mettestlab@yahoo.com`.
 
 ## Licence

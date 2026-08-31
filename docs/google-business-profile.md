@@ -67,17 +67,10 @@ near an edge, so nothing important can be cropped away.
 
 Upload by hand: **Edit products → the product → Select a photo.**
 
-> **Note on one image.** The Stress Relieving frame has a swastika painted on the
-> furnace door. In an Indian works that is the ordinary auspicious marking, but
-> this listing is visible worldwide to people who will not have that context.
-> It was published as supplied, deliberately. To swap it, use the furnace-interior
-> shot from `public/img/gallery/` instead.
+## Outstanding
 
-## Outstanding owner actions
-
-- Add a storefront photo (the only step the completion wizard still asks for).
-- Reply to the reviews — 3.2★ from 9, including four 1★ with no owner response.
-  Owner replies are a ranking and conversion signal; unanswered 1★ reviews are
-  the single worst thing on the profile.
-- The profile lists the opening date as 1998, which is correct. Justdial and
-  IndiaMART both say 2014 and should be corrected.
+- Add a storefront photo — the one step the completion wizard still asks for.
+- Reply to the outstanding customer reviews. Owner replies are both a ranking and
+  a conversion signal.
+- The profile's opening date (1998) is correct; the Justdial and IndiaMART
+  listings disagree and should be corrected.

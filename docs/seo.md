@@ -67,15 +67,13 @@ Both are a one-line-per-route addition to the respective file, followed by
 `npm run deploy`. They were left alone deliberately so that packaging this
 repository did not change live site behaviour.
 
-## Still outstanding (owner actions)
+## Still outstanding
 
 - Resubmit the 19-URL sitemap in Search Console and request indexing for the ten
   service URLs.
-- `public/privacy.html` still contains an HTML comment placeholder for the
-  registered legal entity name and the named grievance officer.
-- Certification badges are worded "capabilities aligned to". If the certificates
-  are actually held, restate them as held.
-- Ranjit Sinha's card still shows `mettestlab@yahoo.com`.
-- The client marquee names 21 real companies — worth confirming they are happy to
-  be listed.
-- Founding year is wrong on Justdial and IndiaMART (they say 2014; it is 1998).
+- `public/privacy.html` carries a TODO comment for the registered legal entity
+  name and the named grievance officer.
+- Ranjit Sinha's leadership card still shows `mettestlab@yahoo.com` rather than
+  his own address.
+- Directory listings on Justdial and IndiaMART give the founding year as 2014; it
+  is 1998.

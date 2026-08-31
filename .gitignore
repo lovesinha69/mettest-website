@@ -20,3 +20,6 @@ build/
 # Intermediates of the Word copy round-trip
 Website-Copy.docx
 edits.json
+
+# Private working notes - commercially sensitive, never published
+notes/
