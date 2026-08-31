@@ -1,0 +1,18 @@
+{
+  "_comment": "YouTube video for each slot. IDs read from the channel feed and matched to slots by title; every one was confirmed public and 16:9 via oEmbed. Run: node tools/build-youtube.js public",
+  "channel": "https://www.youtube.com/@mettestlab",
+  "channelId": "UC5HmQJGyCzb7hE4HUA9DA_A",
+  "videos": {
+    "svc-inductor-manufacturing": { "id": "8Q866pljnzY", "title": "Custom Inductor Manufacturing" },
+    "svc-induction-hardening":    { "id": "hiBrKOCMA8E", "title": "Induction Hardening" },
+    "svc-hardening-tempering":    { "id": "xHPPn_RnVMQ", "title": "Hardening and Tempering" },
+    "svc-heat-treatment":         { "id": "_5vb_iZ5Qew", "title": "Heat Treatment" },
+    "svc-annealing":              { "id": "2CcZXtytf0k", "title": "Annealing" },
+    "svc-normalising":            { "id": "W5LeJnGeNYk", "title": "Normalising" },
+    "svc-stress-relieving":       { "id": "RbQAtJ0PGrE", "title": "Stress Relieving" },
+    "svc-solution-annealing":     { "id": "UGq1pXNFBU0", "title": "Solution Annealing" },
+    "svc-flame-hardening":        { "id": "c3OJxWNrC18", "title": "Flame Hardening" },
+    "svc-material-testing":       { "id": "riS5mnPgKZ0", "title": "Material Testing and NDT" },
+    "about-story":                { "id": "VLrszuRYlQ4", "title": "Inside Met-Test Laboratories" }
+  }
+}

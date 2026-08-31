@@ -710,19 +710,39 @@ document.querySelectorAll('.svc-detail-media, .about-story-media').forEach(media
   const source = video ? video.querySelector('source') : null;
   const streamUid = media.getAttribute('data-stream-uid');
   const streamCode = document.documentElement.getAttribute('data-stream-code');
+  const ytId = media.getAttribute('data-yt-id');
   if (!playBtn) return;
 
   const hasFile = !!(source && source.getAttribute('src') && source.getAttribute('src').trim());
   const hasStream = !!(streamUid && streamCode);
+  const hasYouTube = !!ytId;
 
-  if (!hasFile && !hasStream) {
+  if (!hasFile && !hasStream && !hasYouTube) {
     playBtn.classList.add('hidden');
     return;
   }
 
+  // Some slots ship with the button already hidden, so reveal it rather than
+  // assuming it started visible.
+  playBtn.classList.remove('hidden');
+
   playBtn.addEventListener('click', () => {
     if (placeholder) placeholder.style.display = 'none';
     playBtn.classList.add('hidden');
+
+    if (hasYouTube) {
+      // youtube-nocookie, built here rather than in the markup, so no Google
+      // script and no cookie touches a visitor who never presses play.
+      // rel=0 keeps the end-screen suggestions on this channel.
+      const frame = document.createElement('iframe');
+      frame.className = 'stream-frame';
+      frame.src = 'https://www.youtube-nocookie.com/embed/' + ytId + '?autoplay=1&rel=0&playsinline=1';
+      frame.title = media.getAttribute('data-yt-title') || 'Met-Test Laboratories video';
+      frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      frame.allowFullscreen = true;
+      media.appendChild(frame);
+      return;
+    }
 
     if (hasStream) {
       // Built here rather than in the markup so the player is never loaded
