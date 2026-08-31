@@ -1,3 +1,4 @@
+# Editor / OS noise
 .DS_Store
 Thumbs.db
 .vscode/
@@ -5,11 +6,17 @@ Thumbs.db
 *.swp
 *~
 *.log
+
+# Dependencies
 node_modules/
 
 # Wrangler local state / cache
 .wrangler/
 
-# Local tooling deps for the copy round-trip
-node_modules/
-package-lock.json
+# Generated output. Every file here is reproducible from tools/ - see the
+# matching npm script - so it is built on demand rather than committed.
+build/
+
+# Intermediates of the Word copy round-trip
+Website-Copy.docx
+edits.json

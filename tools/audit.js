@@ -5,7 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const DIR = 'public';
+const DIR = process.argv[2] || 'public';
 const pages = fs.readdirSync(DIR).filter(f => f.endsWith('.html')).sort();
 const findings = [];
 const add = (sev, page, what) => findings.push({ sev, page, what });
@@ -103,14 +103,36 @@ for (const p of pages) {
     if (!text && !/aria-label=/.test(attrs)) add('ERROR', p, `<a> with no accessible name: ${attrs.slice(0, 60)}`);
   }
 
-  /* ---- form controls need labels ---- */
+  /* ---- form controls need labels ----
+   *
+   * There are three valid ways to label a control and this knew only one of
+   * them, so it reported the consent checkbox on every page as unlabelled:
+   *
+   *   <label for="x">      explicit, matched through the id
+   *   <label> ... <input>  implicit, matched by sitting inside the element
+   *   aria-label(ledby)    named directly on the control
+   *
+   * A control marked aria-hidden is not in the accessibility tree at all. The
+   * spam honeypot is deliberately hidden that way, so labelling it would be a
+   * defect rather than a fix - skip it instead of demanding a label.
+   */
+  const labelRanges = [];
+  for (const l of h.matchAll(/<label\b[^>]*>/g)) {
+    const end = h.indexOf('</label>', l.index);
+    if (end !== -1) labelRanges.push([l.index, end]);
+  }
+  const insideLabel = i => labelRanges.some(([a, b]) => i > a && i < b);
+
   for (const m of h.matchAll(/<(input|select|textarea)\b([^>]*)>/g)) {
     const attrs = m[2];
     const type = (attrs.match(/type="([^"]*)"/) || [])[1] || 'text';
     if (['hidden', 'submit', 'button'].includes(type)) continue;
+    if (/aria-hidden="true"/.test(attrs)) continue;
     const id = (attrs.match(/id="([^"]*)"/) || [])[1];
-    const labelled = id && h.includes(`for="${id}"`);
-    if (!labelled && !/aria-label/.test(attrs)) add('ERROR', p, `<${m[1]}> unlabelled: ${attrs.slice(0, 60)}`);
+    const labelled = (id && h.includes(`for="${id}"`))
+      || insideLabel(m.index)
+      || /aria-label(ledby)?=/.test(attrs);
+    if (!labelled) add('ERROR', p, `<${m[1]}> unlabelled: ${attrs.slice(0, 60)}`);
   }
 
   /* ---- metadata ---- */

@@ -1,122 +1,167 @@
 # Met-Test Laboratories — Website
 
-Multi-page marketing website for **Met-Test Laboratories**, a heat-treatment and
-material-testing facility based in V.U. Nagar, Gujarat, India.
+Marketing website for **Met-Test Laboratories**, a heat-treatment and
+material-testing facility in Vitthal Udyognagar (V.U. Nagar), Anand, Gujarat,
+India — operating since 1998.
+
+**Live:** https://mettestlab.com
+
+---
 
 ## What this is
 
-A static, multi-page website. Each section is its own page. All styling, the logo,
-the hero video, and interactivity are embedded directly in the HTML — there is no
-build step, no framework, and no server needed. The only external dependency is
-Google Fonts (Bebas Neue + Inter).
+A static, multi-page site. Twenty HTML pages, no framework, no bundler, no
+server. Styling, the logo, the JSON-LD and all interactivity are embedded
+directly in each page, so a page is a single self-contained file that works when
+opened from disk.
 
-## Structure
+Fonts are self-hosted in `public/fonts/`, so the site makes **no third-party
+request** on load. The only external calls a visitor can trigger are the enquiry
+form (Formspree) and a video embed, and the embed is click-to-load so nothing
+reaches YouTube until someone presses play.
+
+The site itself has no build step. Some of the more repetitive pages and all the
+imagery are *generated* — see [Generated assets](#generated-assets) — but what
+ships is whatever is sitting in `public/`.
+
+## Quick start
+
+```bash
+git clone <your-repo-url>
+cd mettest-website
+npm install          # only needed for the tools in tools/
+npm run serve        # http://localhost:8000
+npm run audit        # static check of all 20 pages
+```
+
+`npm run serve` reproduces production routing: extensionless URLs (`/annealing`)
+and the styled 404 page. Opening `public/index.html` directly also works, but
+extensionless links will not resolve.
+
+## Layout
 
 ```
 .
-├── public/               # everything here is what gets served
-│   ├── favicon.svg       # browser-tab icon (modern browsers)
-│   ├── favicon.ico       # 16/32/48px fallback
-│   ├── apple-touch-icon.png  # 180px, iOS home screen
-│   ├── fonts/            # self-hosted Bebas Neue + Inter (no Google request)
-│   ├── index.html        # Home (hero + client marquee)
-│   ├── services.html     # 10 heat-treatment services
-│   ├── process.html      # 5-stage workflow + capabilities
-│   ├── industries.html   # Industries served
-│   ├── about.html        # Company story + leadership
-│   ├── contact.html      # Enquiry form + contact details
-│   ├── privacy.html      # Privacy policy (DPDP / IT Act)
-│   └── terms.html        # Terms of use + liability disclaimer
-├── wrangler.jsonc        # Cloudflare deploy config
-└── README.md
+├── public/                    # everything here is what gets served
+│   ├── *.html                 # 20 pages (see below)
+│   ├── _headers               # cache rules, read by Cloudflare
+│   ├── _redirects             # 301s for the legacy .html URLs
+│   ├── sitemap.xml            # 19 URLs (404 excluded, deliberately)
+│   ├── robots.txt
+│   ├── favicon.svg / .ico / apple-touch-icon.png
+│   ├── og-image.png
+│   ├── hero.mp4               # 2.2 MB, the one self-hosted video
+│   ├── fonts/                 # self-hosted Bebas Neue + Inter
+│   └── img/                   # 162 generated images
+│       ├── gallery/           # About-page facility photographs
+│       └── video/             # YouTube poster frames
+├── tools/                     # generators, the copy round-trip, the audit
+├── docs/                      # how everything works, and why
+│   └── reports/               # standalone SEO / GBP / video write-ups
+├── .github/workflows/         # CI: runs the audit on every push
+├── wrangler.jsonc             # Cloudflare deploy config
+├── package.json
+└── LICENSE
 ```
 
-The home page carries the embedded hero video (~3 MB); the other pages are small
-(40–65 KB each). The navigation bar and footer are shared across every page.
+### The pages
 
-## Running it locally
+| Group | Pages |
+|---|---|
+| Core | `index` `services` `process` `industries` `about` `contact` `faq` |
+| Service detail | `induction-hardening` `inductor-manufacturing` `hardening-and-tempering` `heat-treatment` `annealing` `normalising` `stress-relieving` `solution-annealing` `flame-hardening` `material-testing` |
+| Legal | `privacy` `terms` |
+| Error | `404` |
 
-Open `public/index.html` in a browser, or serve the folder:
+Each of the ten service pages carries 400–490 words, its own `<title>`,
+canonical, `Service` + `BreadcrumbList` + `FAQPage` structured data, and its own
+video. They exist because all ten services previously shared one URL and so
+competed with each other — see [docs/seo.md](docs/seo.md).
 
-```bash
-cd public && python3 -m http.server 8000
-# then visit http://localhost:8000
-```
+## Scripts
 
-## Deploying
+| Command | What it does |
+|---|---|
+| `npm run serve` | Local server on :8000 with production-style routing |
+| `npm run audit` | Static audit of every page — [docs/auditing.md](docs/auditing.md) |
+| `npm run deploy` | `wrangler deploy` — [docs/deployment.md](docs/deployment.md) |
+| `npm run build:service-pages` | Regenerate the ten service pages from `tools/service-pages.js` |
+| `npm run build:process` | Regenerate the Process page |
+| `npm run build:youtube` | Wire the eleven video slots from `tools/youtube.json` |
+| `npm run build:gbp` | Rebuild the Google Business Profile product cards |
+| `npm run copy:export` | Export all visitor-facing text to Word |
+| `npm run copy:apply` | Write reviewed edits back into the HTML |
 
-Live at **https://mettestlab.com**, served by a Cloudflare Worker with static
-assets (worker name: `broken-voice-4053`). To publish changes:
+## Generated assets
 
-```bash
-wrangler deploy
-```
+Nothing binary in this repo was made by hand. Every image has a generator in
+`tools/`, so any change is reproducible and shows up as a reviewable diff:
 
-That uploads everything in `public/` and goes live in a few seconds. The custom
-domain and SSL certificate stay attached across deploys — no DNS changes needed.
-Requires `npm install -g wrangler` and a one-time `wrangler login`.
+- **Leadership portraits** — crops stored as fractions of the source image
+- **About photo strip** — ten facility photographs at three widths
+- **Industry cards** — rewritten within per-card byte ranges, with guards
+- **Video posters** — `maxresdefault` frames cached from YouTube
 
-Cloudflare keeps previous versions, so a bad deploy can be rolled back from the
-dashboard under **Workers & Pages → broken-voice-4053 → Deployments**.
+Details and the traps in each: [docs/media.md](docs/media.md).
 
-## Contact form
+## Enquiry form
 
-The enquiry modal appears on all six pages and posts to **Formspree**, which
-forwards submissions to `mettestlab@yahoo.com`. Each page defines the endpoint
-near the bottom of its inline `<script>`:
+The enquiry modal appears on **16 pages** and posts to Formspree, which forwards
+to `mettestlab@yahoo.com`. Each page defines the endpoint near the bottom of its
+inline script:
 
 ```js
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvzewobg';
 ```
 
-To point it at a different form, replace that URL in **all six** HTML files and
-redeploy. The endpoint is a public URL, not a secret — it is designed to sit in
-client-side code.
+To repoint it, replace that URL in **all 16** files and redeploy. The endpoint is
+a public URL by design, not a secret.
 
-The success screen only appears on a real HTTP 200 from Formspree. Any failure
-shows an error with the phone number and email as a fallback, so an enquiry is
-never silently lost. If the endpoint is ever reset to a placeholder containing
-`YOUR_FORM_ID`, the form refuses to claim success at all.
+The success screen only appears on a real HTTP 200. Any failure shows the phone
+number and email as a fallback, so an enquiry is never silently lost. If the
+endpoint is ever reset to a placeholder containing `YOUR_FORM_ID`, the form
+refuses to claim success at all. A hidden `_gotcha` honeypot filters spam; the
+free plan covers 50 submissions a month.
 
-Spam is filtered by a hidden `_gotcha` honeypot field, which Formspree discards
-automatically. The free plan covers 50 submissions per month.
+## Documentation
 
-## Editing the copy in Word
+| Doc | Covers |
+|---|---|
+| [deployment.md](docs/deployment.md) | Cloudflare Worker, rollback, `_headers` / `_redirects`, platform limits |
+| [content-pipeline.md](docs/content-pipeline.md) | The Word round trip, and the generated pages |
+| [media.md](docs/media.md) | Image pipelines and the video setup |
+| [seo.md](docs/seo.md) | Indexing, structured data, and the rules to keep |
+| [google-business-profile.md](docs/google-business-profile.md) | Categories, and the ten services published as Products |
+| [auditing.md](docs/auditing.md) | What the audit checks |
 
-All visitor-facing text can be reviewed and rewritten in a Word document rather
-than in the HTML. The tools in `tools/` handle the round trip:
+## Two things to know before editing
 
-```bash
-npm install cheerio docx                        # one-off
-node tools/build-docx.js public Website-Copy.docx   # export every string
-node tools/apply-content.js public edits.json       # write edits back
-```
+1. **Do not remove `.gitattributes`.** It pins `* text=auto eol=lf`. The copy
+   tools locate edits by byte anchors that contain newlines, so a checkout that
+   rewrote LF to CRLF would silently break every one of them.
+2. **Run `npm run audit` before you deploy.** It currently reports 0 errors and
+   3 known warnings; CI fails the build on any error.
 
-`build-docx.js` writes one row per string, each with a stable ID. `edits.json`
-is `{ "<ID>": "<new text>" }`; `apply-content.js` re-derives the IDs from the
-current HTML, so the export never goes stale — but the HTML must not be
-restructured between exporting and applying.
+## Known gaps
 
-Two details make the round trip safe:
+Carried deliberately, not forgotten — full context in
+[docs/seo.md](docs/seo.md#known-gaps):
 
-- **Edits are spliced by byte range, not by re-serialising the DOM.** cheerio
-  does not reproduce these files byte-for-byte, so rewriting the parsed tree
-  would churn every file. Each string carries an anchor plus which occurrence of
-  it to replace, and splices are applied back-to-front.
-- **The nav, footer and enquiry form are shared.** They are byte-identical on all
-  six pages, so they are exported once and written back to all six. The exporter
-  verifies that they really are identical and fails loudly if they have drifted.
+- `_headers` and `_redirects` list only the nine original routes; the ten service
+  pages are missing from both.
+- `public/privacy.html` has a placeholder comment for the registered legal entity
+  name and grievance officer.
+- Certification badges are worded "capabilities aligned to" rather than held.
+- Ranjit Sinha's card still shows `mettestlab@yahoo.com`.
 
-Line breaks (`<br>`) appear as `[br]` in the document and are re-emitted as real
-tags. `&` is re-encoded to `&amp;` on write-back.
+## Licence
 
-## To-do / notes
-
-- **Placeholder content**: process step durations, founding year, leadership
-  bios, and factory/industry photos/videos are placeholders awaiting real content.
+All rights reserved — see [LICENSE](LICENSE). This is a commercial site for a
+specific business; the code and content are not offered for reuse.
 
 ## Contact
 
-Met-Test Laboratories
-Plot No. C-1-10, Road No. B-10, G.I.D.C. Estate, V.U. Nagar - 388121, Dist. Anand, Gujarat, India
+**Met-Test Laboratories**
+Plot No. C-1-10, Road No. B-10, G.I.D.C. Estate, V.U. Nagar – 388121, Dist.
+Anand, Gujarat, India
 Phone: +91 98253 21695 · Email: mettestlab@yahoo.com

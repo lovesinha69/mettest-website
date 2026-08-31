@@ -1,0 +1,34 @@
+# Runs the site audit on every push and pull request.
+#
+# The audit exits 0 even when it reports errors, so that running it locally
+# always prints the full picture. CI wants the opposite, so this asserts on the
+# reported error count instead of the exit code.
+name: audit
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # The audit reads only public/ and needs no dependencies, so there is
+      # nothing to install. sharp and cheerio are used by the media and copy
+      # tools, which CI does not run.
+      - name: Run audit
+        run: |
+          node tools/audit.js public | tee audit.txt
+          errors=$(grep -oP '(?<=ERRORS \()[0-9]+' audit.txt)
+          echo "error count: $errors"
+          if [ "$errors" != "0" ]; then
+            echo "::error::audit reported $errors error(s)"
+            exit 1
+          fi

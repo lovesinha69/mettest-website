@@ -1,4 +1,24 @@
 {
+  "name": "mettest-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static marketing website for Met-Test Laboratories, a heat-treatment and material-testing facility in Vitthal Udyognagar, Anand, Gujarat.",
+  "homepage": "https://mettestlab.com",
+  "license": "SEE LICENSE IN LICENSE",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "audit": "node tools/audit.js public",
+    "serve": "node -e \"const h=require('http'),f=require('fs'),p=require('path'),d='public';h.createServer((q,s)=>{let u=decodeURIComponent(q.url.split('?')[0]);let t=p.join(d,u);if(!f.existsSync(t)||f.statSync(t).isDirectory())t=p.join(d,u==='/'?'index.html':u+'.html');if(!f.existsSync(t)){s.writeHead(404);return f.createReadStream(p.join(d,'404.html')).pipe(s)}s.writeHead(200);f.createReadStream(t).pipe(s)}).listen(8000,()=>console.log('http://localhost:8000'))\"",
+    "deploy": "wrangler deploy",
+    "build:service-pages": "node tools/build-service-pages.js public",
+    "build:process": "node tools/build-process-page.js public",
+    "build:youtube": "node tools/build-youtube.js public",
+    "build:gbp": "node tools/build-gbp-products.js",
+    "copy:export": "node tools/build-docx.js public Website-Copy.docx",
+    "copy:apply": "node tools/apply-content.js public edits.json"
+  },
   "dependencies": {
     "cheerio": "^1.2.0",
     "docx": "^9.7.1",
