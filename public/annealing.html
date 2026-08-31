@@ -189,6 +189,8 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .svc-detail.reverse .svc-detail-body{order:1}
 .svc-detail-media{position:relative;aspect-ratio:16/9;border-radius:6px;overflow:hidden;background:var(--surface2);border:1px solid var(--border)}
 .svc-detail-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.video-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1}
+.stream-frame{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:3}
 .svc-detail-media-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;color:var(--dim);z-index:0;background:linear-gradient(135deg,var(--surface2) 0%,#1c1e21 100%)}
 .svc-detail-media-placeholder span{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;font-weight:600}
 .svc-detail-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(232,74,28,0.92);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:transform .2s,background .2s;box-shadow:0 8px 24px rgba(0,0,0,0.35)}
@@ -510,7 +512,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
       <a class="svc-related-card" href="induction-hardening"><span class="svc-related-name">Induction Hardening</span><span class="svc-related-go">View &rarr;</span></a>
       <a class="svc-related-card" href="inductor-manufacturing"><span class="svc-related-name">Inductor Manufacturing</span><span class="svc-related-go">View &rarr;</span></a>
       <a class="svc-related-card" href="hardening-and-tempering"><span class="svc-related-name">Hardening &amp; Tempering</span><span class="svc-related-go">View &rarr;</span></a>
-      <a class="svc-related-card" href="normalising"><span class="svc-related-name">Normalising</span><span class="svc-related-go">View &rarr;</span></a>
+      <a class="svc-related-card" href="heat-treatment"><span class="svc-related-name">Heat Treatment</span><span class="svc-related-go">View &rarr;</span></a>
       <a class="svc-related-card" href="services"><span class="svc-related-name">All services</span><span class="svc-related-go">View &rarr;</span></a>
     </div>
   </div>

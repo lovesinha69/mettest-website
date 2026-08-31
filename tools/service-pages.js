@@ -96,6 +96,36 @@ module.exports = {
     },
 
     {
+      slug: 'heat-treatment',
+      name: 'Heat Treatment',
+      video: '_5vb_iZ5Qew',
+      // Deliberately titled around the furnaces rather than the bare phrase:
+      // the home page already targets "heat treatment in Anand" and two pages
+      // chasing one query is how you split your own ranking.
+      title: 'Heat Treatment Furnaces in Anand | Met-Test Laboratories',
+      desc: 'Fifteen furnaces from Ø800 mm pits to six-metre gas-fired boxes, all to 1200 °C, with a 30,000 litre oil quench. Vitthal Udyognagar, Anand, Gujarat.',
+      lede: 'Most of what leaves this floor passes through a furnace at some point, whatever the drawing calls the operation. Fifteen furnaces across five configurations cover work from a single small component to a six-metre fabrication, and the reason that range matters is simple: a part that has to be cut down to fit a furnace is a part that has already been compromised.',
+      sections: [
+        { h: 'Two furnace types, different jobs', p: 'Electric pit furnaces take work vertically, which suits long shafts, rings and anything that would sag if it were laid flat. The deepest takes a metre and a half of section. Gas-fired box furnaces take work horizontally and take it large: the biggest is six metres by two and a half by two, which covers fabrications most job shops would have to refuse or split.' },
+        { h: 'Why quench volume decides consistency', p: 'A large charge dropped into a small quench raises the oil temperature as it goes in, so the last component out of the basket is quenched in warmer oil than the first and comes out different. Our tank holds 30,000 litres. That volume is what keeps a batch consistent from one end to the other, and it is worth asking any supplier about before you place work.' },
+        { h: 'What runs here', p: 'Hardening and tempering, annealing, normalising, stress relieving and solution annealing all run on this floor, along with the induction and flame work that happens off it. If your drawing names a cycle we have not listed, send it — most named treatments are a variation on temperature, time and cooling rate rather than a different machine.', link: { href: 'services', text: 'Every service in detail' } },
+      ],
+      capacity: [
+        ['Furnaces', '15 across five configurations'],
+        ['Largest box', '6000 × 2500 × 2000 mm'],
+        ['Deepest pit', 'Ø1300 × 1500 mm'],
+        ['Maximum temperature', '1200 °C'],
+        ['Quench tank', '30,000 litres, oil'],
+        ['Cranes', '2 × 5 tonne overhead'],
+      ],
+      faq: [
+        ['How large a component can you treat?', 'Up to six metres long in the gas-fired box furnaces, and a metre and a half of vertical section in the pit furnaces. If your part is near either limit, send the drawing and we will confirm before you ship it.'],
+        ['Do you take small batches?', 'Yes. Fifteen furnaces across five sizes means a small job does not have to wait for a large one, and does not have to be charged into a furnace far bigger than it needs.'],
+        ['What temperature range do you work to?', 'All the furnaces are rated to 1200 °C. The cycle for your part is set at engineering review against the grade and the specification you supply.'],
+      ],
+    },
+
+    {
       slug: 'annealing',
       name: 'Annealing',
       video: '2CcZXtytf0k',
