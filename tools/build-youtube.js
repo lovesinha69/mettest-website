@@ -19,6 +19,13 @@ const path = require('path');
 const sharp = require('sharp');
 
 const pubDir = process.argv[2] || 'public';
+// The still is copied here rather than hotlinked, so changing a thumbnail on
+// YouTube does not reach the site on its own. Re-pull one, or all of them:
+//   node tools/build-youtube.js public --refresh svc-inductor-manufacturing
+//   node tools/build-youtube.js public --refresh all
+const refreshAt = process.argv.indexOf('--refresh');
+const REFRESH = refreshAt === -1 ? [] : process.argv.slice(refreshAt + 1);
+
 const cfg = JSON.parse(fs.readFileSync(path.join(__dirname, 'youtube.json'), 'utf8'));
 const outDir = path.join(pubDir, 'img', 'video');
 fs.mkdirSync(outDir, { recursive: true });
@@ -30,7 +37,13 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(
 const WIDTHS = [640, 1280];
 
 /* ------------------------------------------------------------ thumbnails */
-async function poster(id, slug) {
+async function poster(id, slug, slot) {
+  if (REFRESH.includes('all') || REFRESH.includes(slot) || REFRESH.includes(slug)) {
+    for (const w of WIDTHS) for (const e of ['webp', 'jpg']) {
+      const f = path.join(outDir, `${slug}-${w}.${e}`);
+      if (fs.existsSync(f)) fs.unlinkSync(f);
+    }
+  }
   const have = WIDTHS.every(w => fs.existsSync(path.join(outDir, `${slug}-${w}.webp`)));
   if (have) return 'cached';
 
@@ -93,7 +106,7 @@ function mediaRange(html, slot) {
   let wired = 0, kb = 0;
   for (const [slot, v] of Object.entries(cfg.videos)) {
     const slug = slot.replace(/^svc-/, '');
-    const src = await poster(v.id, slug);
+    const src = await poster(v.id, slug, slot);
     kb += WIDTHS.reduce((a, w) => a + fs.statSync(path.join(outDir, `${slug}-${w}.webp`)).size / 1024, 0);
 
     const file = slot === 'about-story' ? 'about.html' : 'services.html';
