@@ -26,6 +26,9 @@ fs.mkdirSync(outDir, { recursive: true });
 
 // side/left/top are fractions of the upright image; side is a fraction of its height,
 // except where the image is portrait, where it is a fraction of the width.
+// Headroom: each crop window sits lower in its source than a centred one
+// would, which lifts the head in frame. Hair top lands near 12% of the square
+// rather than the 20-28% it was.
 // Love Sinha's source is a 546px web-sized image, not a camera original, so his
 // crop is fixed at the full width - anything tighter throws away resolution he
 // cannot get back. The other three are cropped out to match HIS scale instead
@@ -38,25 +41,25 @@ const PEOPLE = [
   {
     slug: 'ranjit-sinha', file: 'DSC05498.JPG',
     // Wide office shot, so there is room to open right out to 40%.
-    side: 1841 / 4672, left: 3495 / 7008, top: 635 / 4672,
+    side: 1841 / 4672, left: 3495 / 7008, top: 929 / 4672,
     alt: 'Ranjit Sinha, Founder and CEO of Met-Test Laboratories',
   },
   {
     slug: 'laxman-prasad-singh', file: 'DSC05554.JPG',
     // Full frame width: the loosest square this portrait allows.
-    side: 1, left: 0, top: 0,
+    side: 1, left: 0, top: 700 / 7008,
     alt: 'Laxman Prasad Singh, Metallurgical Engineer at Met-Test Laboratories',
   },
   {
     slug: 'animesh-kumar', file: 'DSC05530.JPG',
-    side: 1, left: 0, top: 0,
+    side: 1, left: 0, top: 373 / 7008,
     alt: 'Animesh Kumar, NDT Engineer at Met-Test Laboratories',
   },
   {
     slug: 'love-sinha', file: 'thumbnail.jpeg thumbnail (1).jpeg',
     // Full 546px width - every pixel the source has. Shifted down slightly so
     // his headroom sits with the others rather than well above them.
-    side: 1, left: 0, top: 303 / 1181,
+    side: 1, left: 0, top: 374 / 1181,
     alt: 'Love Sinha, IT Administrator at Met-Test Laboratories',
   },
 ];
