@@ -1,0 +1,13 @@
+# Google found the old .html URLs and keeps re-checking them, because the
+# platform's built-in html_handling answers with a 307 Temporary Redirect.
+# Temporary tells a crawler to keep the old URL on file. These say permanent,
+# so the old URLs are dropped and any link equity moves to the canonical one.
+/index.html      /             301
+/services.html   /services     301
+/process.html    /process      301
+/industries.html /industries   301
+/about.html      /about        301
+/contact.html    /contact      301
+/faq.html        /faq          301
+/privacy.html    /privacy      301
+/terms.html      /terms        301

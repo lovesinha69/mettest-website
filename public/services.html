@@ -25,6 +25,152 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0D0E0F">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://mettestlab.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Services",
+      "item": "https://mettestlab.com/services"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Heat treatment and material testing services",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Induction Hardening",
+      "item": {
+        "@type": "Service",
+        "name": "Induction Hardening",
+        "url": "https://mettestlab.com/induction-hardening",
+        "provider": {
+          "@id": "https://mettestlab.com/#business"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Inductor Manufacturing",
+      "item": {
+        "@type": "Service",
+        "name": "Inductor Manufacturing",
+        "url": "https://mettestlab.com/inductor-manufacturing",
+        "provider": {
+          "@id": "https://mettestlab.com/#business"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Hardening & Tempering",
+      "item": {
+        "@type": "Service",
+        "name": "Hardening & Tempering",
+        "url": "https://mettestlab.com/hardening-and-tempering",
+        "provider": {
+          "@id": "https://mettestlab.com/#business"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Annealing",
+      "item": {
+        "@type": "Service",
+        "name": "Annealing",
+        "url": "https://mettestlab.com/annealing",
+        "provider": {
+          "@id": "https://mettestlab.com/#business"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Normalising",
+      "item": {
+        "@type": "Service",
+        "name": "Normalising",
+        "url": "https://mettestlab.com/normalising",
+        "provider": {
+          "@id": "https://mettestlab.com/#business"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Stress Relieving",
+      "item": {
+        "@type": "Service",
+        "name": "Stress Relieving",
+        "url": "https://mettestlab.com/stress-relieving",
+        "provider": {
+          "@id": "https://mettestlab.com/#business"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "name": "Solution Annealing",
+      "item": {
+        "@type": "Service",
+        "name": "Solution Annealing",
+        "url": "https://mettestlab.com/solution-annealing",
+        "provider": {
+          "@id": "https://mettestlab.com/#business"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "name": "Flame Hardening",
+      "item": {
+        "@type": "Service",
+        "name": "Flame Hardening",
+        "url": "https://mettestlab.com/flame-hardening",
+        "provider": {
+          "@id": "https://mettestlab.com/#business"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 9,
+      "name": "Material Testing",
+      "item": {
+        "@type": "Service",
+        "name": "Material Testing",
+        "url": "https://mettestlab.com/material-testing",
+        "provider": {
+          "@id": "https://mettestlab.com/#business"
+        }
+      }
+    }
+  ]
+}
+</script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -112,6 +258,8 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .svc-detail-specs li{font-size:12px;color:var(--muted);line-height:1.5;font-weight:300;padding-left:1rem;position:relative}
 .svc-detail-specs li::before{content:'';position:absolute;left:0;top:0.5em;width:5px;height:5px;background:var(--accent);border-radius:50%}
 .svc-detail-specs li span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--fg);font-weight:600;margin-bottom:2px}
+.svc-detail-more{display:inline-block;margin-top:1.125rem;font-size:12px;color:var(--accent2);text-decoration:none;letter-spacing:0.02em}
+.svc-detail-more:hover{text-decoration:underline}
 .svc-tags{display:flex;flex-wrap:wrap;gap:4px}
 .svc-tag{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);border:1px solid var(--dim);padding:2px 6px;border-radius:2px;font-weight:600}
 @media(max-width:860px){
@@ -337,6 +485,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Materials</span>Material of your choice, brazed to your specification</li>
           <li><span>Turnaround</span>Design and fabrication typically within 1–2 weeks</li>
         </ul>
+        <a href="inductor-manufacturing" class="svc-detail-more">More on inductor manufacturing &rarr;</a>
         <div class="svc-tags"><span class="svc-tag">Copper Coils</span><span class="svc-tag">Custom Design</span></div>
       </div>
     </div>
@@ -364,6 +513,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Custom inductors</span>Designed and built in-house for your geometry</li>
           <li><span>Cycle time</span>Typically seconds to a few minutes per part</li>
         </ul>
+        <a href="induction-hardening" class="svc-detail-more">More on induction hardening &rarr;</a>
         <div class="svc-tags"><span class="svc-tag">Case Depth</span><span class="svc-tag">Selective</span><span class="svc-tag">Rapid Cycle</span></div>
       </div>
     </div>
@@ -391,6 +541,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Temper control</span>Single or multi-stage tempering to reduce brittleness</li>
           <li><span>Applications</span>Shafts, gears, tooling, fasteners, wear plates</li>
         </ul>
+        <a href="hardening-and-tempering" class="svc-detail-more">More on hardening and tempering &rarr;</a>
         <div class="svc-tags"><span class="svc-tag">HRC</span><span class="svc-tag">Wear Resistance</span></div>
       </div>
     </div>
@@ -445,6 +596,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Full annealing</span>Maximum softness and machinability</li>
           <li><span>Process annealing</span>Partial softening between forming operations</li>
         </ul>
+        <a href="annealing" class="svc-detail-more">More on annealing &rarr;</a>
         <div class="svc-tags"><span class="svc-tag">Ductility</span><span class="svc-tag">Recrystallisation</span></div>
       </div>
     </div>
@@ -471,6 +623,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Cooling method</span>Controlled still-air cooling for uniform grain refinement</li>
           <li><span>Typical use</span>Post-forging or post-casting structural correction</li>
         </ul>
+        <a href="normalising" class="svc-detail-more">More on normalising &rarr;</a>
         <div class="svc-tags"><span class="svc-tag">Uniformity</span><span class="svc-tag">Air Cool</span></div>
       </div>
     </div>
@@ -497,6 +650,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Typical use</span>Post-weld and post-machining distortion control</li>
           <li><span>Cooling</span>Slow, even furnace cooling to avoid re-introducing stress</li>
         </ul>
+        <a href="stress-relieving" class="svc-detail-more">More on stress relieving &rarr;</a>
         <div class="svc-tags"><span class="svc-tag">Distortion Control</span><span class="svc-tag">Weld Relief</span></div>
       </div>
     </div>
@@ -523,6 +677,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Materials</span>Austenitic stainless steels, nickel-based superalloys</li>
           <li><span>Quench</span>Rapid quench to lock precipitates in solution</li>
         </ul>
+        <a href="solution-annealing" class="svc-detail-more">More on solution annealing &rarr;</a>
         <div class="svc-tags"><span class="svc-tag">Stainless</span><span class="svc-tag">Superalloy</span></div>
       </div>
     </div>
@@ -549,6 +704,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Best for</span>Large, heavy, or irregularly shaped components</li>
           <li><span>Method</span>Oxy-gas flame with immediate/required quench</li>
         </ul>
+        <a href="flame-hardening" class="svc-detail-more">More on flame hardening &rarr;</a>
         <div class="svc-tags"><span class="svc-tag">Oxy-Gas</span><span class="svc-tag">Large, heavy or small Parts</span></div>
       </div>
     </div>
@@ -577,6 +733,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Metallography</span>Grain structure, inclusion rating, case depth verification</li>
           <li><span>Spectrometry</span>Full chemical composition analysis (OES)</li>
         </ul>
+        <a href="material-testing" class="svc-detail-more">More on material testing &rarr;</a>
         <div class="svc-tags"><span class="svc-tag">Hardness</span><span class="svc-tag">Tensile</span><span class="svc-tag">NDT</span><span class="svc-tag">Metallography</span><span class="svc-tag">SEM</span></div>
       </div>
     </div>
@@ -605,9 +762,9 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
         <div class="footer-contact-row"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em"><path d="M12 11a2 2 0 1 0 0-.01M12 21c-4-4.4-8-6.9-8-11a8 8 0 1 1 16 0c0 4.1-4 6.6-8 11z"/></svg>Plot No. C-1-10, Road No. B-10, G.I.D.C. Estate, V.U. Nagar - 388121, Dist. Anand, Gujarat, India</div>
       </div>
     </div>
-    <div><div class="footer-col-title">Services</div><div class="footer-links"><a href="services#svc-inductor-manufacturing">Inductor Manufacturing</a>
-<a href="services#svc-induction-hardening">Induction Hardening</a>
-<a href="services#svc-hardening-tempering">Hardening &amp; Tempering</a><a href="services#svc-annealing">Annealing</a><a href="services#svc-normalising">Normalising</a><a href="services#svc-solution-annealing">Solution Annealing</a><a href="services#svc-stress-relieving">Stress Relieving</a><a href="services#svc-flame-hardening">Flame Hardening</a></div></div>
+    <div><div class="footer-col-title">Services</div><div class="footer-links"><a href="inductor-manufacturing">Inductor Manufacturing</a>
+<a href="induction-hardening">Induction Hardening</a>
+<a href="hardening-and-tempering">Hardening &amp; Tempering</a><a href="annealing">Annealing</a><a href="normalising">Normalising</a><a href="solution-annealing">Solution Annealing</a><a href="stress-relieving">Stress Relieving</a><a href="flame-hardening">Flame Hardening</a></div></div>
     <div><div class="footer-col-title">Company</div><div class="footer-links"><a href="about">About Us</a><a href="industries">Industries</a><a href="process">Our Process</a><a href="services">Services</a><a href="faq">FAQ</a></div></div>
     <div><div class="footer-col-title">Get in touch</div><div class="footer-links"><a href="contact">Contact Us</a><a href="tel:+919825321695">Call the plant</a><a href="mailto:mettestlab@yahoo.com">Email us</a></div></div>
   </div>
