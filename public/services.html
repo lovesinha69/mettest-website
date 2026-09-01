@@ -271,10 +271,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .svc-detail-specs li{font-size:12px;color:var(--muted);line-height:1.5;font-weight:300;padding-left:1rem;position:relative}
 .svc-detail-specs li::before{content:'';position:absolute;left:0;top:0.5em;width:5px;height:5px;background:var(--accent);border-radius:50%}
 .svc-detail-specs li span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--fg);font-weight:600;margin-bottom:2px}
-.svc-detail-more{display:inline-block;margin-top:1.125rem;font-size:12px;color:var(--accent2);text-decoration:none;letter-spacing:0.02em}
+.svc-detail-foot{display:flex;align-items:center;justify-content:space-between;gap:0.75rem 1rem;flex-wrap:wrap;margin-top:1.25rem;padding-top:0.875rem;border-top:1px solid var(--border)}.svc-detail-more{display:inline-block;padding:7px 0;font-size:12px;color:var(--accent2);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;letter-spacing:0.02em;white-space:nowrap}
 .svc-detail-more:hover{text-decoration:underline}
 .svc-tags{display:flex;flex-wrap:wrap;gap:4px}
-.svc-tag{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);border:1px solid var(--dim);padding:2px 6px;border-radius:2px;font-weight:600}
+.svc-tag{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);padding:3px 7px;border-radius:2px;font-weight:600}
 @media(max-width:860px){
   .svc-detail{grid-template-columns:1fr;gap:1.5rem;padding:2.5rem 0}
   .svc-detail.reverse .svc-detail-media{order:1}
@@ -498,8 +498,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Materials</span>Material of your choice, brazed to your specification</li>
           <li><span>Turnaround</span>Design and fabrication typically within 1–2 weeks</li>
         </ul>
-        <a href="inductor-manufacturing" class="svc-detail-more">More on inductor manufacturing &rarr;</a>
-        <div class="svc-tags"><span class="svc-tag">Copper Coils</span><span class="svc-tag">Custom Design</span></div>
+        <div class="svc-detail-foot">
+          <div class="svc-tags"><span class="svc-tag">Copper Coils</span><span class="svc-tag">Custom Design</span></div>
+          <a href="inductor-manufacturing" class="svc-detail-more">More on inductor manufacturing &rarr;</a>
+        </div>
       </div>
     </div>
 
@@ -526,8 +528,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Custom inductors</span>Designed and built in-house for your geometry</li>
           <li><span>Cycle time</span>Typically seconds to a few minutes per part</li>
         </ul>
-        <a href="induction-hardening" class="svc-detail-more">More on induction hardening &rarr;</a>
-        <div class="svc-tags"><span class="svc-tag">Case Depth</span><span class="svc-tag">Selective</span><span class="svc-tag">Rapid Cycle</span></div>
+        <div class="svc-detail-foot">
+          <div class="svc-tags"><span class="svc-tag">Case Depth</span><span class="svc-tag">Selective</span><span class="svc-tag">Rapid Cycle</span></div>
+          <a href="induction-hardening" class="svc-detail-more">More on induction hardening &rarr;</a>
+        </div>
       </div>
     </div>
 
@@ -554,8 +558,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Temper control</span>Single or multi-stage tempering to reduce brittleness</li>
           <li><span>Applications</span>Shafts, gears, tooling, fasteners, wear plates</li>
         </ul>
-        <a href="hardening-and-tempering" class="svc-detail-more">More on hardening and tempering &rarr;</a>
-        <div class="svc-tags"><span class="svc-tag">HRC</span><span class="svc-tag">Wear Resistance</span></div>
+        <div class="svc-detail-foot">
+          <div class="svc-tags"><span class="svc-tag">HRC</span><span class="svc-tag">Wear Resistance</span></div>
+          <a href="hardening-and-tempering" class="svc-detail-more">More on hardening and tempering &rarr;</a>
+        </div>
       </div>
     </div>
 
@@ -583,8 +589,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Monitoring</span>Live multi-point thermocouple logging on every load across all furnaces</li>
           <li><span>Quenching</span>Oil, polymer, and water quench medium</li>
         </ul>
-        <a href="heat-treatment" class="svc-detail-more">More on heat treatment &rarr;</a>
-        <div class="svc-tags"><span class="svc-tag">Furnace</span><span class="svc-tag">Atmosphere</span><span class="svc-tag">Quench</span></div>
+        <div class="svc-detail-foot">
+          <div class="svc-tags"><span class="svc-tag">Furnace</span><span class="svc-tag">Atmosphere</span><span class="svc-tag">Quench</span></div>
+          <a href="heat-treatment" class="svc-detail-more">More on heat treatment &rarr;</a>
+        </div>
       </div>
     </div>
 
@@ -610,8 +618,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Full annealing</span>Maximum softness and machinability</li>
           <li><span>Process annealing</span>Partial softening between forming operations</li>
         </ul>
-        <a href="annealing" class="svc-detail-more">More on annealing &rarr;</a>
-        <div class="svc-tags"><span class="svc-tag">Ductility</span><span class="svc-tag">Recrystallisation</span></div>
+        <div class="svc-detail-foot">
+          <div class="svc-tags"><span class="svc-tag">Ductility</span><span class="svc-tag">Recrystallisation</span></div>
+          <a href="annealing" class="svc-detail-more">More on annealing &rarr;</a>
+        </div>
       </div>
     </div>
 
@@ -637,8 +647,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Cooling method</span>Controlled still-air cooling for uniform grain refinement</li>
           <li><span>Typical use</span>Post-forging or post-casting structural correction</li>
         </ul>
-        <a href="normalising" class="svc-detail-more">More on normalising &rarr;</a>
-        <div class="svc-tags"><span class="svc-tag">Uniformity</span><span class="svc-tag">Air Cool</span></div>
+        <div class="svc-detail-foot">
+          <div class="svc-tags"><span class="svc-tag">Uniformity</span><span class="svc-tag">Air Cool</span></div>
+          <a href="normalising" class="svc-detail-more">More on normalising &rarr;</a>
+        </div>
       </div>
     </div>
 
@@ -664,8 +676,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Typical use</span>Post-weld and post-machining distortion control</li>
           <li><span>Cooling</span>Slow, even furnace cooling to avoid re-introducing stress</li>
         </ul>
-        <a href="stress-relieving" class="svc-detail-more">More on stress relieving &rarr;</a>
-        <div class="svc-tags"><span class="svc-tag">Distortion Control</span><span class="svc-tag">Weld Relief</span></div>
+        <div class="svc-detail-foot">
+          <div class="svc-tags"><span class="svc-tag">Distortion Control</span><span class="svc-tag">Weld Relief</span></div>
+          <a href="stress-relieving" class="svc-detail-more">More on stress relieving &rarr;</a>
+        </div>
       </div>
     </div>
 
@@ -691,8 +705,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Materials</span>Austenitic stainless steels, nickel-based superalloys</li>
           <li><span>Quench</span>Rapid quench to lock precipitates in solution</li>
         </ul>
-        <a href="solution-annealing" class="svc-detail-more">More on solution annealing &rarr;</a>
-        <div class="svc-tags"><span class="svc-tag">Stainless</span><span class="svc-tag">Superalloy</span></div>
+        <div class="svc-detail-foot">
+          <div class="svc-tags"><span class="svc-tag">Stainless</span><span class="svc-tag">Superalloy</span></div>
+          <a href="solution-annealing" class="svc-detail-more">More on solution annealing &rarr;</a>
+        </div>
       </div>
     </div>
 
@@ -718,8 +734,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Best for</span>Large, heavy, or irregularly shaped components</li>
           <li><span>Method</span>Oxy-gas flame with immediate/required quench</li>
         </ul>
-        <a href="flame-hardening" class="svc-detail-more">More on flame hardening &rarr;</a>
-        <div class="svc-tags"><span class="svc-tag">Oxy-Gas</span><span class="svc-tag">Large, heavy or small Parts</span></div>
+        <div class="svc-detail-foot">
+          <div class="svc-tags"><span class="svc-tag">Oxy-Gas</span><span class="svc-tag">Large, heavy or small Parts</span></div>
+          <a href="flame-hardening" class="svc-detail-more">More on flame hardening &rarr;</a>
+        </div>
       </div>
     </div>
 
@@ -747,8 +765,10 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <li><span>Metallography</span>Grain structure, inclusion rating, case depth verification</li>
           <li><span>Spectrometry</span>Full chemical composition analysis (OES)</li>
         </ul>
-        <a href="material-testing" class="svc-detail-more">More on material testing &rarr;</a>
-        <div class="svc-tags"><span class="svc-tag">Hardness</span><span class="svc-tag">Tensile</span><span class="svc-tag">NDT</span><span class="svc-tag">Metallography</span><span class="svc-tag">SEM</span></div>
+        <div class="svc-detail-foot">
+          <div class="svc-tags"><span class="svc-tag">Hardness</span><span class="svc-tag">Tensile</span><span class="svc-tag">NDT</span><span class="svc-tag">Metallography</span><span class="svc-tag">SEM</span></div>
+          <a href="material-testing" class="svc-detail-more">More on material testing &rarr;</a>
+        </div>
       </div>
     </div>
   </div>
