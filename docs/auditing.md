@@ -33,7 +33,7 @@ Reports only; it never edits a file. Run it after any content or template change
 ```
 
 The 404 warning is expected — an error page should not claim a canonical.
-The other two are genuine and listed in [seo.md](seo.md#still-outstanding-owner-actions).
+The other two are genuine and listed in [seo.md](seo.md#still-outstanding).
 
 ## A caution about the label check
 

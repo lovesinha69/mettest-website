@@ -49,23 +49,32 @@ Google can follow rather than loose strings.
 - Re-run `npm run audit` after any change; it checks canonicals, sitemap
   coverage, metadata lengths and dead internal links.
 
-## Known gaps
+## Routing is generated, not maintained
 
-These are real and currently unfixed. They were introduced when the ten service
-pages were added and both platform files were left listing only the original nine
-routes.
+Every legacy URL form answers with a **301**, never a 307. This matters more
+than it sounds: a 307 is *temporary*, which tells a crawler to keep the old URL
+on file and re-check it indefinitely. That is what populates Search Console's
+"Page with redirect" report.
 
-1. **`public/_redirects` misses the ten service pages.** `/annealing.html` and
-   the other nine still answer with the platform's 307 rather than a 301. Low
-   impact — nothing links to those `.html` forms and they were never indexed —
-   but it is the same defect the file exists to fix.
-2. **`public/_headers` misses the ten service pages.** Their HTML is not forced
-   to revalidate, so after a deploy an edge or browser cache can serve a stale
-   service page for longer than the other nine.
+`public/_redirects` and `public/_headers` are both produced by
+`tools/build-routing.js` from the pages present in `public/`, covering:
 
-Both are a one-line-per-route addition to the respective file, followed by
-`npm run deploy`. They were left alone deliberately so that packaging this
-repository did not change live site behaviour.
+| Form | Example | Answers |
+|---|---|---|
+| `.html` | `/annealing.html` | 301 → `/annealing` |
+| trailing slash | `/annealing/` | 301 → `/annealing` |
+| `/index`, `/index/` | | 301 → `/` |
+
+Add a page, run `npm run build:routing`, and both files pick it up. They were
+previously hand-maintained and fell behind when the ten service pages were
+added, leaving all ten on a 307.
+
+### A note on "Page with redirect"
+
+It is **not an error**, and it must not be "validated". It is Google reporting
+that a URL redirects, so it indexed the target instead — which is the intended
+outcome. Clicking *Validate Fix* asks Google to confirm the URLs **no longer
+redirect**; since they always will, that validation fails every time by design.
 
 ## Still outstanding
 

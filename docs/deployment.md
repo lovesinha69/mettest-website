@@ -65,10 +65,16 @@ explicitly rather than using a catch-all `/*`, because Cloudflare concatenates
 every matching rule and a catch-all would also strip caching from fonts and
 images.
 
-> **Known gap.** Both files list only the nine original routes. The ten service
-> pages added later are missing from both, so `/annealing.html` still answers
-> with a 307 rather than a 301, and service-page HTML is not forced to
-> revalidate. See [seo.md](seo.md#known-gaps).
+Both files are **generated** by `tools/build-routing.js` from whatever pages
+exist in `public/`, so they cannot fall behind when a page is added:
+
+```bash
+npm run build:routing
+```
+
+It emits a 301 for every legacy form of every URL — the `.html` form, the
+trailing-slash form, and `/index` — and a revalidation header for every route.
+`404.html` is excluded, because an error page must not redirect.
 
 ## Platform limits worth knowing
 

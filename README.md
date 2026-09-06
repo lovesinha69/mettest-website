@@ -145,10 +145,8 @@ free plan covers 50 submissions a month.
 ## Known gaps
 
 Carried deliberately, not forgotten — full context in
-[docs/seo.md](docs/seo.md#known-gaps):
+[docs/seo.md](docs/seo.md#still-outstanding):
 
-- `_headers` and `_redirects` list only the nine original routes; the ten service
-  pages are missing from both.
 - `public/privacy.html` has a placeholder comment for the registered legal entity
   name and grievance officer.
 - Ranjit Sinha's card still shows `mettestlab@yahoo.com`.
