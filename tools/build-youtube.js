@@ -130,7 +130,7 @@ function mediaRange(html, slot) {
     const sizes = '(max-width:860px) calc(100vw - 80px), 572px';
     const pic =
 `\n        <picture class="video-poster-pic"><source type="image/webp" srcset="${set('webp')}" sizes="${sizes}"><img class="video-poster" src="img/video/${slug}-1280.jpg" srcset="${set('jpg')}" sizes="${sizes}" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>`;
-    block = block.replace(/(\n\s*<video )/, pic + '$1');
+    block = block.replace(/^(<div[^>]*>)/, '$1' + pic);
 
     h = h.slice(0, start) + block + h.slice(end);
     fs.writeFileSync(p, h);

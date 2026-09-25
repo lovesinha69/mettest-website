@@ -147,7 +147,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .hero-inner>*{max-width:760px}
 .hero-eyebrow,.hero-actions,.hero-certs{max-width:none}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:1.5rem}
-.hero-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+.hero-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:none}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
 .hero-eyebrow-text{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);font-weight:500}
 .hero-divider{width:40px;height:1px;background:var(--dim)}
@@ -422,7 +422,28 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
   .svc-page-grid{grid-template-columns:1fr;gap:2.5rem}
   .svc-page-side{position:static}
 }
+
+/* Purposeful motion: content is readable before JavaScript runs. */
+.hero-dot,.process-step.in-view .process-circle{animation:none}
+.process-step,.stat-cell{opacity:1;transform:none;transition:none}
+.process-connector-fill{width:100%!important;transition:none}
+.motion-toggle{font:inherit;font-size:12px;color:var(--fg);background:var(--surface2);border:1px solid var(--border);border-radius:4px;min-height:44px;padding:8px 14px;cursor:pointer;margin:8px 0}
+.motion-toggle[hidden]{display:none!important}
+.motion-toggle:focus-visible{outline:2px solid var(--accent2);outline-offset:3px}
+.marquee-wrap>.motion-toggle{display:block;margin:0 auto 12px}
+.marquee-wrap:hover .marquee-track,.marquee-wrap:focus-within .marquee-track,.marquee-wrap.user-paused .marquee-track,.about-photo-strip.user-paused .about-photo-track{animation-play-state:paused}
+.about-photo-strip.is-carousel:focus-within{overflow-x:auto}
+.about-photo-strip.is-carousel:focus-within .about-photo-track{animation:none;transform:none}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  .motion-toggle{display:none!important}
+  .marquee-wrap>div[style]{overflow-x:auto!important}
+  .marquee-track{animation:none!important;transform:none!important}
+  .marquee-group[aria-hidden],.about-photo-clones{display:none!important}
+  .about-photo-strip.is-carousel .about-photo-track{transform:none!important}
+}
 </style>
+<noscript><style>.marquee-track,.about-photo-strip.is-carousel .about-photo-track{animation:none!important;transform:none!important}.marquee-wrap>div[style],.about-photo-strip.is-carousel{overflow-x:auto!important}.marquee-group[aria-hidden],.about-photo-clones{display:none!important}.cycle-fade{opacity:1!important}</style></noscript>
 </head>
 <body>
 <nav class="nav">
@@ -478,11 +499,6 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
   <div class="svc-page-video">
     <div class="svc-detail-media" data-yt-id="c3OJxWNrC18" data-yt-title="Flame Hardening at Met-Test Laboratories">
       <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/flame-hardening-640.webp 640w, img/video/flame-hardening-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 1180px"><img class="video-poster" src="img/video/flame-hardening-1280.jpg" srcset="img/video/flame-hardening-640.jpg 640w, img/video/flame-hardening-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 1180px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-      <video class="svc-detail-video" muted loop playsinline preload="none"></video>
-      <div class="svc-detail-media-placeholder">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-        <span>Flame Hardening at Met-Test Laboratories</span>
-      </div>
       <button class="svc-detail-play" type="button" aria-label="Play the Flame Hardening video">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
       </button>
@@ -537,7 +553,9 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     </div>
     <div><div class="footer-col-title">Services</div><div class="footer-links"><a href="inductor-manufacturing">Inductor Manufacturing</a>
 <a href="induction-hardening">Induction Hardening</a>
-<a href="hardening-and-tempering">Hardening &amp; Tempering</a><a href="annealing">Annealing</a><a href="normalising">Normalising</a><a href="solution-annealing">Solution Annealing</a><a href="stress-relieving">Stress Relieving</a><a href="flame-hardening">Flame Hardening</a></div></div>
+<a href="hardening-and-tempering">Hardening &amp; Tempering</a>
+      <a href="heat-treatment">Heat Treatment</a><a href="annealing">Annealing</a><a href="normalising">Normalising</a><a href="solution-annealing">Solution Annealing</a><a href="stress-relieving">Stress Relieving</a><a href="flame-hardening">Flame Hardening</a>
+      <a href="material-testing">Material Testing</a></div></div>
     <div><div class="footer-col-title">Company</div><div class="footer-links"><a href="about">About Us</a><a href="industries">Industries</a><a href="process">Our Process</a><a href="services">Services</a><a href="faq">FAQ</a></div></div>
     <div><div class="footer-col-title">Get in touch</div><div class="footer-links"><a href="contact">Contact Us</a><a href="tel:+919825321695">Call the plant</a><a href="mailto:mettestlab@yahoo.com">Email us</a></div></div>
   </div>
@@ -612,6 +630,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <a href="tel:+919825321695">+91 98253 21695</a> or
           <a href="mailto:mettestlab@yahoo.com">mettestlab@yahoo.com</a>.
         </p>
+        <p class="modal-privacy">This form does not accept attachments. Email drawings and RFQs to <a href="mailto:mettestlab@yahoo.com" style="color:var(--accent2)">mettestlab@yahoo.com</a>.</p>
         <p class="modal-privacy">We'll only use these details to respond to your enquiry.</p>
       </form>
     </div>
@@ -628,108 +647,6 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 </div>
 
 <script>
-document.querySelectorAll('.stat-num').forEach(el=>{el._done=false;});
-function animateStat(el){
-  if(el._done)return; el._done=true;
-  const target=+el.dataset.target, suffix=el.dataset.suffix, dur=1400, start=performance.now();
-  function frame(now){
-    const t=Math.min((now-start)/dur,1), ease=1-Math.pow(1-t,3);
-    el.innerHTML=Math.round(ease*target).toLocaleString()+'<sup>'+suffix+'</sup>';
-    if(t<1)requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-}
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) animateStat(e.target); });
-},{threshold:0.4});
-document.querySelectorAll('.stat-num').forEach(el=>obs.observe(el));
-
-// Process steps: reveal one-by-one with a stagger as the section scrolls
-// into view, draw the connecting line to match progress, and build up the
-// total-turnaround readout in sync so the number feels earned, not static.
-try {
-  const steps = Array.from(document.querySelectorAll('.process-step'));
-  const fill = document.getElementById('processConnectorFill');
-  const totalEl = document.getElementById('processTotalHours');
-  const grid = document.getElementById('processGrid');
-
-  if (steps.length && grid) {
-    let triggered = false;
-    const totalHours = steps.reduce((sum, s) => sum + (+s.dataset.hours || 0), 0);
-
-    function revealSteps(){
-      if (triggered) return;
-      triggered = true;
-      let runningTotal = 0;
-      steps.forEach((step, i) => {
-        setTimeout(() => {
-          step.classList.add('in-view');
-          if (fill) fill.style.width = ((i + 1) / steps.length) * 100 + '%';
-          runningTotal += (+step.dataset.hours || 0);
-          if (totalEl) {
-            const displayed = i === steps.length - 1 ? totalHours : runningTotal;
-            totalEl.textContent = displayed;
-          }
-        }, i * 180);
-      });
-    }
-
-    if ('IntersectionObserver' in window) {
-      const stepObs = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) revealSteps(); });
-      }, { threshold: 0.35 });
-      stepObs.observe(grid);
-      // Safety net: if the grid is already on screen at load (short pages,
-      // large viewports) and the observer's first callback is missed for
-      // any reason, check once manually shortly after load.
-      setTimeout(() => {
-        const r = grid.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) revealSteps();
-      }, 600);
-    } else {
-      // No IntersectionObserver support at all — reveal immediately rather
-      // than leaving the steps invisible forever.
-      revealSteps();
-    }
-  }
-} catch (err) {
-  // If anything above fails, force all process steps visible so content
-  // is never permanently hidden.
-  document.querySelectorAll('.process-step, .stat-cell').forEach(el => el.classList.add('in-view'));
-  console.error('Process animation error, forced visible:', err);
-}
-
-// Capability stat cells: fade/slide in with a small stagger.
-try {
-  const cells = Array.from(document.querySelectorAll('.stat-cell'));
-  const statsRow = document.querySelector('.stats-row');
-  if (cells.length && statsRow) {
-    let triggered = false;
-    function revealCells(){
-      if (triggered) return;
-      triggered = true;
-      cells.forEach((cell, i) => {
-        setTimeout(() => cell.classList.add('in-view'), i * 120);
-      });
-    }
-    if ('IntersectionObserver' in window) {
-      const cellObs = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) revealCells(); });
-      }, { threshold: 0.3 });
-      cellObs.observe(statsRow);
-      setTimeout(() => {
-        const r = statsRow.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) revealCells();
-      }, 600);
-    } else {
-      revealCells();
-    }
-  }
-} catch (err) {
-  document.querySelectorAll('.stat-cell').forEach(el => el.classList.add('in-view'));
-  console.error('Stat cell animation error, forced visible:', err);
-}
-
 // Ensure the hero video actually starts — some browsers ignore the
 // autoplay attribute on data-URI sources unless play() is called explicitly.
 const heroVideo = document.getElementById('heroVideo');

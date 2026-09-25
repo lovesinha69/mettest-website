@@ -149,11 +149,6 @@ ${s.capacity.map(([k, v]) => `          <dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).j
   <div class="svc-page-video">
     <div class="svc-detail-media" data-yt-id="${s.video}" data-yt-title="${attr(plain(s.name))} at Met-Test Laboratories">
       <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/${s.slug === 'hardening-and-tempering' ? 'hardening-tempering' : s.slug}-640.webp 640w, img/video/${s.slug === 'hardening-and-tempering' ? 'hardening-tempering' : s.slug}-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 1180px"><img class="video-poster" src="img/video/${s.slug === 'hardening-and-tempering' ? 'hardening-tempering' : s.slug}-1280.jpg" srcset="img/video/${s.slug === 'hardening-and-tempering' ? 'hardening-tempering' : s.slug}-640.jpg 640w, img/video/${s.slug === 'hardening-and-tempering' ? 'hardening-tempering' : s.slug}-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 1180px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-      <video class="svc-detail-video" muted loop playsinline preload="none"></video>
-      <div class="svc-detail-media-placeholder">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-        <span>${esc(s.name)} at Met-Test Laboratories</span>
-      </div>
       <button class="svc-detail-play" type="button" aria-label="Play the ${attr(plain(s.name))} video">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
       </button>

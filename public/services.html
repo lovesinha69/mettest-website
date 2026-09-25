@@ -212,7 +212,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 .hero-inner>*{max-width:760px}
 .hero-eyebrow,.hero-actions,.hero-certs{max-width:none}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:1.5rem}
-.hero-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+.hero-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:none}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
 .hero-eyebrow-text{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);font-weight:500}
 .hero-divider{width:40px;height:1px;background:var(--dim)}
@@ -452,7 +452,28 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
   .hero-dot{animation:none!important}
 }
 
+
+/* Purposeful motion: content is readable before JavaScript runs. */
+.hero-dot,.process-step.in-view .process-circle{animation:none}
+.process-step,.stat-cell{opacity:1;transform:none;transition:none}
+.process-connector-fill{width:100%!important;transition:none}
+.motion-toggle{font:inherit;font-size:12px;color:var(--fg);background:var(--surface2);border:1px solid var(--border);border-radius:4px;min-height:44px;padding:8px 14px;cursor:pointer;margin:8px 0}
+.motion-toggle[hidden]{display:none!important}
+.motion-toggle:focus-visible{outline:2px solid var(--accent2);outline-offset:3px}
+.marquee-wrap>.motion-toggle{display:block;margin:0 auto 12px}
+.marquee-wrap:hover .marquee-track,.marquee-wrap:focus-within .marquee-track,.marquee-wrap.user-paused .marquee-track,.about-photo-strip.user-paused .about-photo-track{animation-play-state:paused}
+.about-photo-strip.is-carousel:focus-within{overflow-x:auto}
+.about-photo-strip.is-carousel:focus-within .about-photo-track{animation:none;transform:none}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  .motion-toggle{display:none!important}
+  .marquee-wrap>div[style]{overflow-x:auto!important}
+  .marquee-track{animation:none!important;transform:none!important}
+  .marquee-group[aria-hidden],.about-photo-clones{display:none!important}
+  .about-photo-strip.is-carousel .about-photo-track{transform:none!important}
+}
 </style>
+<noscript><style>.marquee-track,.about-photo-strip.is-carousel .about-photo-track{animation:none!important;transform:none!important}.marquee-wrap>div[style],.about-photo-strip.is-carousel{overflow-x:auto!important}.marquee-group[aria-hidden],.about-photo-clones{display:none!important}.cycle-fade{opacity:1!important}</style></noscript>
 </head>
 <body>
 <nav class="nav">
@@ -479,19 +500,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="svc-detail" id="svc-inductor-manufacturing">
       <div class="svc-detail-media" data-yt-id="8Q866pljnzY" data-yt-title="Custom Inductor Manufacturing">
         <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/inductor-manufacturing-640.webp 640w, img/video/inductor-manufacturing-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px"><img class="video-poster" src="img/video/inductor-manufacturing-1280.jpg" srcset="img/video/inductor-manufacturing-640.jpg 640w, img/video/inductor-manufacturing-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-        <video class="svc-detail-video" muted loop playsinline preload="metadata">
-        </video>
-        <div class="svc-detail-media-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          <span>Process video coming soon</span>
-        </div>
         <button class="svc-detail-play" aria-label="Play video">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
       </div>
       <div class="svc-detail-body">
         <div class="svc-detail-num">01</div>
-        <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8v8h11V8zM15 10h2a2 2 0 0 1 0 4h-2M20 10v4"/></svg></div>
         <h2 class="svc-detail-title">Inductor Manufacturing</h2>
         <p class="svc-detail-desc">Every induction hardening job is only as good as the coil that shapes it. Our in-house design and fabrication team builds custom inductors; including flux concentrators for complex geometries matched precisely to your part profile. This is what lets us hold tight case-depth tolerances on shapes that off-the-shelf coils simply can't handle.</p>
         <ul class="svc-detail-specs">
@@ -508,19 +522,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="svc-detail reverse" id="svc-induction-hardening">
       <div class="svc-detail-media" data-yt-id="hiBrKOCMA8E" data-yt-title="Induction Hardening">
         <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/induction-hardening-640.webp 640w, img/video/induction-hardening-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px"><img class="video-poster" src="img/video/induction-hardening-1280.jpg" srcset="img/video/induction-hardening-640.jpg 640w, img/video/induction-hardening-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-        <video class="svc-detail-video" muted loop playsinline preload="metadata">
-        </video>
-        <div class="svc-detail-media-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          <span>Process video coming soon</span>
-        </div>
         <button class="svc-detail-play" aria-label="Play video">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
       </div>
       <div class="svc-detail-body">
         <div class="svc-detail-num">02</div>
-        <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3v7h6l-8 11v-7H5l8-11z"/></svg></div>
         <h2 class="svc-detail-title">Induction Hardening</h2>
         <p class="svc-detail-desc">Induction hardening lets us harden exactly the surface that needs it; a bearing journal, a gear tooth, a shaft. While leaving the core tough and ductile. Because we design and build our own inductors in-house, we can match the coil geometry precisely to your part, controlling case depth to tight tolerances even on complex or asymmetric profiles. Cycle times are short, distortion is minimal, and every part is scanned to confirm case depth before it ships.</p>
         <ul class="svc-detail-specs">
@@ -538,19 +545,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="svc-detail" id="svc-hardening-tempering">
       <div class="svc-detail-media" data-yt-id="xHPPn_RnVMQ" data-yt-title="Hardening and Tempering">
         <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/hardening-tempering-640.webp 640w, img/video/hardening-tempering-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px"><img class="video-poster" src="img/video/hardening-tempering-1280.jpg" srcset="img/video/hardening-tempering-640.jpg 640w, img/video/hardening-tempering-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-        <video class="svc-detail-video" muted loop playsinline preload="metadata">
-        </video>
-        <div class="svc-detail-media-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          <span>Process video coming soon</span>
-        </div>
         <button class="svc-detail-play" aria-label="Play video">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
       </div>
       <div class="svc-detail-body">
         <div class="svc-detail-num">03</div>
-        <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c2-2.96 0-7-1-8 0 3.04-1.5 4.5-3 6s-2 4-2 5a6 6 0 1 0 12 0c0-1.53-.62-3.11-1.5-4C15.53 12 14 13 12 12z"/></svg></div>
         <h2 class="svc-detail-title">Hardening &amp; Tempering</h2>
         <p class="svc-detail-desc">Hardening transforms the microstructure to martensite for maximum wear resistance, and tempering brings back the toughness needed so the part doesn't become brittle in service. We tune both stages together; the austenitising temperature, quench severity, and temper cycle to hit the exact HRC range and mechanical properties your drawing calls for, on components ranging from small precision pins to heavy gear blanks.</p>
         <ul class="svc-detail-specs">
@@ -568,19 +568,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="svc-detail reverse" id="svc-heat-treatment">
       <div class="svc-detail-media" data-yt-id="_5vb_iZ5Qew" data-yt-title="Heat Treatment">
         <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/heat-treatment-640.webp 640w, img/video/heat-treatment-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px"><img class="video-poster" src="img/video/heat-treatment-1280.jpg" srcset="img/video/heat-treatment-640.jpg 640w, img/video/heat-treatment-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-        <video class="svc-detail-video" muted loop playsinline preload="metadata">
-        </video>
-        <div class="svc-detail-media-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          <span>Process video coming soon</span>
-        </div>
         <button class="svc-detail-play" aria-label="Play video">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
       </div>
       <div class="svc-detail-body">
         <div class="svc-detail-num">04</div>
-        <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13.5a4 4 0 1 0 4 0V5a2 2 0 0 0-4 0zM10 9h4"/></svg></div>
         <h2 class="svc-detail-title">Heat Treatment</h2>
         <p class="svc-detail-desc">Our furnace floor runs controlled-atmosphere processing across multiple furnace types, each fitted with real-time temperature and atmosphere monitoring so every cycle is repeatable and fully documented. Whether you need a single prototype run or a scheduled production batch, the thermal profile is built around your material and geometry; not a one-size-fits-all recipe.</p>
         <ul class="svc-detail-specs">
@@ -599,19 +592,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="svc-detail" id="svc-annealing">
       <div class="svc-detail-media" data-yt-id="2CcZXtytf0k" data-yt-title="Annealing">
         <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/annealing-640.webp 640w, img/video/annealing-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px"><img class="video-poster" src="img/video/annealing-1280.jpg" srcset="img/video/annealing-640.jpg 640w, img/video/annealing-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-        <video class="svc-detail-video" muted loop playsinline preload="metadata">
-        </video>
-        <div class="svc-detail-media-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          <span>Process video coming soon</span>
-        </div>
         <button class="svc-detail-play" aria-label="Play video">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
       </div>
       <div class="svc-detail-body">
         <div class="svc-detail-num">05</div>
-        <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h8a2 2 0 1 0-2-2M3 12h13a2.5 2.5 0 1 1-2 4M4 16h6a2 2 0 1 1-2 2"/></svg></div>
         <h2 class="svc-detail-title">Annealing</h2>
         <p class="svc-detail-desc">Annealing softens material, relieves internal stress, and restores ductility that's been lost through cold working or a prior heat treatment. It's often the step that makes the next stage of manufacturing possible; easier machining, cleaner forming, or simply a more stable structure before final hardening. We control heating rate, soak time, and cooling rate closely, since all three shape the final grain structure.</p>
         <ul class="svc-detail-specs">
@@ -628,19 +614,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="svc-detail reverse" id="svc-normalising">
       <div class="svc-detail-media" data-yt-id="W5LeJnGeNYk" data-yt-title="Normalising">
         <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/normalising-640.webp 640w, img/video/normalising-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px"><img class="video-poster" src="img/video/normalising-1280.jpg" srcset="img/video/normalising-640.jpg 640w, img/video/normalising-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-        <video class="svc-detail-video" muted loop playsinline preload="metadata">
-        </video>
-        <div class="svc-detail-media-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          <span>Process video coming soon</span>
-        </div>
         <button class="svc-detail-play" aria-label="Play video">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
       </div>
       <div class="svc-detail-body">
         <div class="svc-detail-num">06</div>
-        <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10M12 3v17M9 5l6-1M6 9l-3 6a3 3 0 0 0 6 0zM18 9l-3 6a3 3 0 0 0 6 0z"/></svg></div>
         <h2 class="svc-detail-title">Normalising</h2>
         <p class="svc-detail-desc">Normalising refines and homogenises grain structure by heating above the critical temperature and cooling in still air, refining coarse or uneven grain left behind by casting, forging, or welding. It's a common preparatory step before final hardening, since a uniform starting structure gives more predictable, consistent results downstream.</p>
         <ul class="svc-detail-specs">
@@ -657,19 +636,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="svc-detail" id="svc-stress-relieving">
       <div class="svc-detail-media" data-yt-id="RbQAtJ0PGrE" data-yt-title="Stress Relieving">
         <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/stress-relieving-640.webp 640w, img/video/stress-relieving-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px"><img class="video-poster" src="img/video/stress-relieving-1280.jpg" srcset="img/video/stress-relieving-640.jpg 640w, img/video/stress-relieving-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-        <video class="svc-detail-video" muted loop playsinline preload="metadata">
-        </video>
-        <div class="svc-detail-media-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          <span>Process video coming soon</span>
-        </div>
         <button class="svc-detail-play" aria-label="Play video">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
       </div>
       <div class="svc-detail-body">
         <div class="svc-detail-num">07</div>
-        <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4-3 7-7 9-4-2-7-5-7-9V6zM9 12l2 2 4-4"/></svg></div>
         <h2 class="svc-detail-title">Stress Relieving</h2>
         <p class="svc-detail-desc">Welding, machining, and casting all leave residual stress locked inside a component. Stress that can cause distortion or cracking later if it's never released. Stress relieving heats the part below the transformation temperature, holds it, then cools it slowly and evenly, letting internal stresses dissipate without changing the underlying hardness or microstructure.</p>
         <ul class="svc-detail-specs">
@@ -686,19 +658,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="svc-detail reverse" id="svc-solution-annealing">
       <div class="svc-detail-media" data-yt-id="UGq1pXNFBU0" data-yt-title="Solution Annealing">
         <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/solution-annealing-640.webp 640w, img/video/solution-annealing-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px"><img class="video-poster" src="img/video/solution-annealing-1280.jpg" srcset="img/video/solution-annealing-640.jpg 640w, img/video/solution-annealing-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-        <video class="svc-detail-video" muted loop playsinline preload="metadata">
-        </video>
-        <div class="svc-detail-media-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          <span>Process video coming soon</span>
-        </div>
         <button class="svc-detail-play" aria-label="Play video">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
       </div>
       <div class="svc-detail-body">
         <div class="svc-detail-num">08</div>
-        <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l5 7a5 5 0 1 1-10 0z"/></svg></div>
         <h2 class="svc-detail-title">Solution Annealing</h2>
         <p class="svc-detail-desc">Used primarily on stainless steels and superalloys, solution annealing dissolves precipitates back into the matrix at high temperature, then rapidly quenches the part to keep them in solution. This restores corrosion resistance that can otherwise be compromised by welding or prior thermal cycles, critical for components going into corrosive or high-purity service environments.</p>
         <ul class="svc-detail-specs">
@@ -715,19 +680,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="svc-detail" id="svc-flame-hardening">
       <div class="svc-detail-media" data-yt-id="c3OJxWNrC18" data-yt-title="Flame Hardening">
         <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/flame-hardening-640.webp 640w, img/video/flame-hardening-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px"><img class="video-poster" src="img/video/flame-hardening-1280.jpg" srcset="img/video/flame-hardening-640.jpg 640w, img/video/flame-hardening-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-        <video class="svc-detail-video" muted loop playsinline preload="metadata">
-        </video>
-        <div class="svc-detail-media-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          <span>Process video coming soon</span>
-        </div>
         <button class="svc-detail-play" aria-label="Play video">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
       </div>
       <div class="svc-detail-body">
         <div class="svc-detail-num">09</div>
-        <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 5L19 9.5 13.5 11 12 16l-1.5-5L5 9.5 10.5 8zM19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7z"/></svg></div>
         <h2 class="svc-detail-title">Flame Hardening</h2>
         <p class="svc-detail-desc">For components too large or awkwardly shaped for a furnace or induction coil, flame hardening uses a precisely controlled oxy-gas flame to harden targeted surfaces: gear teeth, guide rails, large shafts; followed immediately by a quench spray. It's a flexible, portable process well suited to heavy engineering parts and low-to-medium volume work.</p>
         <ul class="svc-detail-specs">
@@ -744,19 +702,12 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     <div class="svc-detail reverse" id="svc-material-testing">
       <div class="svc-detail-media" data-yt-id="riS5mnPgKZ0" data-yt-title="Material Testing and NDT">
         <picture class="video-poster-pic"><source type="image/webp" srcset="img/video/material-testing-640.webp 640w, img/video/material-testing-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px"><img class="video-poster" src="img/video/material-testing-1280.jpg" srcset="img/video/material-testing-640.jpg 640w, img/video/material-testing-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 80px), 572px" width="1280" height="720" alt="" loading="lazy" decoding="async"></picture>
-        <video class="svc-detail-video" muted loop playsinline preload="metadata">
-        </video>
-        <div class="svc-detail-media-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          <span>Process video coming soon</span>
-        </div>
         <button class="svc-detail-play" aria-label="Play video">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
       </div>
       <div class="svc-detail-body">
         <div class="svc-detail-num">10</div>
-        <div class="svc-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21h14M6 18h6M9 9a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM11 7l4.5-4.5 2 2L13 9M15 18a6 6 0 0 0 0-12"/></svg></div>
         <h2 class="svc-detail-title">Material Testing</h2>
         <p class="svc-detail-desc">Before any component is treated, we verify exactly what we're working with. Our lab runs full mechanical and chemical characterisation: tensile and impact testing, creep and fatigue analysis, optical emission spectrometry, and detailed microstructural examination under metallurgical microscopes. Every result is logged against the applicable standard, so you know precisely how your material will behave before it goes into service.</p>
         <ul class="svc-detail-specs">
@@ -798,7 +749,9 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
     </div>
     <div><div class="footer-col-title">Services</div><div class="footer-links"><a href="inductor-manufacturing">Inductor Manufacturing</a>
 <a href="induction-hardening">Induction Hardening</a>
-<a href="hardening-and-tempering">Hardening &amp; Tempering</a><a href="annealing">Annealing</a><a href="normalising">Normalising</a><a href="solution-annealing">Solution Annealing</a><a href="stress-relieving">Stress Relieving</a><a href="flame-hardening">Flame Hardening</a></div></div>
+<a href="hardening-and-tempering">Hardening &amp; Tempering</a>
+      <a href="heat-treatment">Heat Treatment</a><a href="annealing">Annealing</a><a href="normalising">Normalising</a><a href="solution-annealing">Solution Annealing</a><a href="stress-relieving">Stress Relieving</a><a href="flame-hardening">Flame Hardening</a>
+      <a href="material-testing">Material Testing</a></div></div>
     <div><div class="footer-col-title">Company</div><div class="footer-links"><a href="about">About Us</a><a href="industries">Industries</a><a href="process">Our Process</a><a href="services">Services</a><a href="faq">FAQ</a></div></div>
     <div><div class="footer-col-title">Get in touch</div><div class="footer-links"><a href="contact">Contact Us</a><a href="tel:+919825321695">Call the plant</a><a href="mailto:mettestlab@yahoo.com">Email us</a></div></div>
   </div>
@@ -873,6 +826,7 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
           <a href="tel:+919825321695">+91 98253 21695</a> or
           <a href="mailto:mettestlab@yahoo.com">mettestlab@yahoo.com</a>.
         </p>
+        <p class="modal-privacy">This form does not accept attachments. Email drawings and RFQs to <a href="mailto:mettestlab@yahoo.com" style="color:var(--accent2)">mettestlab@yahoo.com</a>.</p>
         <p class="modal-privacy">We'll only use these details to respond to your enquiry.</p>
       </form>
     </div>
@@ -889,108 +843,6 @@ body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-ser
 </div>
 
 <script>
-document.querySelectorAll('.stat-num').forEach(el=>{el._done=false;});
-function animateStat(el){
-  if(el._done)return; el._done=true;
-  const target=+el.dataset.target, suffix=el.dataset.suffix, dur=1400, start=performance.now();
-  function frame(now){
-    const t=Math.min((now-start)/dur,1), ease=1-Math.pow(1-t,3);
-    el.innerHTML=Math.round(ease*target).toLocaleString()+'<sup>'+suffix+'</sup>';
-    if(t<1)requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-}
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) animateStat(e.target); });
-},{threshold:0.4});
-document.querySelectorAll('.stat-num').forEach(el=>obs.observe(el));
-
-// Process steps: reveal one-by-one with a stagger as the section scrolls
-// into view, draw the connecting line to match progress, and build up the
-// total-turnaround readout in sync so the number feels earned, not static.
-try {
-  const steps = Array.from(document.querySelectorAll('.process-step'));
-  const fill = document.getElementById('processConnectorFill');
-  const totalEl = document.getElementById('processTotalHours');
-  const grid = document.getElementById('processGrid');
-
-  if (steps.length && grid) {
-    let triggered = false;
-    const totalHours = steps.reduce((sum, s) => sum + (+s.dataset.hours || 0), 0);
-
-    function revealSteps(){
-      if (triggered) return;
-      triggered = true;
-      let runningTotal = 0;
-      steps.forEach((step, i) => {
-        setTimeout(() => {
-          step.classList.add('in-view');
-          if (fill) fill.style.width = ((i + 1) / steps.length) * 100 + '%';
-          runningTotal += (+step.dataset.hours || 0);
-          if (totalEl) {
-            const displayed = i === steps.length - 1 ? totalHours : runningTotal;
-            totalEl.textContent = displayed;
-          }
-        }, i * 180);
-      });
-    }
-
-    if ('IntersectionObserver' in window) {
-      const stepObs = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) revealSteps(); });
-      }, { threshold: 0.35 });
-      stepObs.observe(grid);
-      // Safety net: if the grid is already on screen at load (short pages,
-      // large viewports) and the observer's first callback is missed for
-      // any reason, check once manually shortly after load.
-      setTimeout(() => {
-        const r = grid.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) revealSteps();
-      }, 600);
-    } else {
-      // No IntersectionObserver support at all — reveal immediately rather
-      // than leaving the steps invisible forever.
-      revealSteps();
-    }
-  }
-} catch (err) {
-  // If anything above fails, force all process steps visible so content
-  // is never permanently hidden.
-  document.querySelectorAll('.process-step, .stat-cell').forEach(el => el.classList.add('in-view'));
-  console.error('Process animation error, forced visible:', err);
-}
-
-// Capability stat cells: fade/slide in with a small stagger.
-try {
-  const cells = Array.from(document.querySelectorAll('.stat-cell'));
-  const statsRow = document.querySelector('.stats-row');
-  if (cells.length && statsRow) {
-    let triggered = false;
-    function revealCells(){
-      if (triggered) return;
-      triggered = true;
-      cells.forEach((cell, i) => {
-        setTimeout(() => cell.classList.add('in-view'), i * 120);
-      });
-    }
-    if ('IntersectionObserver' in window) {
-      const cellObs = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) revealCells(); });
-      }, { threshold: 0.3 });
-      cellObs.observe(statsRow);
-      setTimeout(() => {
-        const r = statsRow.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) revealCells();
-      }, 600);
-    } else {
-      revealCells();
-    }
-  }
-} catch (err) {
-  document.querySelectorAll('.stat-cell').forEach(el => el.classList.add('in-view'));
-  console.error('Stat cell animation error, forced visible:', err);
-}
-
 // Ensure the hero video actually starts — some browsers ignore the
 // autoplay attribute on data-URI sources unless play() is called explicitly.
 const heroVideo = document.getElementById('heroVideo');
